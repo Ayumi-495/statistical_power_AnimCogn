@@ -1,0 +1,14 @@
+obs_ID,study_ID,year,ntot,es,var,meta_ID,n_treatment,n_control,research_aim
+obs_001,Gunther_etal_1998,1998,24,2.42,0.187001389,ma32_01,12,12,human
+obs_002,Chelonis_etal_1999,1999,29,0.83,0.139735476,ma32_01,15,14,human
+obs_003,Chelonis_etal_1999,1999,29,0.33,0.138354524,ma32_01,14,15,human
+obs_004,Bouton_etal_2006,2006,32,0.35,0.125239258,ma32_01,16,16,human
+obs_005,Laborda_etal_2013,2013,24,0.82,0.169001389,ma32_01,12,12,human
+obs_006,Laborda_etal_2013,2013,24,2.11,0.182125347,ma32_01,12,12,human
+obs_007,Cordero_etal_2014,2014,24,1.33,0.172808681,ma32_01,12,12,human
+obs_008,Gonzalez_etal_2016,2016,24,3.12,0.200466667,ma32_01,12,12,human
+obs_009,Gonzalez_etal_2016,2016,24,0.74,0.168568056,ma32_01,12,12,human
+obs_010,Bernal-Gamboa_etal_2017,2017,24,0.03,0.166669792,ma32_01,12,12,human
+obs_011,Bernal-Gamboa_etal_2017,2017,24,2.48,0.188022222,ma32_01,12,12,human
+obs_012,Bernal-Gamboa_etal_2017,2017,24,0.2,0.166805556,ma32_01,12,12,human
+obs_013,Bernal-Gamboa_etal_2017,2017,24,2.22,0.183779167,ma32_01,12,12,human

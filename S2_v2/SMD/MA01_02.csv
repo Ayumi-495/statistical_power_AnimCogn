@@ -1,0 +1,15 @@
+obs_ID,study_ID,year,es,var,meta_ID,l_95,h_95,research_aim,memo
+obs_001,Cao_etal_2019,2019,-1.61,0.2788,ma01_02,-2.64,-0.57,human,Number of platform-area crossings
+obs_002,Cao_etal_2019,2019,-1.72,0.2897,ma01_02,-2.77,-0.66,human,Number of platform-area crossings
+obs_003,Hu_etal_2013,2013,-0.6,0.3563,ma01_02,-1.77,0.57,human,Number of platform-area crossings
+obs_004,Wang_etal_2021,2021,-1.82,0.3843,ma01_02,-3.04,-0.61,human,Number of platform-area crossings
+obs_005,Yang_etal_2008,2008,-0.27,0.2227,ma01_02,-1.19,0.66,human,Number of platform-area crossings
+obs_006,Zhang_etal_2019,2019,-2.16,0.3443,ma01_02,-3.31,-1.01,human,Number of platform-area crossings
+obs_007,Zhou_etal_2022,2022,-1.17,0.2424,ma01_02,-2.13,-0.2,human,Number of platform-area crossings
+obs_008,Li et al 2019,2019,-0.82,0.1837,ma01_02,-1.66,0.02,human,Number of platform-area crossings
+obs_009,Rajizadeh et al 2018,2018,-1.9,0.4605,ma01_02,-3.23,-0.57,human,Number of platform-area crossings
+obs_010,Wang et al 2020,2020,-2.18,0.2843,ma01_02,-3.22,-1.13,human,Number of platform-area crossings
+obs_011,Wang et al 2018,2018,-1.4,0.2603,ma01_02,-2.4,-0.4,human,Number of platform-area crossings
+obs_012,Yang et al 2019,2019,-1.08,0.2629,ma01_02,-2.08,-0.07,human,Number of platform-area crossings
+obs_013,Su et al 2016,2016,-2.28,0.3594,ma01_02,-3.46,-1.11,human,Number of platform-area crossings
+obs_014,Zhang et al 2021,2021,-1.32,0.2085,ma01_02,-2.21,-0.42,human,Number of platform-area crossings

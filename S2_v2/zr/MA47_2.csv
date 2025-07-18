@@ -1,0 +1,39 @@
+obs_ID,study_ID,year,ntot,es,var,meta_ID,note,research_aim
+obs_001,Lermite_etal_2017,2017,49,0.27,0.0217,ma47_02,NA,animal
+obs_002,Griffin_etal_2012,2012,34,0.15,0.0323,ma47_02,NA,animal
+obs_003,Lermite_etal_2017,2017,49,0.47,0.0217,ma47_02,NA,animal
+obs_004,Griffin_etal_2012,2012,34,-0.9,0.0323,ma47_02,NA,animal
+obs_005,Gunhold_etal_2014,2014,12,0.68,0.1111,ma47_02,NA,animal
+obs_006,vandeWaal_Bshary_2008,2008,28,-0.05,0.04,ma47_02,NA,animal
+obs_007,Benson-Amram_Holekamp_2012,2012,59,0.29,0.018,ma47_02,es and var came from two primary papers (Benson-Amram_Holekamp_2012 and Benson-Amram_etal_2013),animal
+obs_008,Benson-Amram_etal_2013,2013,19,1.86,0.063,ma47_02,NA,animal
+obs_009,Benson-Amram_Holekamp_2012,2012,62,0.26,0.017,ma47_02,es and var came from two primary papers (Benson-Amram_Holekamp_2012 and Benson-Amram_etal_2013),animal
+obs_010,Benson-Amram_etal_2013,2013,19,0.57,0.063,ma47_02,NA,animal
+obs_011,Benson-Amram_Holekamp_2012,2012,55,0.19,0.0192,ma47_02,NA,animal
+obs_012,Benson-Amram_Holekamp_2012,2012,62,0.23,0.017,ma47_02,es and var came from two primary papers (Benson-Amram_Holekamp_2012 and Benson-Amram_etal_2013),animal
+obs_013,Benson-Amram_etal_2013,2013,19,-0.38,0.063,ma47_02,NA,animal
+obs_014,Schnoell_Fichtel_2012,2012,18,0.48,0.0667,ma47_02,NA,animal
+obs_015,Gajdon_etal_2006,2006,15,0.3,0.0833,ma47_02,NA,animal
+obs_016,Dean_etal_2012,2012,74,0.24,0.0141,ma47_02,NA,animal
+obs_017,Cole_etal_2011,2011,509,-0.05,0.094,ma47_02,NA,animal
+obs_018,Cole_etal_2011,2011,139,-0.01,0.0074,ma47_02,NA,animal
+obs_019,Preiszner_etal_2015,2015,44,0.28,0.0244,ma47_02,NA,animal
+obs_020,Liker_Bokony_2009,2009,54,0.14,0.02,ma47_02,NA,animal
+obs_021,Papp_etal_2015,2015,104,0.36,0.0099,ma47_02,NA,animal
+obs_022,Liker_etal_2009,2009,54,1.42,0.02,ma47_02,NA,animal
+obs_023,vanHorik_Madden_2016,2016,200,0.32,0.0051,ma47_02,NA,animal
+obs_024,Stoinski_etal_2003,2003,15,0.69,0.0833,ma47_02,NA,animal
+obs_025,Overington_etal_2011,2011,94,0.4,0.0323,ma47_02,NA,animal
+obs_026,Overington_etal_2011,2011,34,0.07,0.0323,ma47_02,NA,animal
+obs_027,Overington_etal_2011,2011,85,0.59,0.026,ma47_02,NA,animal
+obs_028,Dindo_etal_2009,2009,13,0.63,0.1,ma47_02,NA,animal
+obs_029,Garber_etal_2012,2012,6,0.38,0.3333,ma47_02,NA,animal
+obs_030,Garber_etal_2012,2012,8,0.1,0.2,ma47_02,NA,animal
+obs_031,Chow_etal_2016,2016,5,0.61,0.5,ma47_02,NA,animal
+obs_032,Chow_etal_2018,2018,32,0.56,0.0345,ma47_02,NA,animal
+obs_033,Sol_etal_2011,2011,60,0.35,0.0175,ma47_02,NA,animal
+obs_034,Griffin_etal_2014,2014,39,0.5,0.0278,ma47_02,NA,animal
+obs_035,Thornton_Samson_2012,2012,63,0.09,0.0167,ma47_02,NA,animal
+obs_036,Thornton_Samson_2012,2012,63,0.15,0.0167,ma47_02,NA,animal
+obs_037,Dean_etal_2011,2011,7,-0.9,0.25,ma47_02,NA,animal
+obs_038,Boogert_etal_2010,2010,11,0.98,0.1429,ma47_02,NA,animal

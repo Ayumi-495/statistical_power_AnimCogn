@@ -1,0 +1,16 @@
+obs_ID,study_ID,year,C_mean,C_sem,C_n,T_mean,T_sem,T_n,meta_ID,note,research_aim,C_sd,T_sd
+obs_001,banqueri_2018,2018,19.07,4.5,10,19.07,5.4,10,ma39_02,sd is SEM; female data,human,21.21320344,17.07629936
+obs_002,Xu_2018,2018,12.13,4.69,8,24.72,4.37,8,ma39_02,sd is SEM; female data,human,17.32512626,12.36022654
+obs_003,Sun_2014,2014,88.09,10.07,9,60.58,19.31,7,ma39_02,sd is SEM; female data,human,28.55993697,51.08945782
+obs_004,Sun_2014,2014,26.28,12.76,13,30.61,10.97,13,ma39_02,sd is SEM; female data,human,46.43748486,39.55289749
+obs_005,Sun_2014,2014,41.3,23.05,13,64.35,15.71,13,ma39_02,sd is SEM; female data,human,62.4135402,56.64321054
+obs_006,Chocyk_2014,2014,21.5,4.63,20,7.52,1.97,20,ma39_02,sd is SEM; female data,human,43.03486958,8.810107831
+obs_007,Uysal_2005,2005,12.59,2.1,8,25.36,1.9,8,ma39_02,sd is SEM; female data,human,11.5931014,5.374011537
+obs_008,Uysal_2005,2005,37.67,1.58,8,29.04,2.75,8,ma39_02,sd is SEM; female data,human,10.05584407,7.778174593
+obs_009,Wang_2011,2011,12.76,3.88,16,9.02,2.1,16,ma39_02,sd is SEM; female data,human,31.51634497,8.4
+obs_010,Asia_2008,2008,70.03,5.89,10,52.66,4.76,10,ma39_02,sd is SEM; female data,human,24.2693222,15.05244166
+obs_011,Xiong_2014,2014,57.75,7.1,8,53.72,7.57,8,ma39_02,sd is SEM; female data,human,21.31666015,21.41119333
+obs_012,Pusceddu_2015,2015,0.69,0.04,10,0.78,0.03,10,ma39_02,sd is SEM; female data,human,2,0.09486833
+obs_013,Kosten_2006,2006,77.11,10.22,8,53.17,15.55,6,ma39_02,sd is SEM; female data,human,25.57498778,38.0895655
+obs_014,Diehl_2014,2014,153.04,30.66,8,937.27,65.84,8,ma39_02,sd is SEM; female data,human,44.29717824,186.2236419
+obs_015,Kosten_2006,2006,77.11,10.22,8,53.17,15.55,6,ma39_02,sd is SEM; female data,human,25.57498778,38.0895655

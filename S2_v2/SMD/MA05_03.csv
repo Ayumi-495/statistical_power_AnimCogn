@@ -1,0 +1,5 @@
+obs_ID,study_ID,year,es,var,meta_ID,l_95,h_95,se,research_aim
+obs_001,Leenaars_etal_2013,2013,3.186,0.447561,ma05_03,1.875,4.498,0.669,human
+obs_002,Tripathi_Jha_2016,2016,1.839,0.3136,ma05_03,0.741,2.938,0.56,human
+obs_003,Tripathi_etal_2018,2018,1.347,0.381924,ma05_03,0.137,2.558,0.618,human
+obs_004,Magloire_etal_2009,2009,-0.115,0.334084,ma05_03,-1.248,1.017,0.578,human

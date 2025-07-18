@@ -1,0 +1,85 @@
+obs_ID,study_ID,year,es,var,meta_ID,research_aim,note,note2
+obs_001,Alzoubi_etal_2013a,2013,-0.754,0.145,ma28_01,human,high fat diet,overlap
+obs_002,Alzoubi_etal_2013a,2013,-0.754,0.145,ma28_01,human,high fat diet,overlap
+obs_003,Alzoubi_etal_2013a,2013,-0.754,0.145,ma28_01,human,high fat diet,overlap
+obs_004,Alzoubi_etal_2013b,2013,-0.817,0.169,ma28_01,human,high fat diet,overlap
+obs_005,Alzoubi_etal_2013b,2013,-0.817,0.169,ma28_01,human,high fat diet,overlap
+obs_006,Alzoubi_etal_2013b,2013,-0.817,0.169,ma28_01,human,high fat diet,overlap
+obs_007,Alzoubi_etal_2018,2018,-0.728,0.135,ma28_01,human,high fat diet,overlap
+obs_008,Alzoubi_etal_2018,2018,-0.728,0.135,ma28_01,human,high fat diet,overlap
+obs_009,Amold_etal_2014,2014,-1.12,0.389,ma28_01,human,high fat diet,overlap
+obs_010,Amad_etal_2014,2014,-0.951,0.206,ma28_01,human,high fat diet,not overlap
+obs_011,Ayabe_etal_2018,2018,-0.236,0.225,ma28_01,human,high fat diet,overlap
+obs_012,Boitard_etal_2014,2014,-0.571,0.151,ma28_01,human,high fat diet,overlap
+obs_013,Boitard_etal_2014,2014,-0.19,0.146,ma28_01,human,high fat diet,overlap
+obs_014,Che_etal_2018,2018,-1.014,0.256,ma28_01,human,high fat diet,overlap
+obs_015,Denver_etal_2018,2018,-0.197,0.156,ma28_01,human,high fat diet,overlap
+obs_016,Denver_etal_2018,2018,0.197,0.156,ma28_01,human,high fat diet,overlap
+obs_017,Denver_etal_2018,2018,0.197,0.156,ma28_01,human,high fat diet,overlap
+obs_018,Gergerlioglu_etal_2016,2016,-1.957,0.343,ma28_01,human,high fat diet,overlap
+obs_019,Hargrave_etal_2015,2015,0.214,0.185,ma28_01,human,high fat diet,not overlap
+obs_020,Hargrave_etal_2015,2015,0.214,0.185,ma28_01,human,high fat diet,not overlap
+obs_021,Jamshed_etal_2014,2014,-1.529,0.334,ma28_01,human,high fat diet,overlap
+obs_022,Jurdak_etal_2008,2008,-0.037,0.183,ma28_01,human,high fat diet,overlap
+obs_023,Jurdak_etal_2008,2008,-0.201,0.184,ma28_01,human,high fat diet,overlap
+obs_024,Liang_etal_2015,2015,-1.014,0.256,ma28_01,human,high fat diet,overlap
+obs_025,Magnusson_etal_2015,2015,-0.209,0.286,ma28_01,human,high fat diet,overlap
+obs_026,Magnusson_etal_2015,2015,0.383,0.29,ma28_01,human,high fat diet,overlap
+obs_027,Magnusson_etal_2015,2015,-0.763,0.308,ma28_01,human,high fat diet,overlap
+obs_028,Magnusson_etal_2015,2015,-0.723,0.306,ma28_01,human,high fat diet,overlap
+obs_029,Magnusson_etal_2015,2015,0.486,0.294,ma28_01,human,high fat diet,overlap
+obs_030,Magnusson_etal_2015,2015,0.515,0.295,ma28_01,human,high fat diet,overlap
+obs_031,Magnusson_etal_2015,2015,-1.759,0.413,ma28_01,human,high fat diet,overlap
+obs_032,Mirzaei_etal_2018,2018,-1.68,0.254,ma28_01,human,high fat diet,overlap
+obs_033,Moreira_etal_2014,2014,-1.269,0.224,ma28_01,human,high fat diet,overlap
+obs_034,Park_etal_2018,2018,-1.429,0.198,ma28_01,human,high fat diet,not overlap
+obs_035,Pathan_etal_2008,2008,-1.014,0.256,ma28_01,human,high fat diet,overlap
+obs_036,Pratchayasakul_etal_2015,2015,-0.286,0.33,ma28_01,human,high fat diet,overlap
+obs_037,Pratchayasakul_etal_2015,2015,-0.286,0.33,ma28_01,human,high fat diet,overlap
+obs_038,Scichilone_etal_2016,2016,-0.172,0.119,ma28_01,human,high fat diet,overlap
+obs_039,Silva_etal_2016,2016,-0.234,0.22,ma28_01,human,high fat diet,overlap
+obs_040,Spencer_etal_2017,2017,0.376,0.158,ma28_01,human,high fat diet,overlap
+obs_041,Spinelli_etal_2017,2017,-1.957,0.343,ma28_01,human,high fat diet,overlap
+obs_042,Thirumangalakudi_etal_2008,2008,-1.187,0.343,ma28_01,human,high fat diet,overlap
+obs_043,Thirumangalakudi_etal_2008,2008,-1.187,0.343,ma28_01,human,high fat diet,overlap
+obs_044,Valladolid_Acebes_etal_2011,2011,-1.417,0.131,ma28_01,human,high fat diet,overlap
+obs_045,Valladolid_Acebes_etal_2011,2011,-1.159,0.122,ma28_01,human,high fat diet,overlap
+obs_046,Valladolid_Acebes_etal_2013,2013,-1.495,0.202,ma28_01,human,high fat diet,overlap
+obs_047,Valladolid_Acebes_etal_2013,2013,-1.495,0.202,ma28_01,human,high fat diet,overlap
+obs_048,Valladolid_Acebes_etal_2013,2013,-0.197,0.157,ma28_01,human,high fat diet,overlap
+obs_049,Valladolid_Acebes_etal_2013,2013,-0.197,0.157,ma28_01,human,high fat diet,overlap
+obs_050,Wei_etal_2018,2018,-1.014,0.256,ma28_01,human,high fat diet,overlap
+obs_051,Woodie_Blythe_2018,2018,0.269,0.178,ma28_01,human,high fat diet,overlap
+obs_052,Woodie_Blythe_2018,2018,0.21,0.177,ma28_01,human,high fat diet,overlap
+obs_053,Xu_et_etal_2018,2018,-1.407,0.285,ma28_01,human,high fat diet,overlap
+obs_054,Abbottetal_2016,2016,-1.01,0.093,ma28_01,human,high sugar diet,overlap
+obs_055,Abbottetal_2016,2016,-1.01,0.093,ma28_01,human,high sugar diet,overlap
+obs_056,Beilharz_etal_2014,2014,-1.014,0.256,ma28_01,human,high sugar diet,overlap
+obs_057,Gergerlioglu_etal_2016,2016,-0.236,0.225,ma28_01,human,high sugar diet,overlap
+obs_058,Jurdak_etal_2008,2008,-1.106,0.214,ma28_01,human,high sugar diet,overlap
+obs_059,Jurdak_etal_2008,2008,0.057,0.184,ma28_01,human,high sugar diet,overlap
+obs_060,Kendig_etal_2013,2013,-0.746,0.103,ma28_01,human,high sugar diet,overlap
+obs_061,Kendig_etal_2013,2013,-0.521,0.099,ma28_01,human,high sugar diet,overlap
+obs_062,Magnusson_etal_2015,2015,-0.086,0.284,ma28_01,human,high sugar diet,overlap
+obs_063,Magnusson_etal_2015,2015,-0.261,0.287,ma28_01,human,high sugar diet,overlap
+obs_064,Magnusson_etal_2015,2015,-1.24,0.348,ma28_01,human,high sugar diet,overlap
+obs_065,Magnusson_etal_2015,2015,0.048,0.284,ma28_01,human,high sugar diet,overlap
+obs_066,Magnusson_etal_2015,2015,0.83,0.313,ma28_01,human,high sugar diet,not overlap
+obs_067,Magnusson_etal_2015,2015,0.758,0.308,ma28_01,human,high sugar diet,overlap
+obs_068,Magnusson_etal_2015,2015,-1.562,0.386,ma28_01,human,high sugar diet,overlap
+obs_069,Woodie_Blythe_2018,2018,0.063,0.176,ma28_01,human,high sugar diet,not overlap
+obs_070,Woodie_Blythe_2018,2018,-0.404,0.18,ma28_01,human,high sugar diet,not overlap
+obs_071,Xu_Reichelt_2018,2018,-0.957,0.194,ma28_01,human,high sugar diet,overlap
+obs_072,Beilharz_etal_2014,2014,-1.527,0.296,ma28_01,human,high fat-high sugar diet,overlap
+obs_073,Beilharz_etal_2014,2014,-1.014,0.256,ma28_01,human,high fat-high sugar diet,overlap
+obs_074,Beilharz_etal_2018,2018,-1.014,0.256,ma28_01,human,high fat-high sugar diet,overlap
+obs_075,Beilharz_etal_2018,2018,-1.014,0.256,ma28_01,human,high fat-high sugar diet,overlap
+obs_076,Hargrave_etal_2015,2015,-0.9,0.204,ma28_01,human,high fat-high sugar diet,not overlap
+obs_077,Hargrave_etal_2015,2015,0.021,0.183,ma28_01,human,high fat-high sugar diet,not overlap
+obs_078,Kanoski_Davidson_2010,2010,-1.407,0.285,ma28_01,human,high fat-high sugar diet,overlap
+obs_079,Molteni_etal_2004,2004,-1.187,0.343,ma28_01,human,high fat-high sugar diet,overlap
+obs_080,Ross_etal_2013,2013,-0.193,0.074,ma28_01,human,high fat-high sugar diet,overlap
+obs_081,Takechi_etal_2017,2017,-0.308,0.186,ma28_01,human,high fat-high sugar diet,overlap
+obs_082,Tran_Westbrook_2015,2015,-1.034,0.135,ma28_01,human,high fat-high sugar diet,overlap
+obs_083,Tran_Westbrook_2018,2018,-1.23,0.187,ma28_01,human,high fat-high sugar diet,overlap
+obs_084,Wu_etal_2003,2003,-0.015,0.096,ma28_01,human,high fat-high sugar diet,not overlap

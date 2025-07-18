@@ -1,0 +1,17 @@
+obs_ID,study_ID,year,es,var,meta_ID,l_95,h_95,research_aim,memo
+obs_001,Aleisa_etal_2011,2011,1.58,0.353296803,ma01_03,0.42,2.75,human,Number of errors
+obs_002,Alhaider_etal_2011,2011,2.86,0.450131456,ma01_03,1.55,4.18,human,Number of errors
+obs_003,Zagaar_etal_2013,2013,2.6,0.332387547,ma01_03,1.47,3.73,human,Number of errors
+obs_004,Alhaider_etal_2010,2010,2.86,0.453561016,ma01_03,1.54,4.18,human,Number of errors
+obs_005,Alzoubi_etal_2016,2016,1.21,0.203879894,ma01_03,0.33,2.1,human,Number of errors
+obs_006,Alzoubi_etal_2013,2013,1.7,0.201582674,ma01_03,0.82,2.58,human,Number of errors
+obs_007,Alzoubi_etal_2013,2013,4.75,0.605379269,ma01_03,3.22,6.27,human,Number of errors
+obs_008,Alzoubi_etal_2012,2012,1.1,0.19702728,ma01_03,0.23,1.97,human,Number of errors
+obs_009,Alzoubi_etal_2012,2012,1.18,0.201582674,ma01_03,0.3,2.06,human,Number of errors
+obs_010,Massadeh_etal_2022a,2022,1.15,0.199298469,ma01_03,0.28,2.03,human,Number of errors
+obs_011,Massadeh_etal_2022a,2022,1.5,0.222726208,ma01_03,0.57,2.42,human,Number of errors
+obs_012,Massadeh_etal_2022b,2022,1.66,0.234928155,ma01_03,0.71,2.61,human,Number of errors
+obs_013,Massadeh_etal_2022b,2022,1.74,0.242405508,ma01_03,0.77,2.7,human,Number of errors
+obs_014,Mhaidat_etal_2015,2015,1.19,0.201582674,ma01_03,0.31,2.07,human,Number of errors
+obs_015,Solanki_etal_2016,2016,1.23,0.312116045,ma01_03,0.14,2.33,human,Number of errors
+obs_016,Solanki_etal_2016,2016,0.5,0.260308205,ma01_03,-0.5,1.5,human,Number of errors
