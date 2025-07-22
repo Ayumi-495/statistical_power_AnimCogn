@@ -7,7 +7,7 @@ pacman::p_load(
   metafor, esc, orchaRd,
   # other
   here, janitor, kableExtra, readr, gt, lme4
-)
+  )
 
 # Custom functions from Yang et al(2023) ----
 
@@ -37,7 +37,7 @@ error_M <- function(mu, se, alpha = 0.05, N = 10000) {
   est.random <- rnorm(n=N, mean = mu, sd = se)
   # est.random <- mu + se*rnorm(n=N, mean=0, sd=1)
   sig.index <- abs(est.random) > se*qnorm(1 - alpha/2)
-  overestimate <- mean(abs(est.random)[sig.index])/abs(mu) # ratio is regardnesss of sign, so we need absolute value
+  overestimate <- mean(abs(est.random)[sig.index])/abs(mu) # ratio is regardless of sign, so we need absolute value
   absolute_error <- overestimate*abs(mu) - abs(mu)
   relative_error <- absolute_error/(overestimate*abs(mu))
   return(abs(overestimate) |> round(3))
@@ -48,7 +48,7 @@ error_M2 <- function(mu, se, alpha = 0.05, N = 10000) {
   est.random <- rnorm(n=N, mean = mu, sd = se)
   # est.random <- mu + se*rnorm(n=N, mean=0, sd=1)
   sig.index <- abs(est.random) > se*qnorm(1 - alpha/2)
-  overestimate <- mean(abs(est.random)[sig.index])/abs(mu) # ratio is regardnesss of sign, so we need absolute value
+  overestimate <- mean(abs(est.random)[sig.index])/abs(mu) # ratio is regardless of sign, so we need absolute value
   absolute_error <- overestimate*abs(mu) - abs(mu)
   relative_error <- absolute_error/(overestimate*abs(mu))
   return(abs(relative_error) |> round(3))
@@ -271,8 +271,8 @@ for (i in 1:length(Zr)) {
 ###
 
 # we will use multilevel meta-analytic model to fit two types data:
-# 2.1 original scale data
-# (2.2 scaled data)
+# - original scale data
+# (and scaled data?)
 # 
 # For each type of data, we:
 # (i) estimate the meta-analytic overall mean, model intercept (beta0)
@@ -283,6 +283,7 @@ for (i in 1:length(Zr)) {
 # 
 #### (1) estimates of beta0 ----
 # fit intercept-only multilevel model to each dataset
+
 ####
 # meta-analytic overall mean #
 ####
@@ -294,7 +295,8 @@ for (i in 1:length(lnRR)) {
                           method = "REML", test = "t", 
                           data = lnRR[[i]], sparse = TRUE, 
                           control = list(optimizer = "optim")) |> list()
-}
+  }
+
 # SMD
 model_SMD <- NA
 for (i in 1:length(SMD)) {
@@ -303,7 +305,7 @@ for (i in 1:length(SMD)) {
                          method = "REML", test = "t", 
                          data = SMD[[i]], sparse = TRUE, 
                          control = list(optimizer = "optim")) |> list()
-}
+  }
 
 # Zr
 ## Model fitting failed using `optimizer = "optim"` - I use `nlminb`
@@ -314,7 +316,7 @@ for (i in 1:length(Zr)) {
                         method = "REML", test = "t", 
                         data = Zr[[i]], sparse=TRUE, 
                         control=list(optimizer="nlminb")) |> list()
-}
+  }
 
 
 #### (2) detect publication bias ----
@@ -342,7 +344,7 @@ for (i in 1:length(lnRR[lnRR_filenames])) {
                                    method = "REML", test = "t", 
                                    data = lnRR[lnRR_filenames][[i]], sparse = TRUE, 
                                    control=list(optimizer = "optim")) |> list()
-} 
+  } 
 
 # SMD
 model_SMD_sei.year <- NA
@@ -353,7 +355,7 @@ for (i in 1:length(SMD[SMD_filenames])) {
                                   method = "REML", test = "t", 
                                   data = SMD[SMD_filenames][[i]], sparse = TRUE, 
                                   control=list(optimizer = "nlminb")) |> list()
-}
+  }
 
 model_SMD_ess.sei.year <- NA
 for (i in 1:length(SMD[SMD_des_filenames])) {
@@ -363,7 +365,7 @@ for (i in 1:length(SMD[SMD_des_filenames])) {
                                       method = "REML", test = "t",
                                       data = SMD[SMD_des_filenames][[i]], sparse = TRUE, 
                                       control=list(optimizer = "optim")) |> list()
-} 
+  } 
 
 # Zr
 ## Zr does not have the concern of ‘artefactual’ correlation between effect size and sampling error (because the formula to Zr's estimate sampling error has no component of point estimate: 1/(n-3)). So we only need to fit the regression model with sampling error (sei) as a predictor
@@ -371,7 +373,7 @@ for (i in 1:length(SMD[SMD_des_filenames])) {
 model_Zr_sei.year <- NA
 for (i in 1:length(Zr)) {
   model_Zr_sei.year[i] <- rma.mv(yi = es, V = var, random = list(~1|study_ID/obs_ID), mods = ~ sei + year_pub.l, method = "REML", test = "t", data = Zr[[i]], sparse = TRUE, control=list(optimizer = "optim")) |> list()
-}
+  }
 
 ##### (b) identify the presence of publication bias ----
 #'[please refer to Yang et al. (2023) for details]
@@ -406,7 +408,7 @@ model_est_lnRR <- data.frame(case = names(lnRR),
                              beta2 = sapply(model_lnRR_pb, function(x) x$beta[3]), # slope of year 
                              se_beta2 = sapply(model_lnRR_pb, function(x) x$se[3]), # standard error of beta2
                              pval_beta2 = sapply(model_lnRR_pb, function(x) x$pval[3]) # p value of beta2
-)
+                             )
 
 # then, identify the presence of the small-study effect and decline effect for each meta-analysis. We also figure out the wrong directions of slope, which will be used to inform the parameterization of reduced models
 
@@ -417,6 +419,7 @@ model_est_lnRR <- data.frame(case = names(lnRR),
 # of relevance, when the value of beta0*beta2 is negative, the examined meta-analysis has a decline effect (beta 2 is in a correct direction)
 
 # so we first to create two new columns to contain the two products:  beta0*beta1 and beta0*beta2
+
 # ncol(model_est_lnRR) -> 14
 model_est_lnRR[15:16] <- data.frame(beta0Tbeta1 = model_est_lnRR$beta0 * model_est_lnRR$beta1, beta0Tbeta2 = model_est_lnRR$beta0 * model_est_lnRR$beta2)
 
@@ -458,7 +461,7 @@ model_est_SMD <- data.frame(case = names(SMD),
                             beta2 = sapply(model_SMD_pb, function(x) x$beta[3]), #  slope of year 
                             se_beta2 = sapply(model_SMD_pb, function(x) x$se[3]), # standard error of beta2
                             pval_beta2 = sapply(model_SMD_pb, function(x) x$pval[3]) # p value of beta2
-)
+                            )
 
 # ncol(model_est_SMD) ->14
 model_est_SMD[15:16] <- data.frame(beta0Tbeta1 = model_est_SMD$beta0 * model_est_SMD$beta1, beta0Tbeta2 = model_est_SMD$beta0 * model_est_SMD$beta2) 
@@ -498,7 +501,7 @@ model_est_Zr <- data.frame(case = names(Zr),
                           pval_beta2 = sapply(model_Zr_pb, function(x) x$pval[3])
                           )
 
-ncol(model_est_Zr)
+# ncol(model_est_Zr)
 model_est_Zr[15:16] <- data.frame(beta0Tbeta1 = model_est_Zr$beta0 * model_est_Zr$beta1, beta0Tbeta2 = model_est_Zr$beta0 * model_est_Zr$beta2) 
 
 # identify the small-study effect - significant beta1 with correct sign
@@ -541,7 +544,7 @@ for (i in 1: length(s1_sei_file)){
                                  mod = sei + year_pub.l, method = "REML",
                                  test = "t", data = lnRR[s1_sei_file][[i]],
                                  sparse = TRUE, control = list(optimizer = "optim")) |>  list()
-}
+  }
 
 ## replace sei by var
 model_lnRR_var_s1 <- NA
@@ -551,7 +554,7 @@ for (i in 1: length(s1_sei_file)){
                                  mod = var + year_pub.l, method = "REML",
                                  test = "t", data = lnRR[s1_sei_file][[i]],
                                  sparse = TRUE, control = list(optimizer = "optim")) |>  list()
-}
+  }
 
 # extract model coefficients and their significance test results for 'sei' in scenario 1
 model_est_lnRR_sei_s1 <- data.frame(case = s1_sei_file,
@@ -571,7 +574,7 @@ model_est_lnRR_sei_s1 <- data.frame(case = s1_sei_file,
                                     beta0_c2 = sapply(model_lnRR_var_s1, function(x) x$beta[1]), 
                                     se_beta0_c2 = sapply(model_lnRR_var_s1, function(x) x$se[1]),
                                     pval_beta0_c2 = sapply(model_lnRR_var_s1, function(x) x$pval[1]) 
-)
+                                    )
 
 
 #'[scenario 2 - beta1 has wrong direction / beta2 has correct direction]
