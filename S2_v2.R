@@ -1378,8 +1378,7 @@ model_est_lnRR$k <- k_lnRR
 
 ### log
 ###' *lmer* ###
-#' TODO -[ASK: which model should I use? When I run model with lmer(), I cannot get the 95%CI using method = 'profile' (need to use 'Wald'), but when I use lm(),I can get more accurate 95%CI (i.e., method = 'profile')]
-# For now, I am using lm()…
+#' TODO -[ASK: which model should I use? When I run model with lmer(), I cannot get the 95%CI using method = 'profile' (need to use 'Wald'), but when I use lm(),I can get more accurate 95%CI (i.e., method = 'profile') - the result did not change the dramatically - for now, I am using lm()]
 
 # log scale 
 #MMA_MA.power_lnRR <- lmer(log(MA.power) ~ 1 + (1 | study_ID), weights = k, data = model_est_lnRR)
