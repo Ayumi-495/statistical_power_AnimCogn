@@ -2839,18 +2839,36 @@ power_firepower_Zr$MA_case <- factor(power_firepower_Zr$MA_case, levels=rev(MA_c
 ## all
 power_firepower_all <- rbind(power_firepower_lnRR,power_firepower_SMD,power_firepower_Zr)
 
+MA_case_all <- c(
+  paste("lnRR", 1:5),
+  paste("SMD", 1:32),
+  paste("Zr",  1:11)
+)
+
+power_firepower_all <- rbind(
+  power_firepower_lnRR,
+  power_firepower_SMD,
+  power_firepower_Zr
+)
+
+power_firepower_all$MA_case <- factor(power_firepower_all$MA_case,
+                                      levels = rev(MA_case_all)) 
+
+power_firepower_all$effect <- factor(power_firepower_all$effect,
+                                 levels = c("Sampling", "cSampling", "Meta-analysis", "cMeta-analysis"))
+
 firepower_plot_all <- ggplot(power_firepower_all) +
   geom_tile(aes(x = effect, y = MA_case, fill = power),
             width = 0.95, height = 0.5) +
   scale_fill_gradient(
     name = "Power",
-    low  = "#FFFFFF",
-    high = "#FF7F50",
+    low  = "#FF7F50",
+    high = "#FFFFFF",
     limits   = c(0, 1),
     na.value = "#FFFFFF"
   ) +
   facet_grid(~ es_cat, scale = "free_x", space = "free_x") +
-  scale_y_discrete(limits = rev) +       
+  # scale_y_discrete(limits = rev) +       
   scale_x_discrete(position = "top") +   
   theme(
     strip.text.x = element_blank(),
@@ -2981,7 +2999,13 @@ power.M_firepower_Zr <- rbind(intercept_adjusted_Zr,
 power.M_firepower_Zr$MA_case <- factor(power.M_firepower_Zr$MA_case, levels=rev(MA_case_Zr))
 
 
+# all
 firepower.M_all <- rbind(power.M_firepower_lnRR,power.M_firepower_SMD,power.M_firepower_Zr)
+
+firepower.M_all$MA_case <- factor(firepower.M_all$MA_case, levels = rev(MA_case_all))
+
+firepower.M_all$effect <- factor(firepower.M_all$effect,
+                                 levels = c("Sampling", "cSampling", "Meta-analysis", "cMeta-analysis"))
 
 firepower.M_plot_all <- ggplot(data = firepower.M_all) +
   geom_tile(aes(x = effect, y = MA_case, fill = power, width = 0.95, height = 0.5)) +
@@ -2995,7 +3019,7 @@ firepower.M_plot_all <- ggplot(data = firepower.M_all) +
     guide = "colourbar",
   ) + 
   facet_grid( ~ es_cat, scale = 'free_x', space = "free_x") +
-  scale_y_discrete(limits = rev) +
+  # scale_y_discrete(limits = rev) +
   theme(strip.text.x = element_blank()) + 
   labs(x ="", y = "") + 
   theme(
@@ -3134,6 +3158,12 @@ power.S_firepower_Zr$MA_case <- factor(power_firepower_Zr$MA_case, levels = rev(
 ### all
 firepower.S_all <- rbind(power.S_firepower_lnRR,power.S_firepower_SMD,power.S_firepower_Zr)
 
+firepower.S_all$MA_case <- factor(firepower.S_all$MA_case, levels = rev(MA_case_all))
+
+
+firepower.S_all$effect <- factor(firepower.S_all$effect,
+                                 levels = c("Sampling", "cSampling", "Meta-analysis", "cMeta-analysis"))
+
 firepower.S_plot_all <- ggplot(data = firepower.S_all) +
   geom_tile(aes(x = effect, y = MA_case, fill = power, width = 0.95, height = 0.5)) +
   scale_fill_gradient(
@@ -3146,7 +3176,7 @@ firepower.S_plot_all <- ggplot(data = firepower.S_all) +
     guide = "colourbar",
   ) + 
   facet_grid(~ es_cat, scale = "free_x", space = "free_x") +
-  scale_y_discrete(limits = rev) +
+  # scale_y_discrete(limits = rev) +
   theme(strip.text.x = element_blank()) + 
   labs(x ="", y = "") + 
   theme(
