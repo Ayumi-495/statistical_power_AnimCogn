@@ -3006,7 +3006,7 @@ firepower.M_all$MA_case <- factor(firepower.M_all$MA_case, levels = rev(MA_case_
 
 firepower.M_all$effect <- factor(firepower.M_all$effect,
                                  levels = c("Sampling", "cSampling", "Meta-analysis", "cMeta-analysis"))
-
+054042
 firepower.M_plot_all <- ggplot(data = firepower.M_all) +
   geom_tile(aes(x = effect, y = MA_case, fill = power, width = 0.95, height = 0.5)) +
   scale_fill_gradient(
