@@ -2274,6 +2274,7 @@ confint(MMA_MA.power_c_Zr) |> exp()
 ## meta-analytic overall mean
 # log
 MMA_MA.power.M_Zr <- lm(log(MA.power.M) ~ 1, weights = k, data = model_est_Zr)
+
 # this is median
 MMA_MA.power.M_Zr$coefficients |> exp() 
 
@@ -2296,7 +2297,7 @@ MMA_MA.power.M_c_Zr$coefficients |> exp()
 confint(MMA_MA.power.M_c_Zr) |> exp()
 
 
-#' *type S roor*
+#' *type S error*
 ## meta-analytic overall mean
 # log
 MMA_MA.power.S_Zr <- lm(log(MA.power.S+0.025) ~ 1, weights = k, data = model_est_Zr) # add an offset of 0.025(25%) to avoid ln(0) = infinity 
@@ -2836,7 +2837,7 @@ power_firepower_Zr <- rbind(intercept_adjusted_Zr,
 # convert MA_case to factor with desired ordering of levels
 power_firepower_Zr$MA_case <- factor(power_firepower_Zr$MA_case, levels=rev(MA_case_Zr))
 
-## all
+### all ----
 power_firepower_all <- rbind(power_firepower_lnRR,power_firepower_SMD,power_firepower_Zr)
 
 MA_case_all <- c(
@@ -2999,7 +3000,7 @@ power.M_firepower_Zr <- rbind(intercept_adjusted_Zr,
 power.M_firepower_Zr$MA_case <- factor(power.M_firepower_Zr$MA_case, levels=rev(MA_case_Zr))
 
 
-# all
+### all ----
 firepower.M_all <- rbind(power.M_firepower_lnRR,power.M_firepower_SMD,power.M_firepower_Zr)
 
 firepower.M_all$MA_case <- factor(firepower.M_all$MA_case, levels = rev(MA_case_all))
@@ -3155,7 +3156,7 @@ power.S_firepower_Zr <- rbind(intercept_adjusted_Zr,
 # convert MA_case to factor with desired ordering of levels
 power.S_firepower_Zr$MA_case <- factor(power_firepower_Zr$MA_case, levels = rev(MA_case_Zr))
 
-### all
+### all ----
 firepower.S_all <- rbind(power.S_firepower_lnRR,power.S_firepower_SMD,power.S_firepower_Zr)
 
 firepower.S_all$MA_case <- factor(firepower.S_all$MA_case, levels = rev(MA_case_all))
@@ -3204,6 +3205,11 @@ firepower.M_plot_all
 firepower.S_plot_all
 
 nrow(firepower.S_all$MA_case)
+
+## scatter violin plot ----
+
+
+
 
 
 # significant -> non-significant ----

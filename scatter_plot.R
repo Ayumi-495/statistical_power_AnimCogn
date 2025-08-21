@@ -59,7 +59,7 @@ p_scatter_power <- ggplot(
   #   position = position_dodge(width = 0.8)
   # ) +
   stat_summary(
-    fun = median,
+    fun = mean,
     geom = "crossbar",
     aes(fill = correction),
     color = "#DC143C",
@@ -147,7 +147,7 @@ p_scatter_M <- ggplot(
     ) 
   )+
   stat_summary(
-    fun = median,
+    fun = mean,
     geom = "crossbar",
     aes(fill = correction),
     color = "#1B8A6B",
@@ -211,7 +211,7 @@ p_scatter_S <- ggplot(
     ) 
   )+
   stat_summary(
-    fun = median,
+    fun = mean,
     geom = "crossbar",
     aes(fill = correction),
     color = "#F5E216",
