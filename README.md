@@ -48,6 +48,7 @@ The effect sizes and sampling variances were extracted or reconstructed from pub
 ## Preregistration
 
 The study was preregistered on OSF: [https://osf.io/8hnkb](https://osf.io/8hnkb)
+
 Also, here is the preprint: [https://doi.org/10.32942/X2Z36M](https://doi.org/10.32942/X2Z36M)
 
 ## Contact
