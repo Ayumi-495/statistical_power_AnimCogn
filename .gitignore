@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+/AGENTS.md
 /cal_var_from95CI
 cal_var_sample_size/.DS_Store
 /cal_var_sample_size
@@ -11,3 +12,5 @@ cal_var_sample_size/.DS_Store
 figure/Fig2.ai
 old/.DS_Store
 /docs
+/CLAUDE.md
+
