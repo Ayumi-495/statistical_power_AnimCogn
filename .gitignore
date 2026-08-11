@@ -18,3 +18,6 @@ old/.DS_Store
 # regenerable intermediates from R/ (rebuild with R/01 then R/03)
 outputs/*.rds
 outputs/*.log
+
+# revision-analysis chaining artifacts (regenerate with R/revision/01..03)
+results/revision/intermediate/

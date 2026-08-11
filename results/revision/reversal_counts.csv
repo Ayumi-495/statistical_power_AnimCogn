@@ -1,0 +1,6 @@
+n_meta_analysis,pct_reversal,rho,corpus,effect_estimator,yang_equation,estimator_family,n_reversal,n_effect_size_in_reversals,verification_status
+48,68.8,0.5,animal_cognition_48,beta0_se_model,Eq. 2,Egger / PET-like,33,3112,two_derivations
+48,54.2,0.5,animal_cognition_48,beta0_var_model,Eq. 3,PEESE-like,26,2061,two_derivations
+48,41.7,0.5,animal_cognition_48,yang2023_gated_beta0_c3,Eq. 3 + gate,reported,20,1932,two_derivations
+48,12.5,0.5,animal_cognition_48,yang2024_FE_VCV,2024 step 1,bias-robust GLS,6,1599,two_derivations
+48,10.4,0.5,animal_cognition_48,yang2024_UWLS,2024 step 1,bias-robust WLS,5,1507,two_derivations
