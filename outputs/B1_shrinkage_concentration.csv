@@ -1,0 +1,2 @@
+n_models,n_corrected_toward_zero,n_unchanged,n_shrinkage_over_50pct,n_shrinkage_over_90pct,median_shrinkage_pct,top5_share_of_kweighted_shrinkage,median_se_ratio_c2_over_beta0,max_se_ratio_c2_over_beta0
+48,34,14,26,6,54.16531788665915,0.16970206383797365,1.8443132974550838,7.04314006553954
