@@ -1,5 +1,5 @@
-rho,n_meta_analysis,reversal_FE_VCV,reversal_UWLS,FE_VCV_ci_includes_zero,median_abs_ratio_to_beta0,n_with_negative_weight,crve_variant,verification_status
-0,48,5,5,18,0.8385802969785618,0,CR1,two_derivations
-0.25,48,5,5,17,0.8982737014637564,17,CR1,two_derivations
-0.5,48,6,5,19,0.9225845806998996,25,CR1,two_derivations
-0.75,48,8,5,20,0.8768418903149093,34,CR1,two_derivations
+rho,n_meta_analysis,reversal_FE_VCV,reversal_UWLS,FE_VCV_ci_includes_zero,FE_VCV_ci_includes_zero_CR1_diagnostic,median_abs_ratio_to_beta0,n_with_negative_weight,n_cr2_failed,crve_variant,verification_status
+0,48,5,5,20,18,0.8385802969785618,0,0,CR2_Satterthwaite,two_derivations
+0.25,48,5,5,17,17,0.8982737014637564,17,0,CR2_Satterthwaite,two_derivations
+0.5,48,6,5,19,19,0.9225845806998996,25,0,CR2_Satterthwaite,two_derivations
+0.75,48,8,5,20,20,0.8768418903149093,34,0,CR2_Satterthwaite,two_derivations

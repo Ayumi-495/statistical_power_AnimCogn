@@ -33,14 +33,24 @@ per_ma <- o |>
                 has_small_study_effect, has_decline_effect) |>
   dplyr::left_join(
     BR |> dplyr::select(MA_model, rho,
-            FE_VCV_estimate, FE_VCV_CRVE_SE_CR1, FE_VCV_CRVE_SE_CR0,
-            UWLS_estimate, UWLS_CRVE_SE_CR1, UWLS_CRVE_SE_CR0,
+            FE_VCV_estimate, FE_VCV_estimate_rma,
+            FE_VCV_CRVE_SE_CR2, FE_VCV_CRVE_df_Satterthwaite,
+            FE_VCV_CR2_ci_lb, FE_VCV_CR2_ci_ub, FE_VCV_CR2_pval,
+            FE_VCV_working_SE,
+            FE_VCV_CRVE_SE_CR1, FE_VCV_CRVE_SE_CR0,
+            UWLS_estimate, UWLS_estimate_lm,
+            UWLS_CRVE_SE_CR2_naive_t, UWLS_CR2_df,
+            UWLS_CR2_ci_lb, UWLS_CR2_ci_ub,
+            UWLS_CRVE_SE_CR1, UWLS_CRVE_SE_CR0,
             crve_cluster_n = n_cluster, crve_df,
             n_negative_weight, prop_negative_weight,
             observed_effect_min, observed_effect_max,
             FE_VCV_within_observed_range, UWLS_within_observed_range,
             observed_effects_straddle_zero,
-            FE_VCV_ci_includes_zero, UWLS_ci_includes_zero),
+            FE_VCV_ci_includes_zero, UWLS_ci_includes_zero,
+            FE_VCV_ci_includes_zero_CR1, UWLS_ci_includes_zero_CR1,
+            cr2_status, uwls_cr2_status,
+            vcv_max_abs_diff, wrapper_max_abs_diff),
     by = "MA_model") |>
   dplyr::left_join(
     d |> dplyr::select(MA_model, reversal_se_model, reversal_var_model, reversal_c3,
@@ -53,9 +63,15 @@ per_ma <- o |>
     BR |> dplyr::transmute(MA_model, reversal_FE_VCV, reversal_UWLS),
     by = "MA_model") |>
   dplyr::mutate(
-    crve_variant = "CR1_sandwich_cluster_study_ID",
-    crve_verification_status = "single_derivation",
-    point_estimate_verification_status = "two_derivations"
+    # reported specification, verified from the primary sources and externally
+    # validated against the authors' published worked example
+    crve_variant = "CR2_Satterthwaite_clubSandwich_cluster_study_ID",
+    crve_verification_status = "reproduces_published_worked_example",
+    crve_diagnostic_variant = "CR1_sandwich_t_on_J_minus_1",
+    crve_diagnostic_verification_status = "single_derivation_not_reported",
+    point_estimate_verification_status = "two_derivations",
+    R_version = PKG_VERSIONS[["R"]], metafor_version = PKG_VERSIONS[["metafor"]],
+    clubSandwich_version = PKG_VERSIONS[["clubSandwich"]]
   )
 
 stopifnot(nrow(per_ma) == 48L, sum(per_ma$k) == 5740L)
@@ -79,7 +95,8 @@ rev_counts <- tibble::tribble(
 write_revision(rev_counts, "reversal_counts.csv")
 
 # --- 3 and 4. sensitivity summaries -----------------------------------------
-col_order <- c("aggregation", "effect_estimator", "se_source", "se_method", "weighting", "metric",
+col_order <- c("aggregation", "role", "effect_estimator", "se_source", "se_method",
+               "crit_value_method", "weighting", "metric",
                "geometric_mean", "ci_lower", "ci_upper", "raw_median", "raw_min", "raw_max",
                "arithmetic_mean_unweighted", "arithmetic_mean_kweighted",
                "n_unit", "verification_status")

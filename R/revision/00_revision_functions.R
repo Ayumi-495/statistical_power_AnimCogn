@@ -20,6 +20,23 @@ suppressMessages({
   library(metafor); library(lme4)
 })
 
+# clubSandwich is a HARD requirement, not an optional enhancement. The Yang et al.
+# (2024) specification is CR2 with Satterthwaite degrees of freedom (verified from
+# the primary sources - see the block above `fit_fe_vcv_cr2()`), and CR2 is not
+# implemented anywhere else in this repository. Falling back to the CR1 sandwich
+# would silently change the reported specification, so this stops instead.
+if (!requireNamespace("clubSandwich", quietly = TRUE)) {
+  stop("clubSandwich is required for the Yang-2024 CR2 specification.\n",
+       "  install.packages(\"clubSandwich\")\n",
+       "  Do NOT substitute the CR1 sandwich: it is a different specification.")
+}
+PKG_VERSIONS <- c(
+  R            = paste(R.version$major, R.version$minor, sep = "."),
+  metafor      = as.character(utils::packageVersion("metafor")),
+  clubSandwich = as.character(utils::packageVersion("clubSandwich")),
+  lme4         = as.character(utils::packageVersion("lme4"))
+)
+
 source(here::here("R", "00_setup.R"))   # load_datasets(), dataset_index(), fit_rma(), optimizer_for()
 
 REV_OUT <- here::here("results", "revision")
@@ -35,16 +52,29 @@ CRIT  <- stats::qnorm(1 - ALPHA / 2)     # 1.959964
 # --- design analysis metrics, closed form ------------------------------------
 # All three are functions of t = mu/se alone. Verified: holding t fixed and
 # varying se over {0.01, 0.1, 1, 10} leaves all three unchanged to 10 decimals.
+#
+# THE CRITICAL VALUE IS AN EXPLICIT ARGUMENT, and every caller records which one it
+# used in a `crit_value_method` column. The default `CRIT` = qnorm(0.975) = 1.96 is
+# the design-analysis convention of Gelman & Carlin (2014) and is what the submitted
+# analysis uses. Adopting the Yang-2024 estimator introduces a second candidate -
+# the Satterthwaite t critical value that clubSandwich reports for the CR2 test -
+# and the two are not interchangeable: for a meta-analysis with ~10 study clusters
+# qt(0.975, df_Satt) can exceed 2.4, which lowers power and raises Type M.
+#
+# CANONICAL CHOICE: z = 1.96 everywhere, so that a sensitivity analysis varies the
+# assumed effect and its standard error and NOT the test used to define the metric.
+# The Satterthwaite alternative is reported as an explicitly labelled diagnostic at
+# the meta-analysis level, never mixed into the canonical rows.
 
-power_two_tailed_cf <- function(mu, se) {
+power_two_tailed_cf <- function(mu, se, crit = CRIT) {
   t <- abs(mu) / se
-  2 - stats::pnorm(CRIT - t) - stats::pnorm(CRIT + t)
+  2 - stats::pnorm(crit - t) - stats::pnorm(crit + t)
 }
 
-type_S_cf <- function(mu, se) {
+type_S_cf <- function(mu, se, crit = CRIT) {
   t  <- abs(mu) / se
-  pu <- 1 - stats::pnorm(CRIT - t)
-  pl <- stats::pnorm(-CRIT - t)
+  pu <- 1 - stats::pnorm(crit - t)
+  pl <- stats::pnorm(-crit - t)
   pl / (pu + pl)
 }
 
@@ -52,11 +82,11 @@ type_S_cf <- function(mu, se) {
 # dnorm(CRIT)/pnorm(-CRIT) / |t| = 2.3378 / |t|, i.e. it diverges. That divergence
 # is why a corrected mean close to zero produces an arbitrarily large Type M, and
 # it holds regardless of how the corrected mean was obtained.
-type_M_cf <- function(mu, se) {
+type_M_cf <- function(mu, se, crit = CRIT) {
   t   <- mu / se
-  num <- t * stats::pnorm(t - CRIT) + stats::dnorm(CRIT - t) -
-         t * stats::pnorm(-CRIT - t) + stats::dnorm(CRIT + t)
-  den <- abs(t) * (stats::pnorm(t - CRIT) + stats::pnorm(-CRIT - t))
+  num <- t * stats::pnorm(t - crit) + stats::dnorm(crit - t) -
+         t * stats::pnorm(-crit - t) + stats::dnorm(crit + t)
+  den <- abs(t) * (stats::pnorm(t - crit) + stats::pnorm(-crit - t))
   num / den
 }
 
@@ -134,12 +164,14 @@ bias_robust_fit <- function(y, vi, cluster, rho = RHO_DEFAULT, diagonal = FALSE)
   # CR0 is the unadjusted sandwich; CR1 applies the small-sample factor J/(J-1).
   # Intervals below use t on J-1 degrees of freedom.
   #
-  # NOT IMPLEMENTED HERE: the CR2 / Satterthwaite correction (clubSandwich, and
-  # metafor::robust(..., clubSandwich = TRUE)). An earlier pass used CR2 and its
-  # standard errors differ from CR1 by up to 0.036 on standard errors of order
-  # 0.1-0.2. That variant has not been independently replicated, so it is excluded
-  # from the canonical tables and the CRVE columns are marked
-  # verification_status = "single_derivation".
+  # THIS IS A DIAGNOSTIC, NOT THE REPORTED SPECIFICATION. Yang et al. (2024) use CR2
+  # with Satterthwaite degrees of freedom; that is implemented in `fit_fe_vcv_cr2()`
+  # below and is what the canonical tables report. CR0 / CR1 are retained only so the
+  # effect of the small-sample correction is visible rather than assumed, and every
+  # row derived from them carries verification_status = "single_derivation" and a
+  # `role` beginning "diagnostic_". The unweighted median CR2/CR1 standard error ratio
+  # is 1.008 across the 48 models, but it reaches 1.344, so the two are not
+  # interchangeable in an aggregate.
   meat <- sum(tapply(a * e, cluster, sum)^2)
   v0   <- meat / (sum(a))^2
   v1   <- v0 * J / (J - 1)
@@ -148,6 +180,114 @@ bias_robust_fit <- function(y, vi, cluster, rho = RHO_DEFAULT, diagonal = FALSE)
        n_cluster = J, df = J - 1L,
        n_negative_weight = sum(a < 0), prop_negative_weight = mean(a < 0),
        y_min = min(y), y_max = max(y))
+}
+
+# --- Yang et al. (2024) as the source actually implements it ------------------
+# VERIFIED FROM PRIMARY SOURCES on 2026-08-12. Do not re-derive from notes.
+#
+# Provenance of the sources. The paper's data-availability statement names two
+# locations: the analysis repository `github.com/Yefeng0920/WLS_RVE` and the tutorial
+# `yefeng0920.github.io/BiasRobustMA_tutorial/`. Both were fetched fresh from GitHub:
+#   BiasRobustMA_tutorial/R/hands_on_R.Rmd  md5 24f70634e4157e63321faac86e38f3e7
+#   WLS_RVE/R/final_GLS_V5.Rmd             md5 ddfdf14a1840070e0956ae7c794c283e
+#
+# The tutorial's step one and step two, verbatim:
+#   VCV <- vcalc(vi = var.eff.size, cluster = study, rho = 0.5, obs = obs, data = dat)
+#   mod_MLFE     <- rma.mv(yi = eff.size, V = VCV, method = "REML", test = "t",
+#                          dfs = "contain", data = dat)
+#   mod_MLFE_RVE <- robust(mod_MLFE, cluster = study, adjust = TRUE, clubSandwich = TRUE)
+# The paper's own re-analysis of the 448 meta-analyses uses the same two calls
+# (final_GLS_V5.Rmd:271 and :281; the CRVE call there omits `adjust`, which
+# `robust()` ignores on the clubSandwich path).
+#
+# WHAT `clubSandwich = TRUE` MEANS. Read directly out of metafor 5.0.1's
+# `robust.rma.mv` source rather than inferred from documentation: the defaults are
+#   vcov      = "CR2"
+#   coef_test = "Satterthwaite"      (and conf_test inherits coef_test)
+# so the specification is CR2 with Satterthwaite degrees of freedom. The tutorial
+# states the reason in a technical note: "CR2 correction performs better than CR1.
+# However, CR2 is not applicable to models with non-nested random effects ... In our
+# case, the model in the first step does not include random effects."
+#
+# EXTERNAL ANCHOR. `06_validate_yang2024_reference.R` runs this same code path on the
+# tutorial's own example data and reproduces every digit of the tutorial's rendered
+# output (step one beta 0.074, SE 0.018, CI [0.039, 0.108]; step two SE 0.053,
+# p 0.168, CI [-0.032, 0.18], df 1632 -> 52). The prose of the paper quotes slightly
+# different figures for the same example (beta 0.075, SE 0.054, t 1.375, p 0.175,
+# CI [-0.034, 0.184]); those come from the 448-model corpus pipeline, which applies
+# its own exclusions, not from the tutorial's data preparation. Both are CR2 with
+# Satterthwaite df and they agree to two decimals; the tutorial is the reproducible
+# one and is therefore the anchor used here.
+#
+# Returns NULL on failure so the caller can record a per-model status rather than
+# silently dropping a meta-analysis from the 48.
+fit_fe_vcv_cr2 <- function(y, vi, cluster, rho = RHO_DEFAULT) {
+  d <- data.frame(es = y, var = vi, study_ID = as.character(cluster),
+                  stringsAsFactors = FALSE)
+  d$obs <- seq_len(nrow(d))
+
+  V <- try(metafor::vcalc(vi = var, cluster = study_ID, obs = obs, rho = rho,
+                          data = d), silent = TRUE)
+  if (inherits(V, "try-error")) return(NULL)
+
+  # Third check on our own VCV builder: metafor's vcalc and build_vcv() must agree.
+  vcv_diff <- max(abs(as.matrix(V) - build_vcv(d$var, d$study_ID, rho)))
+
+  fit <- try(metafor::rma.mv(yi = es, V = V, method = "REML", test = "t",
+                             dfs = "contain", data = d, sparse = TRUE),
+             silent = TRUE)
+  if (inherits(fit, "try-error")) return(NULL)
+
+  # Canonical path: metafor's wrapper, exactly as the tutorial calls it.
+  rve <- try(metafor::robust(fit, cluster = d$study_ID, adjust = TRUE,
+                             clubSandwich = TRUE), silent = TRUE)
+  if (inherits(rve, "try-error")) return(NULL)
+
+  # Cross-check: clubSandwich called directly, bypassing metafor's wrapper. Same
+  # package, different call path - this catches argument-passing errors in the
+  # wrapper, which is the realistic failure mode. It is NOT a second derivation of
+  # the CR2 algebra itself; that is what the external anchor above is for.
+  ct <- try(clubSandwich::coef_test(fit, vcov = "CR2", cluster = d$study_ID,
+                                    test = "Satterthwaite"), silent = TRUE)
+  ci <- try(clubSandwich::conf_int(fit, vcov = "CR2", cluster = d$study_ID,
+                                   test = "Satterthwaite"), silent = TRUE)
+  if (inherits(ct, "try-error") || inherits(ci, "try-error")) return(NULL)
+
+  list(
+    beta = as.numeric(fit$b[1]), se_cr2 = as.numeric(rve$se[1]),
+    df_satt = as.numeric(rve$ddf[1]), pval = as.numeric(rve$pval[1]),
+    ci_lb = as.numeric(rve$ci.lb[1]), ci_ub = as.numeric(rve$ci.ub[1]),
+    se_working = as.numeric(fit$se[1]),
+    vcv_max_abs_diff = vcv_diff,
+    wrapper_max_abs_diff = max(abs(c(rve$se[1] - ct$SE, rve$ddf[1] - ct$df_Satt,
+                                     rve$ci.lb[1] - ci$CI_L, rve$ci.ub[1] - ci$CI_U)))
+  )
+}
+
+# UWLS, matching the source's OWN UWLS specification, which differs from its
+# FE + VCV specification and must not be copied across from it. In
+# final_GLS_V5.Rmd:402 and :451 the carried-forward objects are
+#   lm(eff.size ~ 1, weights = 1/var.eff.size)
+#   coef_test(mod, vcov = "CR2", cluster = study, test = "naive-t",
+#             target = var.eff.size)
+# i.e. CR2 with naive-t degrees of freedom and an explicit `target` working variance,
+# not Satterthwaite. (Satterthwaite variants appear at :491 and :497 as exploratory
+# code, one annotated "too conservative", and are not the objects used downstream.)
+# UWLS is supplementary here, so it follows its source specification rather than
+# being forced into the FE + VCV one.
+fit_uwls_cr2 <- function(y, vi, cluster) {
+  d <- data.frame(es = y, var = vi, study_ID = as.character(cluster),
+                  stringsAsFactors = FALSE)
+  m <- try(stats::lm(es ~ 1, weights = 1 / var, data = d), silent = TRUE)
+  if (inherits(m, "try-error")) return(NULL)
+  ct <- try(clubSandwich::coef_test(m, vcov = "CR2", cluster = d$study_ID,
+                                    test = "naive-t", target = d$var), silent = TRUE)
+  ci <- try(clubSandwich::conf_int(m, vcov = "CR2", cluster = d$study_ID,
+                                   test = "naive-t", target = d$var), silent = TRUE)
+  if (inherits(ct, "try-error") || inherits(ci, "try-error")) return(NULL)
+  list(beta = as.numeric(stats::coef(m)[[1]]), se_cr2 = as.numeric(ct$SE),
+       df = as.numeric(ct$df_t), pval = as.numeric(ct$p_t),
+       ci_lb = as.numeric(ci$CI_L), ci_ub = as.numeric(ci$CI_U))
 }
 
 # --- aggregation ------------------------------------------------------------
