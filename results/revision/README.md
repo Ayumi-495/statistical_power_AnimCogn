@@ -160,6 +160,35 @@ Substituting it lowers meta-analysis-level power from 0.479 to **0.306** and rai
 Type M from 1.53 to 1.65. That row is in the table as
 `role = "diagnostic_critical_value"` and must not be quoted as a result.
 
+**The submitted analysis already declines to use its fitting model's own reference
+distribution.** All 48 intercept-only models are `rma.mv(..., test = "t")`, and their
+degrees of freedom are exactly `k − 1` (verified for all 48; range 3–1296), giving
+`qt(0.975, df)` a median of 2.028 and a maximum of 3.182. The metric uses 1.96 anyway.
+So "use the model's own test" is not an obligation created by the 2024 estimator — it
+is one the original metric already declines, and applying it consistently would move
+every row:
+
+| specification | z = 1.96 | each model's own t |
+|---|---|---|
+| uncorrected | 0.82207 | 0.81138 |
+| Yang-2023 gated `beta0_c3` | 0.39038 | 0.37959 |
+| FE + VCV, own CR2 SE | 0.47895 | 0.30578 |
+
+Two derivations: R, and an independent re-implementation in pure Python (normal CDF
+from `erf`, t quantiles from a hand-coded incomplete beta plus bisection, weighted
+geometric mean without `lm()`); all values agree to five decimals.
+
+**Using z for the Yang-2023 rows and Satterthwaite for the FE + VCV row is the one
+combination that is not defensible**, and it is what a casual reading of "pair the
+estimator with its own uncertainty" produces. A further reason to prefer z: the
+Satterthwaite df is a *dependence* quantity — it tracks the effective number of
+independent study clusters under the FE + VCV weighting (Spearman 0.9997 across the 48
+models, sitting about 9% below it), whereas `k − 1` ignores clustering entirely. The two
+df notions are not commensurable, so switching one row alone would make that row carry
+a pseudo-replication penalty no other row carries.
+
+**This choice is not settled** and is open item 6 below.
+
 ### Meta-analysis-level power under each pairing
 
 | pairing | `role` | power | Type M | Type S |
@@ -184,6 +213,41 @@ Its power falls 0.200 → 0.135. The `k`-weighted mean log power ratio is −9.3
 reproduces 0.529 → 0.479 exactly. So this difference is one large dataset, not a
 general property of the correction, and it is a concrete instance of the open question
 in section 6 about how much weight `k`-weighting places on individual models.
+
+### How much of the meta-analysis-level summary is one dataset
+
+Separate question from the CRVE and critical-value choices, and larger than either.
+`MA09` holds **1,297 of 5,740 effect sizes (22.6%)** and therefore 22.6% of the
+`k`-weight. Dropping it:
+
+| specification | all 48 | dropping MA09 | change |
+|---|---|---|---|
+| uncorrected, z | 0.82207 | 0.77639 | −5.6% |
+| Yang-2023 gated `beta0_c3`, z | 0.39038 | 0.38060 | −2.5% |
+| **FE + VCV, own CR2 SE, z** | **0.47895** | **0.69313** | **+44.7%** |
+| FE + VCV, own CR2 SE, Satterthwaite | 0.30578 | 0.59967 | +96.1% |
+
+So the Yang-2023 summary is barely sensitive to `MA09` and the FE + VCV summary is
+dominated by it. **This is not an argument for excluding `MA09`.** It is a property of
+`lm(log(metric) ~ 1, weights = k)` over 48 units with very unequal `k`: the top 1, 5 and
+10 models hold 22.6%, 62.3% and 75.0% of all effect sizes. Weighting each
+meta-analysis equally instead changes the Yang-2023 summary by −36% and the FE + VCV
+summary by +11%, so **the weighting convention moves this quantity more than the choice
+of estimator does.** For the submitted specification the most influential single model
+is `MA26` (+0.076), not `MA09`.
+
+Why `MA09` behaves as it does under FE + VCV: its estimate is **−0.127** against
+`beta0` = **+0.219** — one of the six reversals — with a CR2 interval of
+[−0.538, +0.283]. Its CR2 standard error is **0.151** against a working standard error
+of **0.0025**, a 60-fold inflation, because **4.6 of its 126 nominal study clusters
+carry the weight** (one holds 44%, the top three 62%). Its FE + VCV power is 0.135. It
+is also the largest dataset, the only one affected by the `~` defect (section 4b), and
+the one whose `study_ID` values are opaque codes `CD001`–`CD126`, so the clustering
+cannot easily be checked against the source papers.
+
+Two derivations (R and the independent Python re-implementation described above).
+Bearing on open item 5: how prominently the meta-analysis-level results should be
+reported at all.
 
 **CR1 is retained as a diagnostic only** (`role = "diagnostic_crve_variant"`,
 `verification_status = "single_derivation"`). It is not the specification Yang et al.
@@ -474,6 +538,13 @@ anything in this directory:
    carries 23% of the effect sizes and hence 23% of the `k`-weight. A summary that one
    dataset can move by 9% is fragile independently of which estimator or CRVE variant
    is chosen.
+
+6. **The critical value defining the metric.** Whether `qnorm(0.975)` in
+   `power.ma_Shinichi()` was intended as part of the metric's definition, or was a
+   convenient default and power should instead reflect the test each model actually
+   performs. See section 3. The implementation currently holds z = 1.96 everywhere; if
+   the alternative is preferred it must apply to every row, including the Yang-2023
+   analysis, whose meta-analysis-level summary would become 0.380.
 
 Settled since this file was first written, and no longer open: whether Yang et al.
 (2024) becomes a reported sensitivity analysis (**yes**, FE + VCV, with UWLS
