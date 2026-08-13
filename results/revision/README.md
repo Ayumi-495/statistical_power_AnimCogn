@@ -34,6 +34,19 @@ infer them:
    evidence of an effect in the opposite direction — particularly since the confidence
    intervals of the reversed estimates include zero.
 5. **UWLS is supplementary** — `role = "supplementary"` — not co-primary with FE + VCV.
+6. **The critical value stays `z = 1.96` for power, Type M and Type S, in both the
+   Yang-2023 and the FE + VCV analyses.** This is Yang et al.'s own choice — their
+   published script defines `power.ma_Shinichi` with the identical `qnorm(1 - alpha/2)`
+   (`EcoEvo_PB_script.Rmd:46-48`), and `error_S` and `error_M` likewise — and it gives
+   both approaches the same decision rule, which is what makes them comparable. The
+   Methods must state it explicitly: these design metrics use a common normal-theory
+   two-sided 5% threshold rather than each fitted model's own inferential reference
+   distribution. The Satterthwaite alternative remains a labelled diagnostic only.
+7. **The `k`-weighted meta-analysis-level aggregate is a secondary descriptive
+   summary, not the headline.** The paper centres on the primary-study-level findings.
+   `MA09` is **not** excluded from anything; its influence is reported as a diagnostic
+   (`07_influence_loo.R`), alongside an equally weighted model-level summary and a
+   figure of all 48 model values (`08_model_level_figure.R`).
 
 Open items are in section 6.
 
@@ -112,7 +125,9 @@ of extrapolation; empirically the estimator still reverses sign in 6 of our 48 m
 | `04_revision_sensitivity_summaries.R` | aggregates power / Type M / Type S under each retained assumed effect, with provenance |
 | `05_make_revision_tables.R` | writes **`per_meta_analysis_estimates.csv`**, **`reversal_counts.csv`**, **`primary_level_sensitivity.csv`**, **`meta_analysis_level_sensitivity.csv`** |
 | `06_validate_yang2024_reference.R` | validates the CR2 implementation against the authors' published worked example; writes **`yang2024_reference_validation.csv`**. **Not in `run_all.R`** — it downloads a data file from another project's repository, and `run_all.R` must work offline. Re-run it after any change to the CR2 code path. |
-| `run_all.R` | runs 01–05 in order |
+| `07_influence_loo.R` | leave-one-out influence on the meta-analysis-level summaries, all 48 models × 4 specifications × 3 metrics; writes **`loo_influence.csv`** |
+| `08_model_level_figure.R` | the per-model values behind those summaries; writes **`model_level_metrics.csv`** and **`figures/model_level_metrics.{pdf,png}`** |
+| `run_all.R` | runs 01–05, 07, 08 in order (07 and 08 depend on 05) |
 
 `clubSandwich` is a hard requirement. `00_revision_functions.R` stops if it is absent
 rather than falling back to the hand-written CR1 sandwich, which is a different
@@ -246,8 +261,60 @@ the one whose `study_ID` values are opaque codes `CD001`–`CD126`, so the clust
 cannot easily be checked against the source papers.
 
 Two derivations (R and the independent Python re-implementation described above).
-Bearing on open item 5: how prominently the meta-analysis-level results should be
-reported at all.
+
+### Full leave-one-out, and the equally weighted summary
+
+Reporting the MA09 figure alone would invite the question of why that model was
+singled out, and the honest answer is that it is the largest. `loo_influence.csv` gives
+the **full leave-one-out** — all 48 models × 4 specifications × 3 metrics, 576 rows —
+so MA09 appears as the largest of 48 influence values rather than as a special case.
+Baselines are checked against `meta_analysis_level_sensitivity.csv` to 8.9e-16 (a
+weighted mean of logs against the canonical `lm()` route, so a second derivation).
+
+For power, the three largest influences on each summary:
+
+| | most influential | second | third | median \|change\| | n > 10% | n > 20% |
+|---|---|---|---|---|---|---|
+| Yang-2023 (primary) | MA26 **+19.5%** | MA31 −12.9% | MA08 −6.9% | 0.6% | 2 | 0 |
+| FE + VCV, own CR2 SE | MA09 **+44.7%** | MA31 −10.2% | MA08 −7.2% | 0.4% | 2 | 1 |
+
+So single-model leverage is not unique to the FE + VCV summary — the Yang-2023 summary
+has its own influential model in MA26 — but **MA09 is the only model anywhere in the
+table that moves a summary by more than 20%**, and the typical model moves either
+summary by well under 1%.
+
+`meta_analysis_level_sensitivity.csv` also carries an **equally weighted** summary
+(`weighting = "equal_per_meta_analysis"`, `role = "secondary_descriptive"`), giving each
+of the 48 meta-analyses equal say rather than each effect size. For power:
+
+| | `k`-weighted | equally weighted |
+|---|---|---|
+| uncorrected | 0.82207 | 0.56934 |
+| Yang-2023 (primary) | 0.39038 | **0.25047** |
+| FE + VCV, own CR2 SE | 0.47895 | **0.53083** |
+| UWLS | 0.38269 | 0.48799 |
+
+**This is a second descriptive summary, not a robustness check on the first**, and it
+does not simply confirm the `k`-weighted picture: the two weightings move the primary
+and the sensitivity analyses in **opposite** directions, so the gap between them goes
+from **+0.089** to **+0.280**. Equal weighting answers "what is the typical
+meta-analysis like?"; `k`-weighting answers "what is the typical effect-size estimate
+like?". Neither is the more correct one, which is itself part of the case for treating
+the meta-analysis level as descriptive.
+
+### The 48 model values
+
+`model_level_metrics.csv` (192 rows: 48 models × 4 specifications) holds the per-model
+power, Type M and Type S, with the assumed effect and standard error that produced
+each. `figures/model_level_metrics.pdf` plots them, ordered by `k` so that leverage
+reads top to bottom, with the `k`-weighted summaries drawn as rules so the gap between
+a summary and the models it summarises is visible rather than asserted. Design
+constraints are recorded at the top of `08_model_level_figure.R`; in particular the
+figure deliberately avoids the two defects of the submitted Figure 2 (a
+`scale_fill_gradient(limits = c(0, 20))` with no `oob`, censoring 11 tiles to grey that
+read as missing data, and a ramp running to white that hides the 19 models at
+power ≥ 0.99), and the script asserts that no plotted point falls outside its axis
+limits.
 
 **CR1 is retained as a diagnostic only** (`role = "diagnostic_crve_variant"`,
 `verification_status = "single_derivation"`). It is not the specification Yang et al.
@@ -515,7 +582,9 @@ Both are single-sourced and are recorded only in `docs/09_overshoot_investigatio
 ## 6. Methodological decisions still open
 
 These are recorded in `docs/07_final_audit_report.md` and are not resolved by
-anything in this directory:
+anything in this directory. Items 5 and 6 were open when this file was written and
+have since been settled; they are struck through rather than deleted so the reasoning
+behind them is not lost:
 
 1. **The magnitude-only gate**, whether to retain it. Note this is now narrower than it
    was: the reporting question above it is settled (interpretation, not arithmetic), but
@@ -533,18 +602,15 @@ anything in this directory:
    estimate itself. The lower confidence limit is negative under the uncorrected
    estimate, under a sign-preserving gate and under FE + VCV alike, so this is not a
    consequence of the correction choice.
-5. **How prominently to report the meta-analysis-level results at all.** Section 3
-   shows why this is live: the 0.479-versus-0.529 gap is almost entirely `MA09`, which
-   carries 23% of the effect sizes and hence 23% of the `k`-weight. A summary that one
-   dataset can move by 9% is fragile independently of which estimator or CRVE variant
-   is chosen.
+~~5. How prominently to report the meta-analysis-level results.~~ **Settled**:
+   a secondary descriptive summary, with the paper centred on the primary-study-level
+   findings, and MA09's influence reported as a diagnostic rather than excluded. See
+   the decisions list at the top and section 3.
 
-6. **The critical value defining the metric.** Whether `qnorm(0.975)` in
-   `power.ma_Shinichi()` was intended as part of the metric's definition, or was a
-   convenient default and power should instead reflect the test each model actually
-   performs. See section 3. The implementation currently holds z = 1.96 everywhere; if
-   the alternative is preferred it must apply to every row, including the Yang-2023
-   analysis, whose meta-analysis-level summary would become 0.380.
+~~6. The critical value defining the metric.~~ **Settled**: `z = 1.96` throughout, for
+   both the Yang-2023 and the FE + VCV analyses, stated explicitly in the Methods. It
+   is Yang et al.'s own choice (`EcoEvo_PB_script.Rmd:46-48`) and it gives both
+   approaches the same decision rule. See the decisions list at the top.
 
 Settled since this file was first written, and no longer open: whether Yang et al.
 (2024) becomes a reported sensitivity analysis (**yes**, FE + VCV, with UWLS

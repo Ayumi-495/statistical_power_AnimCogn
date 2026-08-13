@@ -14,10 +14,14 @@
 # Run it separately after any change to the CR2 code path:
 #   Rscript R/revision/06_validate_yang2024_reference.R
 #
+# Steps 07 and 08 must follow 05: 07 checks its baselines against the canonical
+# summaries, and 08 reads them to draw the reference rules.
+#
 # Total runtime is a few minutes, dominated by the rma.mv fits in steps 01 and 03.
 for (f in c("01_reproduce_original_analysis.R", "02_overshoot_diagnostics.R",
             "03_yang2024_bias_robust.R", "04_revision_sensitivity_summaries.R",
-            "05_make_revision_tables.R")) {
+            "05_make_revision_tables.R", "07_influence_loo.R",
+            "08_model_level_figure.R")) {
   message("\n>>> ", f)
   source(here::here("R", "revision", f))
 }

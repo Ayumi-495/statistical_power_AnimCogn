@@ -123,6 +123,36 @@ primary_rows <- purrr::list_rbind(lapply(seq_len(nrow(primary_specs)), function(
   }))
 }))
 
+# --- equally weighted meta-analysis-level summaries ---------------------------
+# Requested as a secondary descriptive summary alongside the k-weighted one, because
+# the k-weighted aggregate is highly sensitive to a single large meta-analysis (see
+# 07_influence_loo.R and results/revision/README.md section 3).
+#
+# `weights = 1` gives each of the 48 meta-analyses equal say, rather than each effect
+# size equal say. It answers a different question - "what is the typical meta-analysis
+# like?" rather than "what is the typical effect-size estimate like?" - so it is a
+# second descriptive summary, NOT a robustness check on the first. Note in particular
+# that it does not simply confirm the k-weighted picture: it moves the Yang-2023 and
+# FE + VCV summaries in OPPOSITE directions.
+eq_specs <- dplyr::filter(ma_specs, role %in%
+  c("reference_uncorrected", "primary", "reported_sensitivity", "supplementary"))
+
+eq_rows <- purrr::list_rbind(lapply(seq_len(nrow(eq_specs)), function(i) {
+  sp <- eq_specs[i, ]
+  purrr::list_rbind(lapply(METRICS, function(mt) {
+    v <- metric_fun[[mt]](sp$mu[[1]], sp$se[[1]], crit = sp$crit[[1]])
+    aggregate_ma(v, rep(1, length(v)), mt) |>
+      dplyr::mutate(metric = mt, effect_estimator = sp$effect_estimator,
+                    se_source = sp$se_source, se_method = sp$se_method,
+                    crit_value_method = sp$crit_value_method,
+                    role = "secondary_descriptive",
+                    aggregation = "meta_analysis_level",
+                    weighting = "equal_per_meta_analysis",
+                    verification_status = sp$verification_status, .before = 1)
+  }))
+}))
+ma_rows <- dplyr::bind_rows(ma_rows, eq_rows)
+
 saveRDS(list(ma = ma_rows, primary = primary_rows), file.path(REV_TMP, "summaries.rds"))
 message(sprintf("meta-analysis-level rows: %d | primary-study-level rows: %d",
                 nrow(ma_rows), nrow(primary_rows)))
@@ -147,3 +177,11 @@ message(sprintf("primary-level power | submitted %.5f | FE+VCV %.5f | UWLS %.5f 
   pick(primary_rows, "yang2024_FE_VCV", NA, "power"),
   pick(primary_rows, "yang2024_UWLS", NA, "power"),
   pick(primary_rows, "uncorrected_beta0", NA, "power")))
+
+eqp <- function(est) dplyr::filter(eq_rows, effect_estimator == est, metric == "power")$geometric_mean[1]
+message(sprintf("MA-level power, EQUAL weight per meta-analysis | submitted %.5f | FE+VCV own CR2 %.5f | UWLS %.5f | uncorrected %.5f",
+  eqp("yang2023_gated_beta0_c3"), eqp("yang2024_FE_VCV"), eqp("yang2024_UWLS"), eqp("uncorrected_beta0")))
+message(sprintf("  -> the primary/sensitivity gap is %+.5f k-weighted and %+.5f equally weighted: the two weightings move them in OPPOSITE directions",
+  pick(ma_rows, "yang2024_FE_VCV", "CR2_Satterthwaite", "power", "reported_sensitivity") -
+    pick(ma_rows, "yang2023_gated_beta0_c3", NA, "power"),
+  eqp("yang2024_FE_VCV") - eqp("yang2023_gated_beta0_c3")))
