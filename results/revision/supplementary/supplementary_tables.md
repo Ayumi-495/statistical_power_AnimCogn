@@ -43,45 +43,45 @@
 
 | level | assumed_effect | weighting | metric | n_unit | summary_estimate | ci | raw_median_iqr | offset_note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| All metrics | optimistic (95% CI limit farther from zero) | - | Statistical power | 5740 | 0.2806 | [0.2691, 0.2925] | 0.2247 [0.1334, 0.5118] |  |
-| All metrics | optimistic (95% CI limit farther from zero) | - | Type M error | 5740 | 2.0166 | [1.9650, 2.0696] | 2.1114 [1.3916, 2.9344] |  |
-| All metrics | optimistic (95% CI limit farther from zero) | - | Type S error | 5740 | 0.0106 | [0.0097, 0.0115] | 0.0035 [7.7e-05, 0.0193] | summary sensitive to the 0.025 offset |
-| SMD | small (d = 0.2) | - | Statistical power | 2835 | 0.0767 | [0.0754, 0.0780] | 0.0731 [0.0663, 0.0838] |  |
-| SMD | small (d = 0.2) | - | Type M error | 2835 | 5.3583 | [5.2530, 5.4656] | 5.3462 [4.4632, 6.3238] |  |
-| SMD | small (d = 0.2) | - | Type S error | 2835 | 0.1040 | [0.1003, 0.1079] | 0.1103 [0.0746, 0.1473] |  |
-| SMD | medium (d = 0.5) | - | Statistical power | 2835 | 0.2053 | [0.1994, 0.2113] | 0.2002 [0.1553, 0.2697] |  |
-| SMD | medium (d = 0.5) | - | Type M error | 2835 | 2.2807 | [2.2411, 2.3211] | 2.2560 [1.9114, 2.6412] |  |
-| SMD | medium (d = 0.5) | - | Type S error | 2835 | 0.0087 | [0.0081, 0.0093] | 0.0053 [0.0018, 0.0121] | summary sensitive to the 0.025 offset |
-| SMD | large (d = 0.8) | - | Statistical power | 2835 | 0.4144 | [0.4034, 0.4257] | 0.4304 [0.3235, 0.5761] |  |
-| SMD | large (d = 0.8) | - | Type M error | 2835 | 1.5519 | [1.5300, 1.5741] | 1.5115 [1.3159, 1.7399] |  |
-| SMD | large (d = 0.8) | - | Type S error | 2835 | 0.0012 | [0.00099, 0.0014] | 0.00021 [3.4e-05, 0.00083] | summary sensitive to the 0.025 offset |
-| Zr | small (r = 0.1) | - | Statistical power | 1303 | 0.0865 | [0.0827, 0.0905] | 0.0841 [0.0698, 0.1142] |  |
-| Zr | small (r = 0.1) | - | Type M error | 1303 | 4.8866 | [4.6100, 5.1797] | 4.4445 [3.3067, 5.7519] |  |
-| Zr | small (r = 0.1) | - | Type S error | 1303 | 0.0801 | [0.0720, 0.0887] | 0.0738 [0.0306, 0.1261] |  |
-| Zr | medium (r = 0.3) | - | Statistical power | 1303 | 0.3312 | [0.3056, 0.3589] | 0.3848 [0.2477, 0.6235] |  |
-| Zr | medium (r = 0.3) | - | Type M error | 1303 | 1.7868 | [1.7011, 1.8769] | 1.5959 [1.2678, 2.0009] |  |
-| Zr | medium (r = 0.3) | - | Type S error | 1303 | 0.0053 | [0.0038, 0.0068] | 0.00037 [1.8e-05, 0.0024] | summary sensitive to the 0.025 offset |
-| Zr | large (r = 0.5) | - | Statistical power | 1303 | 0.6531 | [0.6117, 0.6974] | 0.8409 [0.6198, 0.9811] |  |
-| Zr | large (r = 0.5) | - | Type M error | 1303 | 1.2469 | [1.2031, 1.2924] | 1.0975 [1.0117, 1.2713] |  |
-| Zr | large (r = 0.5) | - | Type S error | 1303 | 0.0011 | [0.0005, 0.0017] | 5.2e-07 [1e-09, 1.9e-05] | summary sensitive to the 0.025 offset |
-| lnRR | 10% change | - | Statistical power | 1602 | 0.1254 | [0.1133, 0.1389] | 0.0752 [0.0579, 0.1399] |  |
-| lnRR | 10% change | - | Type M error | 1602 | 4.2929 | [3.8921, 4.7349] | 5.1270 [2.8364, 9.0186] |  |
-| lnRR | 10% change | - | Type S error | 1602 | 0.0619 | [0.0529, 0.0721] | 0.1015 [0.0167, 0.2276] |  |
-| lnRR | 25% change | - | Statistical power | 1602 | 0.2726 | [0.2439, 0.3046] | 0.1935 [0.0939, 0.5294] |  |
-| lnRR | 25% change | - | Type M error | 1602 | 2.1824 | [2.0207, 2.3571] | 2.3019 [1.3695, 3.9467] |  |
-| lnRR | 25% change | - | Type S error | 1602 | 0.0173 | [0.0141, 0.0207] | 0.0059 [6.1e-05, 0.0539] | summary sensitive to the 0.025 offset |
-| lnRR | 50% change | - | Statistical power | 1602 | 0.4677 | [0.4267, 0.5127] | 0.5087 [0.1992, 0.9587] |  |
-| lnRR | 50% change | - | Type M error | 1602 | 1.5285 | [1.4455, 1.6164] | 1.3956 [1.0250, 2.2627] |  |
-| lnRR | 50% change | - | Type S error | 1602 | 0.0056 | [0.0043, 0.0070] | 8e-05 [8.1e-09, 0.0053] | summary sensitive to the 0.025 offset |
-| lnRR | optimistic (95% CI limit farther from zero) | - | Statistical power | 1602 | 0.2580 | [0.2308, 0.2883] | 0.2450 [0.1102, 0.6729] |  |
-| lnRR | optimistic (95% CI limit farther from zero) | - | Type M error | 1602 | 2.2923 | [2.1115, 2.4887] | 2.0125 [1.2227, 3.4078] |  |
-| lnRR | optimistic (95% CI limit farther from zero) | - | Type S error | 1602 | 0.0189 | [0.0155, 0.0227] | 0.0025 [9.3e-06, 0.0340] | summary sensitive to the 0.025 offset |
-| SMD | optimistic (95% CI limit farther from zero) | - | Statistical power | 2835 | 0.2773 | [0.2638, 0.2915] | 0.1869 [0.1322, 0.3705] |  |
-| SMD | optimistic (95% CI limit farther from zero) | - | Type M error | 2835 | 1.9822 | [1.9268, 2.0391] | 2.3500 [1.6259, 2.9535] |  |
-| SMD | optimistic (95% CI limit farther from zero) | - | Type S error | 2835 | 0.0091 | [0.0082, 0.0099] | 0.0066 [0.00045, 0.0198] | summary sensitive to the 0.025 offset |
-| Zr | optimistic (95% CI limit farther from zero) | - | Statistical power | 1303 | 0.3476 | [0.3138, 0.3850] | 0.3610 [0.2126, 0.5855] |  |
-| Zr | optimistic (95% CI limit farther from zero) | - | Type M error | 1303 | 1.7783 | [1.6697, 1.8940] | 1.6469 [1.3059, 2.1785] |  |
-| Zr | optimistic (95% CI limit farther from zero) | - | Type S error | 1303 | 0.0075 | [0.0056, 0.0096] | 0.00051 [3e-05, 0.0043] | summary sensitive to the 0.025 offset |
+| All metrics | optimistic (95% CI limit farther from zero) | - | Statistical power | 5740 | 0.2734 | [0.2617, 0.2855] | 0.2247 [0.1334, 0.5118] |  |
+| All metrics | optimistic (95% CI limit farther from zero) | - | Type M error | 5740 | 2.0341 | [1.9813, 2.0883] | 2.1114 [1.3916, 2.9344] |  |
+| All metrics | optimistic (95% CI limit farther from zero) | - | Type S error | 5740 | 0.0105 | [0.0096, 0.0114] | 0.0035 [7.7e-05, 0.0193] | summary sensitive to the 0.025 offset |
+| SMD | small (d = 0.2) | - | Statistical power | 2835 | 0.0759 | [0.0747, 0.0772] | 0.0731 [0.0663, 0.0838] |  |
+| SMD | small (d = 0.2) | - | Type M error | 2835 | 5.4227 | [5.3142, 5.5335] | 5.3462 [4.4632, 6.3238] |  |
+| SMD | small (d = 0.2) | - | Type S error | 2835 | 0.1064 | [0.1025, 0.1104] | 0.1103 [0.0746, 0.1473] |  |
+| SMD | medium (d = 0.5) | - | Statistical power | 2835 | 0.2017 | [0.1958, 0.2077] | 0.2002 [0.1553, 0.2697] |  |
+| SMD | medium (d = 0.5) | - | Type M error | 2835 | 2.3045 | [2.2634, 2.3464] | 2.2560 [1.9114, 2.6412] |  |
+| SMD | medium (d = 0.5) | - | Type S error | 2835 | 0.0090 | [0.0083, 0.0097] | 0.0053 [0.0018, 0.0121] | summary sensitive to the 0.025 offset |
+| SMD | large (d = 0.8) | - | Statistical power | 2835 | 0.4082 | [0.3970, 0.4197] | 0.4304 [0.3235, 0.5761] |  |
+| SMD | large (d = 0.8) | - | Type M error | 2835 | 1.5641 | [1.5412, 1.5874] | 1.5115 [1.3159, 1.7399] |  |
+| SMD | large (d = 0.8) | - | Type S error | 2835 | 0.0013 | [0.0010, 0.0015] | 0.00021 [3.4e-05, 0.00083] | summary sensitive to the 0.025 offset |
+| Zr | small (r = 0.1) | - | Statistical power | 1303 | 0.0860 | [0.0821, 0.0899] | 0.0841 [0.0698, 0.1142] |  |
+| Zr | small (r = 0.1) | - | Type M error | 1303 | 4.9197 | [4.6285, 5.2293] | 4.4445 [3.3067, 5.7519] |  |
+| Zr | small (r = 0.1) | - | Type S error | 1303 | 0.0809 | [0.0725, 0.0901] | 0.0738 [0.0306, 0.1261] |  |
+| Zr | medium (r = 0.3) | - | Statistical power | 1303 | 0.3287 | [0.3021, 0.3576] | 0.3848 [0.2477, 0.6235] |  |
+| Zr | medium (r = 0.3) | - | Type M error | 1303 | 1.7953 | [1.7044, 1.8911] | 1.5959 [1.2678, 2.0009] |  |
+| Zr | medium (r = 0.3) | - | Type S error | 1303 | 0.0054 | [0.0038, 0.0070] | 0.00037 [1.8e-05, 0.0024] | summary sensitive to the 0.025 offset |
+| Zr | large (r = 0.5) | - | Statistical power | 1303 | 0.6501 | [0.6067, 0.6966] | 0.8409 [0.6198, 0.9811] |  |
+| Zr | large (r = 0.5) | - | Type M error | 1303 | 1.2504 | [1.2038, 1.2989] | 1.0975 [1.0117, 1.2713] |  |
+| Zr | large (r = 0.5) | - | Type S error | 1303 | 0.0011 | [0.00049, 0.0018] | 5.2e-07 [1e-09, 1.9e-05] | summary sensitive to the 0.025 offset |
+| lnRR | 10% change | - | Statistical power | 1602 | 0.1151 | [0.1029, 0.1288] | 0.0752 [0.0579, 0.1399] |  |
+| lnRR | 10% change | - | Type M error | 1602 | 4.6029 | [4.1203, 5.1421] | 5.1270 [2.8364, 9.0186] |  |
+| lnRR | 10% change | - | Type S error | 1602 | 0.0690 | [0.0579, 0.0817] | 0.1015 [0.0167, 0.2276] |  |
+| lnRR | 25% change | - | Statistical power | 1602 | 0.2514 | [0.2213, 0.2855] | 0.1935 [0.0939, 0.5294] |  |
+| lnRR | 25% change | - | Type M error | 1602 | 2.2895 | [2.0966, 2.5001] | 2.3019 [1.3695, 3.9467] |  |
+| lnRR | 25% change | - | Type S error | 1602 | 0.0189 | [0.0151, 0.0230] | 0.0059 [6.1e-05, 0.0539] | summary sensitive to the 0.025 offset |
+| lnRR | 50% change | - | Statistical power | 1602 | 0.4437 | [0.3989, 0.4935] | 0.5087 [0.1992, 0.9587] |  |
+| lnRR | 50% change | - | Type M error | 1602 | 1.5719 | [1.4743, 1.6759] | 1.3956 [1.0250, 2.2627] |  |
+| lnRR | 50% change | - | Type S error | 1602 | 0.0060 | [0.0045, 0.0076] | 8e-05 [8.1e-09, 0.0053] | summary sensitive to the 0.025 offset |
+| lnRR | optimistic (95% CI limit farther from zero) | - | Statistical power | 1602 | 0.2831 | [0.2500, 0.3207] | 0.2450 [0.1102, 0.6729] |  |
+| lnRR | optimistic (95% CI limit farther from zero) | - | Type M error | 1602 | 2.1228 | [1.9454, 2.3164] | 2.0125 [1.2227, 3.4078] |  |
+| lnRR | optimistic (95% CI limit farther from zero) | - | Type S error | 1602 | 0.0156 | [0.0123, 0.0192] | 0.0025 [9.3e-06, 0.0340] | summary sensitive to the 0.025 offset |
+| SMD | optimistic (95% CI limit farther from zero) | - | Statistical power | 2835 | 0.2633 | [0.2500, 0.2774] | 0.1869 [0.1322, 0.3705] |  |
+| SMD | optimistic (95% CI limit farther from zero) | - | Type M error | 2835 | 2.0403 | [1.9808, 2.1015] | 2.3500 [1.6259, 2.9535] |  |
+| SMD | optimistic (95% CI limit farther from zero) | - | Type S error | 2835 | 0.0098 | [0.0089, 0.0107] | 0.0066 [0.00045, 0.0198] | summary sensitive to the 0.025 offset |
+| Zr | optimistic (95% CI limit farther from zero) | - | Statistical power | 1303 | 0.3333 | [0.3004, 0.3698] | 0.3610 [0.2126, 0.5855] |  |
+| Zr | optimistic (95% CI limit farther from zero) | - | Type M error | 1303 | 1.8188 | [1.7043, 1.9409] | 1.6469 [1.3059, 2.1785] |  |
+| Zr | optimistic (95% CI limit farther from zero) | - | Type S error | 1303 | 0.0078 | [0.0058, 0.0101] | 0.00051 [3e-05, 0.0043] | summary sensitive to the 0.025 offset |
 
 # Table S2. Characteristics of the 28 included meta-analytical papers
 
