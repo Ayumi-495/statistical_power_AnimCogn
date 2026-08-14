@@ -101,6 +101,12 @@ panel <- function(mt, title, yscale, ylab) {
   dd <- dplyr::filter(d, metric == mt); ss <- dplyr::filter(sm, metric == mt)
   ggplot(dd, aes(effect, value, fill = effect, colour = effect)) +
     geom_violin(width = 0.85, linewidth = 0.25, alpha = 0.30, colour = NA, scale = "width") +
+    # Points are shown at BOTH levels. The two layers differ only in size and opacity,
+    # because one holds 5,740 values and the other 48. Showing the primary-study points
+    # matters: the violin's kernel density smooths across the hard bounds, so the real
+    # accumulation of estimates at power = 1 and at Type S = 0.5 is otherwise invisible.
+    geom_jitter(data = dplyr::filter(dd, level == "Primary-study level"),
+                width = 0.34, height = 0, size = 0.13, alpha = 0.09, stroke = 0) +
     geom_jitter(data = dplyr::filter(dd, level == "Meta-analysis level"),
                 width = 0.13, height = 0, size = 0.7, alpha = 0.55, stroke = 0) +
     geom_crossbar(data = ss, aes(x = effect, y = value, ymin = value, ymax = value),
@@ -137,10 +143,12 @@ g <- patchwork::wrap_plots(g1, g2, g3, ncol = 1) +
   patchwork::plot_annotation(
     caption = paste0(
       "Violins show the distribution of all 5,740 effect-size estimates (primary-study level) or all 48 meta-analysis models (meta-analysis level).\n",
-      "Points are the 48 models. Horizontal bars are the summaries reported in the text. Type S is bounded above at 0.5, the value taken when the\n",
+      "Points are individual estimates, drawn smaller and fainter at the primary-study level because there are 5,740 of them against 48.\n",
+      "Horizontal bars are the summaries reported in the text. Type S is bounded above at 0.5, the value taken when the\n",
       "assumed effect is zero; it is not shown on a log scale because it reaches 1e-90. Type M is unbounded as the assumed effect approaches zero."),
-    theme = theme(plot.caption = element_text(size = 6, hjust = 0, colour = "grey30"))) &
-  theme(legend.position = "bottom")
+    theme = theme(plot.caption = element_text(size = 6, hjust = 0, colour = "grey30")))
+# No legend anywhere: the three groups are named directly on the x axis, so a colour key
+# would be redundant and, applied per panel, would repeat itself three times.
 
 # --- checks that would have caught the submitted figure's defects -------------
 oob <- sum(dplyr::filter(d, metric == "power")$value > 1 | dplyr::filter(d, metric == "power")$value < 0) +
