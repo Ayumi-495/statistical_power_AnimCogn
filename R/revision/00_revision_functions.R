@@ -309,17 +309,36 @@ fit_uwls_cr2 <- function(y, vi, cluster) {
 TYPE_S_OFFSET <- 0.025
 offset_for    <- function(metric) if (metric == "type_S") TYPE_S_OFFSET else 0
 
+# THE OFFSET CAN DOMINATE THE TYPE S SUMMARY. `log(x + 0.025)` is fitted because Type S
+# can be exactly zero, but when the Type S values themselves are far below 0.025 the
+# log is dominated by the constant and the back-transformed "summary" is an artefact of
+# the offset rather than a summary of the data. This bites hardest under large assumed
+# effects, where Type S tends to zero: in one scenario the model-based value is 0.00115
+# against a raw median of 5.2e-07, a factor of 2,210.
+#
+# Every aggregated row therefore also carries the raw median and quartiles, and a flag.
+# WHERE `summary_dominated_by_offset` IS TRUE, REPORT THE RAW QUANTILES, NOT
+# `geometric_mean`. The model-based value is retained only so the two can be compared.
+offset_flag <- function(values, metric, est) {
+  metric == "type_S" && stats::median(values) < TYPE_S_OFFSET
+}
+
 aggregate_ma <- function(values, k, metric) {
   off <- offset_for(metric)
   fit <- stats::lm(log(values + off) ~ 1, weights = k)
   ci  <- stats::confint(fit)
+  est <- exp(stats::coef(fit)[[1]]) - off
   tibble::tibble(
-    geometric_mean = exp(stats::coef(fit)[[1]]) - off,
+    geometric_mean = est,
     ci_lower = exp(ci[1]) - off, ci_upper = exp(ci[2]) - off,
-    raw_median = stats::median(values), raw_min = min(values), raw_max = max(values),
+    raw_median = stats::median(values),
+    raw_q1 = unname(stats::quantile(values, 0.25)),
+    raw_q3 = unname(stats::quantile(values, 0.75)),
+    raw_min = min(values), raw_max = max(values),
     arithmetic_mean_unweighted = mean(values),
     arithmetic_mean_kweighted  = sum(values * k) / sum(k),
-    n_unit = length(values)
+    n_unit = length(values),
+    summary_dominated_by_offset = offset_flag(values, metric, est)
   )
 }
 
@@ -329,15 +348,35 @@ aggregate_primary <- function(values, study_id, metric) {
   fit <- lme4::lmer(y ~ 1 + (1 | study_ID), data = d)
   ci  <- stats::confint(fit, method = "Wald")
   ci  <- ci[rownames(ci) == "(Intercept)", ]
+  est <- exp(lme4::fixef(fit)[[1]]) - off
   tibble::tibble(
-    geometric_mean = exp(lme4::fixef(fit)[[1]]) - off,
+    geometric_mean = est,
     ci_lower = exp(ci[[1]]) - off, ci_upper = exp(ci[[2]]) - off,
-    raw_median = stats::median(values), raw_min = min(values), raw_max = max(values),
+    raw_median = stats::median(values),
+    raw_q1 = unname(stats::quantile(values, 0.25)),
+    raw_q3 = unname(stats::quantile(values, 0.75)),
+    raw_min = min(values), raw_max = max(values),
     arithmetic_mean_unweighted = mean(values),
     arithmetic_mean_kweighted  = NA_real_,   # the primary-level model is unweighted
-    n_unit = length(values)
+    n_unit = length(values),
+    summary_dominated_by_offset = offset_flag(values, metric, est)
   )
 }
+
+# --- clustering unit at the primary-study level -------------------------------
+# `study_ID` is the raw identifier from each source dataset, so the same string can
+# occur in more than one meta-analysis. 130 identifiers (author-year strings such as
+# `Wu_etal_2015`) appear in 2-4 different meta-analyses and cover 1,098 of the 5,740
+# rows (19.1%), so `~1|study_ID` silently merges rows from different meta-analyses
+# into one cluster. The merging is also inconsistent: MA09's opaque `CD001`-`CD126`
+# codes can never match anything, and format drift prevents genuine matches elsewhere.
+# So the raw identifier is neither "study within meta-analysis" nor "primary study".
+#
+# `namespaced_study_id()` prefixes the meta-analysis, giving a strictly
+# within-meta-analysis clustering unit. Both are reported; see
+# results/revision/README.md. Note this also means 5,740 is a count of effect-size
+# estimates, not of distinct primary studies.
+namespaced_study_id <- function(ma_model, study_id) paste(ma_model, study_id, sep = "::")
 
 write_revision <- function(x, filename) {
   p <- file.path(REV_OUT, filename)

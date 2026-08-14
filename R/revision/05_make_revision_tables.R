@@ -95,9 +95,14 @@ rev_counts <- tibble::tribble(
 write_revision(rev_counts, "reversal_counts.csv")
 
 # --- 3 and 4. sensitivity summaries -----------------------------------------
+# `summary_dominated_by_offset` MUST travel with the summary. Where it is TRUE the
+# model-based `geometric_mean` for Type S is an artefact of the 0.025 offset rather
+# than a summary of the data, and `raw_median` / `raw_q1` / `raw_q3` are what should
+# be reported. See the note above `offset_flag()` in 00_revision_functions.R.
 col_order <- c("aggregation", "role", "effect_estimator", "se_source", "se_method",
                "crit_value_method", "weighting", "metric",
-               "geometric_mean", "ci_lower", "ci_upper", "raw_median", "raw_min", "raw_max",
+               "geometric_mean", "ci_lower", "ci_upper", "summary_dominated_by_offset",
+               "raw_median", "raw_q1", "raw_q3", "raw_min", "raw_max",
                "arithmetic_mean_unweighted", "arithmetic_mean_kweighted",
                "n_unit", "verification_status")
 write_revision(dplyr::select(S$primary, dplyr::all_of(col_order)), "primary_level_sensitivity.csv")

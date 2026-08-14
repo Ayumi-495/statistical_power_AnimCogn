@@ -21,7 +21,7 @@
 for (f in c("01_reproduce_original_analysis.R", "02_overshoot_diagnostics.R",
             "03_yang2024_bias_robust.R", "04_revision_sensitivity_summaries.R",
             "05_make_revision_tables.R", "07_influence_loo.R",
-            "08_model_level_figure.R")) {
+            "08_model_level_figure.R", "09_assumed_effect_scenarios.R"))  {
   message("\n>>> ", f)
   source(here::here("R", "revision", f))
 }
