@@ -52,6 +52,10 @@ EFFECTS <- tibble::tribble(
   "yang2024",    "Yang 2024 bias-robust", BR$FE_VCV_estimate, BR$FE_VCV_CRVE_SE_CR2
 )
 PAL <- setNames(c("#0072B2", "#D55E00", "#009E73"), EFFECTS$label)
+# Points use a darker shade of the same hue than the violin fill. With 5,740 values
+# crushed into the low end of the power axis, points drawn in the fill colour simply
+# dissolve into it; the contrast is what makes the density readable.
+PAL_PT <- setNames(c("#00436B", "#8F3E00", "#00614A"), EFFECTS$label)
 
 # --- the plotted values -------------------------------------------------------
 # meta-analysis level: one value per model (48). primary-study level: one value per
@@ -100,22 +104,22 @@ stopifnot(nrow(sm) == 18L)
 panel <- function(mt, title, yscale, ylab) {
   dd <- dplyr::filter(d, metric == mt); ss <- dplyr::filter(sm, metric == mt)
   ggplot(dd, aes(effect, value, fill = effect, colour = effect)) +
-    geom_violin(width = 0.85, linewidth = 0.25, alpha = 0.30, colour = NA, scale = "width") +
+    geom_violin(width = 0.85, linewidth = 0.25, alpha = 0.22, colour = NA, scale = "width") +
     # Points are shown at BOTH levels. The two layers differ only in size and opacity,
     # because one holds 5,740 values and the other 48. Showing the primary-study points
     # matters: the violin's kernel density smooths across the hard bounds, so the real
     # accumulation of estimates at power = 1 and at Type S = 0.5 is otherwise invisible.
     geom_jitter(data = dplyr::filter(dd, level == "Primary-study level"),
-                width = 0.34, height = 0, size = 0.13, alpha = 0.09, stroke = 0) +
+                width = 0.36, height = 0, size = 0.22, alpha = 0.16, stroke = 0) +
     geom_jitter(data = dplyr::filter(dd, level == "Meta-analysis level"),
-                width = 0.13, height = 0, size = 0.7, alpha = 0.55, stroke = 0) +
+                width = 0.13, height = 0, size = 0.85, alpha = 0.8, stroke = 0) +
     geom_crossbar(data = ss, aes(x = effect, y = value, ymin = value, ymax = value),
                   width = 0.7, linewidth = 0.45, colour = "grey15",
                   inherit.aes = FALSE) +
     facet_wrap(~ level, nrow = 1) +
     scale_fill_manual(values = PAL, name = NULL) +
     scale_x_discrete(labels = c("Uncorrected", "Yang 2023\ncorrected", "Yang 2024\nbias-robust")) +
-    scale_colour_manual(values = PAL, name = NULL) +
+    scale_colour_manual(values = PAL_PT, name = NULL) +
     yscale +
     labs(x = NULL, y = ylab, title = title) +
     theme_bw(base_size = 8) +
