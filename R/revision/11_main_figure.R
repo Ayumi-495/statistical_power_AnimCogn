@@ -159,18 +159,17 @@ g2 <- panel("type_M", "b. Type M error (exaggeration ratio)",
 g3 <- panel("type_S", "c. Type S error",
             scale_y_continuous(limits = c(0, 0.5), breaks = seq(0, 0.5, 0.125)), "Probability")
 
-g <- patchwork::wrap_plots(g1, g2, g3, ncol = 1) +
-  patchwork::plot_annotation(
-    caption = paste0(
-      "Violins show the distribution of all 5,740 effect-size estimates (primary-study level) or all 48 meta-analysis models (meta-analysis level).\n",
-      "Points are individual estimates, drawn smaller and fainter at the primary-study level because there are 5,740 of them against 48.\n",
-      "Horizontal bars show model-based summaries for power, Type M error and primary-study-level Type S error. For meta-analysis-level Type S\n",
-      "error, horizontal bars show raw medians and intervals show interquartile ranges; the corresponding model-based estimates are retained in\n",
-      "Table S1 for comparability. Type S error is bounded above at 0.5, the value taken when the assumed effect is zero, and is not shown on a\n",
-      "logarithmic scale because values can reach or approach zero. Type M error is unbounded as the assumed effect approaches zero."),
-    theme = theme(plot.caption = element_text(size = 6, hjust = 0, colour = "grey30")))
-# No legend anywhere: the three groups are named directly on the x axis, so a colour key
-# would be redundant and, applied per panel, would repeat itself three times.
+g <- patchwork::wrap_plots(g1, g2, g3, ncol = 1)
+# NO CAPTION IS DRAWN INTO THE IMAGE. An earlier version baked six lines of caption
+# text in with `plot_annotation(caption = ...)`. Journals typeset figure captions
+# separately from the artwork, so that text would have appeared twice in the
+# typeset article. The caption now lives only in the manuscript, and the wording
+# there is the authority; `docs/17_results_and_figure_text.md` holds the current
+# version. Anything the reader needs in order to decode the panels must therefore
+# be in the manuscript caption, not here.
+#
+# No legend anywhere either: the three groups are named directly on the x axis, so a
+# colour key would be redundant and, applied per panel, would repeat itself three times.
 
 # --- checks that would have caught the submitted figure's defects -------------
 oob <- sum(dplyr::filter(d, metric == "power")$value > 1 | dplyr::filter(d, metric == "power")$value < 0) +

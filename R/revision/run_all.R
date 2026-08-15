@@ -14,6 +14,11 @@
 # Run it separately after any change to the CR2 code path:
 #   Rscript R/revision/06_validate_yang2024_reference.R
 #
+# ALSO NOT included here: 17_verify_scenarios.py, the independent Python
+# re-derivation of every assumed-effect scenario row. Step 16 below writes the
+# inputs it needs; run it after any change to 09:
+#   python3 R/revision/17_verify_scenarios.py
+#
 # Steps 07 and 08 must follow 05: 07 checks its baselines against the canonical
 # summaries, and 08 reads them to draw the reference rules.
 #
@@ -23,7 +28,7 @@ for (f in c("01_reproduce_original_analysis.R", "02_overshoot_diagnostics.R",
             "05_make_revision_tables.R", "07_influence_loo.R",
             "08_model_level_figure.R", "09_assumed_effect_scenarios.R",
             "11_main_figure.R", "12_supplementary_tables.R", "14_leave_one_cluster_out.R",
-            "15_leave_one_paper_out.R",
+            "15_leave_one_paper_out.R", "16_export_scenario_inputs.R",
             "13_table_metadata.R"))  {
   message("\n>>> ", f)
   source(here::here("R", "revision", f))

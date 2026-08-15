@@ -73,10 +73,17 @@ meta-analysis as random effect 0.2226 / 0.1052.
 
 **Sensitivity to the assumed effect**, primary-study level:
 
-- optimistic (confidence limit farther from zero): power **0.2734**, Type M 2.02
-- external, SMD d = 0.2/0.5/0.8: 0.0759 / 0.2017 / 0.4082
-- external, Zr r = 0.1/0.3/0.5: 0.0860 / 0.3287 / 0.6501
-- external, lnRR 10/25/50%: 0.1151 / 0.2514 / 0.4437
+- optimistic (confidence limit farther from zero): power **0.2806**, Type M 2.0166
+- external, SMD d = 0.2/0.5/0.8: 0.0767 / 0.2053 / 0.4144
+- external, Zr r = 0.1/0.3/0.5: 0.0865 / 0.3312 / 0.6531
+- external, lnRR 10/25/50%: 0.1254 / 0.2726 / 0.4677
+
+> **Corrected 2026-08-15 (second pass).** This block previously carried 0.2734,
+> 0.0759/0.2017/0.4082, 0.0860/0.3287/0.6501 and 0.1151/0.2514/0.4437. Those were
+> computed with the *raw* study identifier and predate the clustering decision, so they
+> were inconsistent with Part A of the same section. `09_assumed_effect_scenarios.R`
+> prints the pair on every run: `power, optimistic  raw 0.27335 | prefixed 0.28057`.
+> Table S1 was always right; only this summary was stale. **Do not quote the old set.**
 
 **External assumed effects at the meta-analysis level** (Table S1 part C), the answer to
 the self-reference objection: against a conventionally medium effect the same 48 models
@@ -99,6 +106,14 @@ Table S1 transcription (max difference 4.9e-05, which is display rounding).
 ---
 
 ## 4. OPEN — must be settled before the manuscript text is final
+
+> **Update, 2026-08-15 second pass.** Ayumi revised the Methods in the `.docx` after this
+> section was written. **4.2 is now done** (¶0058 discloses the log scale). **4.1 is done
+> in the Methods and still open in the Results and Discussion.** **4.3 is untouched.**
+> **4.5 (scenario rows were single-derivation) is closed** — `16_export_scenario_inputs.R`
+> plus `17_verify_scenarios.py` re-derive all 123 rows in Python, agreement < 1e-6.
+> Replacement text for every remaining item is in **`docs/17_results_and_figure_text.md`**,
+> which supersedes the RESULTS / ABSTRACT / DISCUSSION / METHODS sections of `docs/15`.
 
 These emerged on 15 August and are **not** resolved.
 
