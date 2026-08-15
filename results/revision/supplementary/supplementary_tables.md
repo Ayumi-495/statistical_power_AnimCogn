@@ -63,7 +63,7 @@
 | Meta-analysis level | Yang 2024 bias-robust (UWLS) | Each meta-analysis weighted equally | Type M error |   48 | 1.5548 | [1.2730, 1.8989] | 1.0900 [1.0006, 1.9771] |  |
 | Meta-analysis level | Yang 2024 bias-robust (UWLS) | Each meta-analysis weighted equally | Type S error |   48 | 0.0088 | [0.0029, 0.0159] | 4.2e-07 [1.4e-12, 0.0023] | summary sensitive to the 0.025 offset |
 
-# Table S1, part B. Sensitivity to the assumed effect
+# Table S1, part B. Sensitivity to the assumed effect (primary-study level)
 
 | level | assumed_effect | weighting | metric | n_unit | summary_estimate | ci | raw_median_iqr | offset_note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -106,6 +106,65 @@
 | Zr | optimistic (95% CI limit farther from zero) | - | Statistical power | 1303 | 0.3476 | [0.3138, 0.3850] | 0.3610 [0.2126, 0.5855] |  |
 | Zr | optimistic (95% CI limit farther from zero) | - | Type M error | 1303 | 1.7783 | [1.6697, 1.8940] | 1.6469 [1.3059, 2.1785] |  |
 | Zr | optimistic (95% CI limit farther from zero) | - | Type S error | 1303 | 0.0075 | [0.0056, 0.0096] | 0.00051 [3e-05, 0.0043] | summary sensitive to the 0.025 offset |
+
+# Table S1, part C. External assumed effects (meta-analysis level)
+
+| level | assumed_effect | weighting | metric | n_unit | summary_estimate | ci | raw_median_iqr | offset_note |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| SMD | small (d = 0.2) | By effect-size count | Statistical power | 32 | 0.6757 | [0.5174, 0.8824] | 0.2121 [0.1002, 0.4735] |  |
+| SMD | small (d = 0.2) | Each meta-analysis weighted equally | Statistical power | 32 | 0.2198 | [0.1568, 0.3082] | 0.2121 [0.1002, 0.4735] |  |
+| SMD | small (d = 0.2) | By effect-size count | Type M error | 32 | 1.2440 | [1.0640, 1.4544] | 2.1820 [1.4687, 3.7059] |  |
+| SMD | small (d = 0.2) | Each meta-analysis weighted equally | Type M error | 32 | 2.3838 | [1.9152, 2.9670] | 2.1820 [1.4687, 3.7059] |  |
+| SMD | small (d = 0.2) | By effect-size count | Type S error | 32 | 0.0031 | [-0.00044, 0.0071] | 0.0043 [0.00021, 0.0447] | summary sensitive to the 0.025 offset |
+| SMD | small (d = 0.2) | Each meta-analysis weighted equally | Type S error | 32 | 0.0196 | [0.0099, 0.0319] | 0.0043 [0.00021, 0.0447] | summary sensitive to the 0.025 offset |
+| SMD | medium (d = 0.5) | By effect-size count | Statistical power | 32 | 0.8923 | [0.7840, 1.0155] | 0.8247 [0.3725, 0.9932] |  |
+| SMD | medium (d = 0.5) | Each meta-analysis weighted equally | Statistical power | 32 | 0.5656 | [0.4470, 0.7157] | 0.8247 [0.3725, 0.9932] |  |
+| SMD | medium (d = 0.5) | By effect-size count | Type M error | 32 | 1.0593 | [0.9918, 1.1315] | 1.1081 [1.0043, 1.6219] |  |
+| SMD | medium (d = 0.5) | Each meta-analysis weighted equally | Type M error | 32 | 1.3375 | [1.1824, 1.5129] | 1.1081 [1.0043, 1.6219] |  |
+| SMD | medium (d = 0.5) | By effect-size count | Type S error | 32 | 0.00024 | [-0.00034, 0.00083] | 7.4e-07 [1.2e-10, 0.00044] | summary sensitive to the 0.025 offset |
+| SMD | medium (d = 0.5) | Each meta-analysis weighted equally | Type S error | 32 | 0.0017 | [-8.1e-05, 0.0036] | 7.4e-07 [1.2e-10, 0.00044] | summary sensitive to the 0.025 offset |
+| SMD | large (d = 0.8) | By effect-size count | Statistical power | 32 | 0.9580 | [0.8980, 1.0220] | 0.9962 [0.7436, 1.0000] |  |
+| SMD | large (d = 0.8) | Each meta-analysis weighted equally | Statistical power | 32 | 0.7942 | [0.6871, 0.9180] | 0.9962 [0.7436, 1.0000] |  |
+| SMD | large (d = 0.8) | By effect-size count | Type M error | 32 | 1.0219 | [0.9896, 1.0552] | 1.0025 [1.0000, 1.1657] |  |
+| SMD | large (d = 0.8) | Each meta-analysis weighted equally | Type M error | 32 | 1.1235 | [1.0453, 1.2076] | 1.0025 [1.0000, 1.1657] |  |
+| SMD | large (d = 0.8) | By effect-size count | Type S error | 32 | 2.3e-05 | [-6.2e-05, 0.00011] | 2.3e-11 [2.5e-19, 3.3e-06] | summary sensitive to the 0.025 offset |
+| SMD | large (d = 0.8) | Each meta-analysis weighted equally | Type S error | 32 | 0.00022 | [-6.9e-05, 0.00051] | 2.3e-11 [2.5e-19, 3.3e-06] | summary sensitive to the 0.025 offset |
+| Zr | small (r = 0.1) | By effect-size count | Statistical power | 11 | 0.4813 | [0.3035, 0.7632] | 0.2792 [0.2462, 0.5639] |  |
+| Zr | small (r = 0.1) | Each meta-analysis weighted equally | Statistical power | 11 | 0.3354 | [0.2108, 0.5337] | 0.2792 [0.2462, 0.5639] |  |
+| Zr | small (r = 0.1) | By effect-size count | Type M error | 11 | 1.4476 | [1.1451, 1.8300] | 1.8768 [1.3325, 2.0169] |  |
+| Zr | small (r = 0.1) | Each meta-analysis weighted equally | Type M error | 11 | 1.7605 | [1.3538, 2.2893] | 1.8768 [1.3325, 2.0169] |  |
+| Zr | small (r = 0.1) | By effect-size count | Type S error | 11 | 0.0017 | [-0.00086, 0.0044] | 0.0015 [4.7e-05, 0.0027] | summary sensitive to the 0.025 offset |
+| Zr | small (r = 0.1) | Each meta-analysis weighted equally | Type S error | 11 | 0.0046 | [-0.0019, 0.0130] | 0.0015 [4.7e-05, 0.0027] | summary sensitive to the 0.025 offset |
+| Zr | medium (r = 0.3) | By effect-size count | Statistical power | 11 | 0.9744 | [0.9180, 1.0341] | 0.9886 [0.9716, 1.0000] |  |
+| Zr | medium (r = 0.3) | Each meta-analysis weighted equally | Statistical power | 11 | 0.9096 | [0.7682, 1.0771] | 0.9886 [0.9716, 1.0000] |  |
+| Zr | medium (r = 0.3) | By effect-size count | Type M error | 11 | 1.0142 | [0.9844, 1.0450] | 1.0071 [1.0000, 1.0173] |  |
+| Zr | medium (r = 0.3) | Each meta-analysis weighted equally | Type M error | 11 | 1.0491 | [0.9658, 1.1395] | 1.0071 [1.0000, 1.0173] |  |
+| Zr | medium (r = 0.3) | By effect-size count | Type S error | 11 | 1.8e-06 | [-1.2e-05, 1.6e-05] | 2.9e-10 [1e-16, 4.6e-09] | summary sensitive to the 0.025 offset |
+| Zr | medium (r = 0.3) | Each meta-analysis weighted equally | Type S error | 11 | 1.9e-05 | [-2.4e-05, 6.3e-05] | 2.9e-10 [1e-16, 4.6e-09] | summary sensitive to the 0.025 offset |
+| Zr | large (r = 0.5) | By effect-size count | Statistical power | 11 | 0.9990 | [0.9911, 1.0069] | 1.0000 [1.0000, 1.0000] |  |
+| Zr | large (r = 0.5) | Each meta-analysis weighted equally | Statistical power | 11 | 0.9889 | [0.9647, 1.0137] | 1.0000 [1.0000, 1.0000] |  |
+| Zr | large (r = 0.5) | By effect-size count | Type M error | 11 | 1.0006 | [0.9963, 1.0049] | 1.0000 [1.0000, 1.0000] |  |
+| Zr | large (r = 0.5) | Each meta-analysis weighted equally | Type M error | 11 | 1.0061 | [0.9925, 1.0199] | 1.0000 [1.0000, 1.0000] |  |
+| Zr | large (r = 0.5) | By effect-size count | Type S error | 11 | 1.5e-09 | [-9.7e-09, 1.3e-08] | 1.3e-21 [8.4e-39, 4.9e-18] | summary sensitive to the 0.025 offset |
+| Zr | large (r = 0.5) | Each meta-analysis weighted equally | Type S error | 11 | 1.6e-08 | [-1.9e-08, 5.1e-08] | 1.3e-21 [8.4e-39, 4.9e-18] | summary sensitive to the 0.025 offset |
+| lnRR | 10% change | By effect-size count | Statistical power |  5 | 0.6893 | [0.4950, 0.9598] | 0.6987 [0.6879, 0.7242] |  |
+| lnRR | 10% change | Each meta-analysis weighted equally | Statistical power |  5 | 0.5277 | [0.1944, 1.4321] | 0.6987 [0.6879, 0.7242] |  |
+| lnRR | 10% change | By effect-size count | Type M error |  5 | 1.2110 | [1.0124, 1.4486] | 1.2010 [1.1806, 1.2100] |  |
+| lnRR | 10% change | Each meta-analysis weighted equally | Type M error |  5 | 1.4038 | [0.8172, 2.4114] | 1.2010 [1.1806, 1.2100] |  |
+| lnRR | 10% change | By effect-size count | Type S error |  5 | 0.0003 | [-0.0025, 0.0035] | 6.4e-06 [4.4e-06, 7.5e-06] | summary sensitive to the 0.025 offset |
+| lnRR | 10% change | Each meta-analysis weighted equally | Type S error |  5 | 0.0034 | [-0.0051, 0.0154] | 6.4e-06 [4.4e-06, 7.5e-06] | summary sensitive to the 0.025 offset |
+| lnRR | 25% change | By effect-size count | Statistical power |  5 | 0.9864 | [0.8584, 1.1336] | 0.9999 [0.9999, 1.0000] |  |
+| lnRR | 25% change | Each meta-analysis weighted equally | Statistical power |  5 | 0.8605 | [0.5670, 1.3059] | 0.9999 [0.9999, 1.0000] |  |
+| lnRR | 25% change | By effect-size count | Type M error |  5 | 1.0067 | [0.9403, 1.0779] | 1.0000 [1.0000, 1.0001] |  |
+| lnRR | 25% change | Each meta-analysis weighted equally | Type M error |  5 | 1.0767 | [0.8771, 1.3216] | 1.0000 [1.0000, 1.0001] |  |
+| lnRR | 25% change | By effect-size count | Type S error |  5 | 2.3e-06 | [-2.1e-05, 2.6e-05] | 4e-15 [9.9e-16, 7.1e-15] | summary sensitive to the 0.025 offset |
+| lnRR | 25% change | Each meta-analysis weighted equally | Type S error |  5 | 2.5e-05 | [-4.5e-05, 9.5e-05] | 4e-15 [9.9e-16, 7.1e-15] | summary sensitive to the 0.025 offset |
+| lnRR | 50% change | By effect-size count | Statistical power |  5 | 0.9987 | [0.9853, 1.0123] | 1.0000 [1.0000, 1.0000] |  |
+| lnRR | 50% change | Each meta-analysis weighted equally | Statistical power |  5 | 0.9855 | [0.9463, 1.0263] | 1.0000 [1.0000, 1.0000] |  |
+| lnRR | 50% change | By effect-size count | Type M error |  5 | 1.0008 | [0.9931, 1.0085] | 1.0000 [1.0000, 1.0000] |  |
+| lnRR | 50% change | Each meta-analysis weighted equally | Type M error |  5 | 1.0083 | [0.9854, 1.0318] | 1.0000 [1.0000, 1.0000] |  |
+| lnRR | 50% change | By effect-size count | Type S error |  5 | 6.8e-10 | [-6.2e-09, 7.6e-09] | 3.2e-36 [5.5e-38, 1.6e-35] | summary sensitive to the 0.025 offset |
+| lnRR | 50% change | Each meta-analysis weighted equally | Type S error |  5 | 7.5e-09 | [-1.3e-08, 2.8e-08] | 3.2e-36 [5.5e-38, 1.6e-35] | summary sensitive to the 0.025 offset |
 
 # Table S2. Characteristics of the 28 included meta-analytical papers
 

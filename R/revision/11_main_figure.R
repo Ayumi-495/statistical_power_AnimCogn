@@ -101,7 +101,16 @@ sm <- dplyr::bind_rows(
                                   reported_sensitivity = "Yang 2024 bias-robust"),
                     levels = EFFECTS$label),
     metric = factor(metric, levels = levels(d$metric)),
-    value = geometric_mean)
+    value = geometric_mean, raw_median, raw_q1, raw_q3) |>
+  # Type S at the meta-analysis level is summarised by the median and quartiles, because
+  # the log-scale model needs an offset of 0.025 that exceeds most of the observed
+  # values there. Every other cell keeps the model-based summary. This mirrors what the
+  # text reports, so the bar on the figure is always the number in the sentence.
+  dplyr::mutate(
+    use_raw = metric == "type_S" & level == "Meta-analysis level",
+    value = ifelse(use_raw, raw_median, value),
+    lo    = ifelse(use_raw, raw_q1, NA_real_),
+    hi    = ifelse(use_raw, raw_q3, NA_real_))
 stopifnot(nrow(sm) == 18L)
 
 # --- panels -------------------------------------------------------------------
@@ -117,6 +126,9 @@ panel <- function(mt, title, yscale, ylab) {
                 width = 0.36, height = 0, size = 0.22, alpha = 0.16, stroke = 0) +
     geom_jitter(data = dplyr::filter(dd, level == "Meta-analysis level"),
                 width = 0.13, height = 0, size = 0.85, alpha = 0.8, stroke = 0) +
+    geom_linerange(data = dplyr::filter(ss, !is.na(lo)),
+                   aes(x = effect, ymin = lo, ymax = hi),
+                   linewidth = 0.35, colour = "grey15", inherit.aes = FALSE) +
     geom_crossbar(data = ss, aes(x = effect, y = value, ymin = value, ymax = value),
                   width = 0.7, linewidth = 0.45, colour = "grey15",
                   inherit.aes = FALSE) +
@@ -152,8 +164,10 @@ g <- patchwork::wrap_plots(g1, g2, g3, ncol = 1) +
     caption = paste0(
       "Violins show the distribution of all 5,740 effect-size estimates (primary-study level) or all 48 meta-analysis models (meta-analysis level).\n",
       "Points are individual estimates, drawn smaller and fainter at the primary-study level because there are 5,740 of them against 48.\n",
-      "Horizontal bars are the summaries reported in the text. Type S is bounded above at 0.5, the value taken when the\n",
-      "assumed effect is zero; it is not shown on a log scale because it reaches 1e-90. Type M is unbounded as the assumed effect approaches zero."),
+      "Horizontal bars show model-based summaries for power, Type M error and primary-study-level Type S error. For meta-analysis-level Type S\n",
+      "error, horizontal bars show raw medians and intervals show interquartile ranges; the corresponding model-based estimates are retained in\n",
+      "Table S1 for comparability. Type S error is bounded above at 0.5, the value taken when the assumed effect is zero, and is not shown on a\n",
+      "logarithmic scale because values can reach or approach zero. Type M error is unbounded as the assumed effect approaches zero."),
     theme = theme(plot.caption = element_text(size = 6, hjust = 0, colour = "grey30")))
 # No legend anywhere: the three groups are named directly on the x axis, so a colour key
 # would be redundant and, applied per panel, would repeat itself three times.

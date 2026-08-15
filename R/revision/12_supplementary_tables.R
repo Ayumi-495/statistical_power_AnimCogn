@@ -58,7 +58,10 @@ core <- dplyr::bind_rows(
     metric, n_unit, geometric_mean, ci_lower, ci_upper,
     raw_median, raw_q1, raw_q3, summary_dominated_by_offset)
 
-scen <- readr::read_csv(file.path(REV_OUT, "assumed_effect_scenarios.csv"), show_col_types = FALSE) |>
+sc_all <- readr::read_csv(file.path(REV_OUT, "assumed_effect_scenarios.csv"),
+                          show_col_types = FALSE)
+
+scen <- sc_all |>
   dplyr::filter(aggregation == "primary_study_level",
                 scenario_family %in% c("optimistic", "external"),
                 grouping != "all metrics" | scenario_family == "optimistic") |>
@@ -69,7 +72,23 @@ scen <- readr::read_csv(file.path(REV_OUT, "assumed_effect_scenarios.csv"), show
     metric, n_unit, geometric_mean, ci_lower, ci_upper,
     raw_median, raw_q1, raw_q3, summary_dominated_by_offset)
 
-S1 <- dplyr::bind_rows(core, scen) |>
+# Part C. The externally specified assumed effects at the META-ANALYSIS level. This is
+# the comparison Reviewer 2 asks for: what these same models could detect when the
+# assumed effect does not come from the models themselves. It was previously computed
+# but filtered out of the table.
+scen_ma <- sc_all |>
+  dplyr::filter(aggregation == "meta_analysis_level", scenario_family == "external") |>
+  dplyr::transmute(
+    part = "C. Externally specified assumed effects (meta-analysis level)",
+    level = grouping, assumed_effect = scenario,
+    weighting = dplyr::recode(weighting,
+      k_effect_sizes          = "By effect-size count",
+      equal_per_meta_analysis = "Each meta-analysis weighted equally",
+      .default = NA_character_),
+    metric, n_unit, geometric_mean, ci_lower, ci_upper,
+    raw_median, raw_q1, raw_q3, summary_dominated_by_offset)
+
+S1 <- dplyr::bind_rows(core, scen, scen_ma) |>
   dplyr::mutate(
     metric = dplyr::recode(metric, power = "Statistical power",
                            type_M = "Type M error", type_S = "Type S error"),
@@ -138,8 +157,10 @@ md <- function(d) {
 }
 writeLines(c("# Table S1. Reported metrics", "",
              md(dplyr::filter(S1, part == "A. Reported results") |> dplyr::select(-part)), "",
-             "# Table S1, part B. Sensitivity to the assumed effect", "",
-             md(dplyr::filter(S1, part != "A. Reported results") |> dplyr::select(-part)), "",
+             "# Table S1, part B. Sensitivity to the assumed effect (primary-study level)", "",
+             md(dplyr::filter(S1, startsWith(part, "B.")) |> dplyr::select(-part)), "",
+             "# Table S1, part C. External assumed effects (meta-analysis level)", "",
+             md(dplyr::filter(S1, startsWith(part, "C.")) |> dplyr::select(-part)), "",
              "# Table S2. Characteristics of the 28 included meta-analytical papers", "",
              md(S2)),
            file.path(SUP, "supplementary_tables.md"))
