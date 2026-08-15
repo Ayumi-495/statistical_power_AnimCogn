@@ -2,42 +2,42 @@
 
 | level | assumed_effect | weighting | metric | n_unit | summary_estimate | ci | raw_median_iqr | offset_note |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Primary-study level | Uncorrected pooled mean | unweighted_per_effect_size | Statistical power | 5740 | 0.1735 | [0.1664, 0.1810] | 0.1358 [0.0919, 0.2614] |  |
-| Primary-study level | Uncorrected pooled mean | Equal per meta-analysis | Statistical power | 5740 | 0.2237 | [0.2152, 0.2326] | 0.1358 [0.0919, 0.2614] |  |
-| Primary-study level | Uncorrected pooled mean | meta_analysis_random_effect | Statistical power | 5740 | 0.2226 | [0.1733, 0.2861] | 0.1358 [0.0919, 0.2614] |  |
-| Primary-study level | Uncorrected pooled mean | unweighted_per_effect_size | Type M error | 5740 | 2.8913 | [2.7947, 2.9913] | 2.8974 [1.9437, 4.0342] |  |
-| Primary-study level | Uncorrected pooled mean | Equal per meta-analysis | Type M error | 5740 | 2.6038 | [2.5206, 2.6897] | 2.8974 [1.9437, 4.0342] |  |
-| Primary-study level | Uncorrected pooled mean | meta_analysis_random_effect | Type M error | 5740 | 2.6107 | [2.1180, 3.2180] | 2.8974 [1.9437, 4.0342] |  |
-| Primary-study level | Uncorrected pooled mean | unweighted_per_effect_size | Type S error | 5740 | 0.0276 | [0.0257, 0.0297] | 0.0183 [0.0020, 0.0573] | summary sensitive to the 0.025 offset |
-| Primary-study level | Uncorrected pooled mean | Equal per meta-analysis | Type S error | 5740 | 0.0239 | [0.0220, 0.0259] | 0.0183 [0.0020, 0.0573] | summary sensitive to the 0.025 offset |
-| Primary-study level | Uncorrected pooled mean | meta_analysis_random_effect | Type S error | 5740 | 0.0240 | [0.0142, 0.0363] | 0.0183 [0.0020, 0.0573] | summary sensitive to the 0.025 offset |
-| Primary-study level | Yang 2023 bias-corrected | unweighted_per_effect_size | Statistical power | 5740 | 0.0899 | [0.0869, 0.0930] | 0.0681 [0.0559, 0.1040] |  |
-| Primary-study level | Yang 2023 bias-corrected | Equal per meta-analysis | Statistical power | 5740 | 0.1054 | [0.1026, 0.1083] | 0.0681 [0.0559, 0.1040] |  |
-| Primary-study level | Yang 2023 bias-corrected | meta_analysis_random_effect | Statistical power | 5740 | 0.1052 | [0.0838, 0.1322] | 0.0681 [0.0559, 0.1040] |  |
-| Primary-study level | Yang 2023 bias-corrected | unweighted_per_effect_size | Type M error | 5740 | 7.8787 | [7.2511, 8.5605] | 6.0090 [3.5827, 10.4151] |  |
-| Primary-study level | Yang 2023 bias-corrected | Equal per meta-analysis | Type M error | 5740 | 6.9940 | [6.7461, 7.2511] | 6.0090 [3.5827, 10.4151] |  |
-| Primary-study level | Yang 2023 bias-corrected | meta_analysis_random_effect | Type M error | 5740 | 7.0031 | [4.4348, 11.0588] | 6.0090 [3.5827, 10.4151] |  |
-| Primary-study level | Yang 2023 bias-corrected | unweighted_per_effect_size | Type S error | 5740 | 0.1021 | [0.0961, 0.1083] | 0.1358 [0.0402, 0.2580] |  |
-| Primary-study level | Yang 2023 bias-corrected | Equal per meta-analysis | Type S error | 5740 | 0.0897 | [0.0853, 0.0943] | 0.1358 [0.0402, 0.2580] |  |
-| Primary-study level | Yang 2023 bias-corrected | meta_analysis_random_effect | Type S error | 5740 | 0.0899 | [0.0627, 0.1255] | 0.1358 [0.0402, 0.2580] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | unweighted_per_effect_size | Statistical power | 5740 | 0.1339 | [0.1284, 0.1396] | 0.0948 [0.0693, 0.1828] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Equal per meta-analysis | Statistical power | 5740 | 0.1861 | [0.1798, 0.1926] | 0.0948 [0.0693, 0.1828] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | meta_analysis_random_effect | Statistical power | 5740 | 0.1851 | [0.1441, 0.2378] | 0.0948 [0.0693, 0.1828] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | unweighted_per_effect_size | Type M error | 5740 | 3.8601 | [3.6884, 4.0399] | 3.9073 [2.3821, 5.8329] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Equal per meta-analysis | Type M error | 5740 | 3.1532 | [3.0461, 3.2641] | 3.9073 [2.3821, 5.8329] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | meta_analysis_random_effect | Type M error | 5740 | 3.1661 | [2.4365, 4.1141] | 3.9073 [2.3821, 5.8329] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | unweighted_per_effect_size | Type S error | 5740 | 0.0484 | [0.0451, 0.0518] | 0.0524 [0.0071, 0.1292] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Equal per meta-analysis | Type S error | 5740 | 0.0321 | [0.0299, 0.0345] | 0.0524 [0.0071, 0.1292] |  |
-| Primary-study level | Yang 2024 bias-robust (FE + VCV) | meta_analysis_random_effect | Type S error | 5740 | 0.0324 | [0.0199, 0.0485] | 0.0524 [0.0071, 0.1292] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | unweighted_per_effect_size | Statistical power | 5740 | 0.1209 | [0.1157, 0.1264] | 0.0741 [0.0562, 0.1348] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | Equal per meta-analysis | Statistical power | 5740 | 0.1784 | [0.1738, 0.1833] | 0.0741 [0.0562, 0.1348] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | meta_analysis_random_effect | Statistical power | 5740 | 0.1779 | [0.1358, 0.2331] | 0.0741 [0.0562, 0.1348] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | unweighted_per_effect_size | Type M error | 5740 | 4.5568 | [4.3456, 4.7783] | 5.2377 [2.9120, 10.1696] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | Equal per meta-analysis | Type M error | 5740 | 3.3760 | [3.2547, 3.5017] | 5.2377 [2.9120, 10.1696] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | meta_analysis_random_effect | Type M error | 5740 | 3.3925 | [2.6090, 4.4115] | 5.2377 [2.9120, 10.1696] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | unweighted_per_effect_size | Type S error | 5740 | 0.0644 | [0.0600, 0.0690] | 0.1060 [0.0187, 0.2531] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | Equal per meta-analysis | Type S error | 5740 | 0.0387 | [0.0366, 0.0410] | 0.1060 [0.0187, 0.2531] |  |
-| Primary-study level | Yang 2024 bias-robust (UWLS) | meta_analysis_random_effect | Type S error | 5740 | 0.0390 | [0.0235, 0.0594] | 0.1060 [0.0187, 0.2531] |  |
+| Primary-study level | Uncorrected pooled mean | Each effect-size estimate weighted equally | Statistical power | 5740 | 0.1735 | [0.1664, 0.1810] | 0.1358 [0.0919, 0.2614] |  |
+| Primary-study level | Uncorrected pooled mean | Each meta-analysis weighted equally | Statistical power | 5740 | 0.2237 | [0.2152, 0.2326] | 0.1358 [0.0919, 0.2614] |  |
+| Primary-study level | Uncorrected pooled mean | Meta-analysis as a random effect | Statistical power | 5740 | 0.2226 | [0.1733, 0.2861] | 0.1358 [0.0919, 0.2614] |  |
+| Primary-study level | Uncorrected pooled mean | Each effect-size estimate weighted equally | Type M error | 5740 | 2.8913 | [2.7947, 2.9913] | 2.8974 [1.9437, 4.0342] |  |
+| Primary-study level | Uncorrected pooled mean | Each meta-analysis weighted equally | Type M error | 5740 | 2.6038 | [2.5206, 2.6897] | 2.8974 [1.9437, 4.0342] |  |
+| Primary-study level | Uncorrected pooled mean | Meta-analysis as a random effect | Type M error | 5740 | 2.6107 | [2.1180, 3.2180] | 2.8974 [1.9437, 4.0342] |  |
+| Primary-study level | Uncorrected pooled mean | Each effect-size estimate weighted equally | Type S error | 5740 | 0.0276 | [0.0257, 0.0297] | 0.0183 [0.0020, 0.0573] | summary sensitive to the 0.025 offset |
+| Primary-study level | Uncorrected pooled mean | Each meta-analysis weighted equally | Type S error | 5740 | 0.0239 | [0.0220, 0.0259] | 0.0183 [0.0020, 0.0573] | summary sensitive to the 0.025 offset |
+| Primary-study level | Uncorrected pooled mean | Meta-analysis as a random effect | Type S error | 5740 | 0.0240 | [0.0142, 0.0363] | 0.0183 [0.0020, 0.0573] | summary sensitive to the 0.025 offset |
+| Primary-study level | Yang 2023 bias-corrected | Each effect-size estimate weighted equally | Statistical power | 5740 | 0.0899 | [0.0869, 0.0930] | 0.0681 [0.0559, 0.1040] |  |
+| Primary-study level | Yang 2023 bias-corrected | Each meta-analysis weighted equally | Statistical power | 5740 | 0.1054 | [0.1026, 0.1083] | 0.0681 [0.0559, 0.1040] |  |
+| Primary-study level | Yang 2023 bias-corrected | Meta-analysis as a random effect | Statistical power | 5740 | 0.1052 | [0.0838, 0.1322] | 0.0681 [0.0559, 0.1040] |  |
+| Primary-study level | Yang 2023 bias-corrected | Each effect-size estimate weighted equally | Type M error | 5740 | 7.8787 | [7.2511, 8.5605] | 6.0090 [3.5827, 10.4151] |  |
+| Primary-study level | Yang 2023 bias-corrected | Each meta-analysis weighted equally | Type M error | 5740 | 6.9940 | [6.7461, 7.2511] | 6.0090 [3.5827, 10.4151] |  |
+| Primary-study level | Yang 2023 bias-corrected | Meta-analysis as a random effect | Type M error | 5740 | 7.0031 | [4.4348, 11.0588] | 6.0090 [3.5827, 10.4151] |  |
+| Primary-study level | Yang 2023 bias-corrected | Each effect-size estimate weighted equally | Type S error | 5740 | 0.1021 | [0.0961, 0.1083] | 0.1358 [0.0402, 0.2580] |  |
+| Primary-study level | Yang 2023 bias-corrected | Each meta-analysis weighted equally | Type S error | 5740 | 0.0897 | [0.0853, 0.0943] | 0.1358 [0.0402, 0.2580] |  |
+| Primary-study level | Yang 2023 bias-corrected | Meta-analysis as a random effect | Type S error | 5740 | 0.0899 | [0.0627, 0.1255] | 0.1358 [0.0402, 0.2580] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Each effect-size estimate weighted equally | Statistical power | 5740 | 0.1339 | [0.1284, 0.1396] | 0.0948 [0.0693, 0.1828] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Each meta-analysis weighted equally | Statistical power | 5740 | 0.1861 | [0.1798, 0.1926] | 0.0948 [0.0693, 0.1828] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Meta-analysis as a random effect | Statistical power | 5740 | 0.1851 | [0.1441, 0.2378] | 0.0948 [0.0693, 0.1828] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Each effect-size estimate weighted equally | Type M error | 5740 | 3.8601 | [3.6884, 4.0399] | 3.9073 [2.3821, 5.8329] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Each meta-analysis weighted equally | Type M error | 5740 | 3.1532 | [3.0461, 3.2641] | 3.9073 [2.3821, 5.8329] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Meta-analysis as a random effect | Type M error | 5740 | 3.1661 | [2.4365, 4.1141] | 3.9073 [2.3821, 5.8329] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Each effect-size estimate weighted equally | Type S error | 5740 | 0.0484 | [0.0451, 0.0518] | 0.0524 [0.0071, 0.1292] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Each meta-analysis weighted equally | Type S error | 5740 | 0.0321 | [0.0299, 0.0345] | 0.0524 [0.0071, 0.1292] |  |
+| Primary-study level | Yang 2024 bias-robust (FE + VCV) | Meta-analysis as a random effect | Type S error | 5740 | 0.0324 | [0.0199, 0.0485] | 0.0524 [0.0071, 0.1292] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Each effect-size estimate weighted equally | Statistical power | 5740 | 0.1209 | [0.1157, 0.1264] | 0.0741 [0.0562, 0.1348] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Each meta-analysis weighted equally | Statistical power | 5740 | 0.1784 | [0.1738, 0.1833] | 0.0741 [0.0562, 0.1348] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Meta-analysis as a random effect | Statistical power | 5740 | 0.1779 | [0.1358, 0.2331] | 0.0741 [0.0562, 0.1348] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Each effect-size estimate weighted equally | Type M error | 5740 | 4.5568 | [4.3456, 4.7783] | 5.2377 [2.9120, 10.1696] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Each meta-analysis weighted equally | Type M error | 5740 | 3.3760 | [3.2547, 3.5017] | 5.2377 [2.9120, 10.1696] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Meta-analysis as a random effect | Type M error | 5740 | 3.3925 | [2.6090, 4.4115] | 5.2377 [2.9120, 10.1696] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Each effect-size estimate weighted equally | Type S error | 5740 | 0.0644 | [0.0600, 0.0690] | 0.1060 [0.0187, 0.2531] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Each meta-analysis weighted equally | Type S error | 5740 | 0.0387 | [0.0366, 0.0410] | 0.1060 [0.0187, 0.2531] |  |
+| Primary-study level | Yang 2024 bias-robust (UWLS) | Meta-analysis as a random effect | Type S error | 5740 | 0.0390 | [0.0235, 0.0594] | 0.1060 [0.0187, 0.2531] |  |
 | Meta-analysis level | Uncorrected pooled mean | By effect-size count | Statistical power |   48 | 0.8221 | [0.7172, 0.9423] | 0.9129 [0.3624, 0.9999] |  |
 | Meta-analysis level | Uncorrected pooled mean | By effect-size count | Type M error |   48 | 1.1086 | [1.0248, 1.1992] | 1.0523 [1.0001, 1.6471] |  |
 | Meta-analysis level | Uncorrected pooled mean | By effect-size count | Type S error |   48 | 0.00058 | [-0.00071, 0.0019] | 7.2e-08 [1.1e-14, 0.00053] | summary sensitive to the 0.025 offset |
@@ -50,18 +50,18 @@
 | Meta-analysis level | Yang 2024 bias-robust (UWLS) | By effect-size count | Statistical power |   48 | 0.3827 | [0.2655, 0.5517] | 0.8525 [0.2533, 0.9991] |  |
 | Meta-analysis level | Yang 2024 bias-robust (UWLS) | By effect-size count | Type M error |   48 | 2.0113 | [1.5137, 2.6723] | 1.0900 [1.0006, 1.9771] |  |
 | Meta-analysis level | Yang 2024 bias-robust (UWLS) | By effect-size count | Type S error |   48 | 0.0230 | [0.0107, 0.0396] | 4.2e-07 [1.4e-12, 0.0023] | summary sensitive to the 0.025 offset |
-| Meta-analysis level | Uncorrected pooled mean | Equal per meta-analysis | Statistical power |   48 | 0.5693 | [0.4506, 0.7194] | 0.9129 [0.3624, 0.9999] |  |
-| Meta-analysis level | Uncorrected pooled mean | Equal per meta-analysis | Type M error |   48 | 1.3891 | [1.1806, 1.6344] | 1.0523 [1.0001, 1.6471] |  |
-| Meta-analysis level | Uncorrected pooled mean | Equal per meta-analysis | Type S error |   48 | 0.0042 | [8.7e-05, 0.0089] | 7.2e-08 [1.1e-14, 0.00053] | summary sensitive to the 0.025 offset |
-| Meta-analysis level | Yang 2023 bias-corrected | Equal per meta-analysis | Statistical power |   48 | 0.2505 | [0.1834, 0.3420] | 0.2614 [0.0934, 0.6612] |  |
-| Meta-analysis level | Yang 2023 bias-corrected | Equal per meta-analysis | Type M error |   48 | 2.9364 | [1.9278, 4.4725] | 1.9550 [1.2331, 3.9665] |  |
-| Meta-analysis level | Yang 2023 bias-corrected | Equal per meta-analysis | Type S error |   48 | 0.0249 | [0.0122, 0.0420] | 0.0022 [1.1e-05, 0.0547] | summary sensitive to the 0.025 offset |
-| Meta-analysis level | Yang 2024 bias-robust (FE + VCV) | Equal per meta-analysis | Statistical power |   48 | 0.5308 | [0.4157, 0.6779] | 0.8236 [0.3130, 0.9980] |  |
-| Meta-analysis level | Yang 2024 bias-robust (FE + VCV) | Equal per meta-analysis | Type M error |   48 | 1.4619 | [1.2123, 1.7628] | 1.1089 [1.0013, 1.7752] |  |
-| Meta-analysis level | Yang 2024 bias-robust (FE + VCV) | Equal per meta-analysis | Type S error |   48 | 0.0049 | [0.00071, 0.0097] | 7.6e-07 [5.5e-12, 0.0010] | summary sensitive to the 0.025 offset |
-| Meta-analysis level | Yang 2024 bias-robust (UWLS) | Equal per meta-analysis | Statistical power |   48 | 0.4880 | [0.3662, 0.6502] | 0.8525 [0.2533, 0.9991] |  |
-| Meta-analysis level | Yang 2024 bias-robust (UWLS) | Equal per meta-analysis | Type M error |   48 | 1.5548 | [1.2730, 1.8989] | 1.0900 [1.0006, 1.9771] |  |
-| Meta-analysis level | Yang 2024 bias-robust (UWLS) | Equal per meta-analysis | Type S error |   48 | 0.0088 | [0.0029, 0.0159] | 4.2e-07 [1.4e-12, 0.0023] | summary sensitive to the 0.025 offset |
+| Meta-analysis level | Uncorrected pooled mean | Each meta-analysis weighted equally | Statistical power |   48 | 0.5693 | [0.4506, 0.7194] | 0.9129 [0.3624, 0.9999] |  |
+| Meta-analysis level | Uncorrected pooled mean | Each meta-analysis weighted equally | Type M error |   48 | 1.3891 | [1.1806, 1.6344] | 1.0523 [1.0001, 1.6471] |  |
+| Meta-analysis level | Uncorrected pooled mean | Each meta-analysis weighted equally | Type S error |   48 | 0.0042 | [8.7e-05, 0.0089] | 7.2e-08 [1.1e-14, 0.00053] | summary sensitive to the 0.025 offset |
+| Meta-analysis level | Yang 2023 bias-corrected | Each meta-analysis weighted equally | Statistical power |   48 | 0.2505 | [0.1834, 0.3420] | 0.2614 [0.0934, 0.6612] |  |
+| Meta-analysis level | Yang 2023 bias-corrected | Each meta-analysis weighted equally | Type M error |   48 | 2.9364 | [1.9278, 4.4725] | 1.9550 [1.2331, 3.9665] |  |
+| Meta-analysis level | Yang 2023 bias-corrected | Each meta-analysis weighted equally | Type S error |   48 | 0.0249 | [0.0122, 0.0420] | 0.0022 [1.1e-05, 0.0547] | summary sensitive to the 0.025 offset |
+| Meta-analysis level | Yang 2024 bias-robust (FE + VCV) | Each meta-analysis weighted equally | Statistical power |   48 | 0.5308 | [0.4157, 0.6779] | 0.8236 [0.3130, 0.9980] |  |
+| Meta-analysis level | Yang 2024 bias-robust (FE + VCV) | Each meta-analysis weighted equally | Type M error |   48 | 1.4619 | [1.2123, 1.7628] | 1.1089 [1.0013, 1.7752] |  |
+| Meta-analysis level | Yang 2024 bias-robust (FE + VCV) | Each meta-analysis weighted equally | Type S error |   48 | 0.0049 | [0.00071, 0.0097] | 7.6e-07 [5.5e-12, 0.0010] | summary sensitive to the 0.025 offset |
+| Meta-analysis level | Yang 2024 bias-robust (UWLS) | Each meta-analysis weighted equally | Statistical power |   48 | 0.4880 | [0.3662, 0.6502] | 0.8525 [0.2533, 0.9991] |  |
+| Meta-analysis level | Yang 2024 bias-robust (UWLS) | Each meta-analysis weighted equally | Type M error |   48 | 1.5548 | [1.2730, 1.8989] | 1.0900 [1.0006, 1.9771] |  |
+| Meta-analysis level | Yang 2024 bias-robust (UWLS) | Each meta-analysis weighted equally | Type S error |   48 | 0.0088 | [0.0029, 0.0159] | 4.2e-07 [1.4e-12, 0.0023] | summary sensitive to the 0.025 offset |
 
 # Table S1, part B. Sensitivity to the assumed effect
 

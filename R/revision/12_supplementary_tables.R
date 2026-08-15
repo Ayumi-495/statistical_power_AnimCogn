@@ -45,9 +45,16 @@ core <- dplyr::bind_rows(
       yang2023_gated_beta0_c3 = "Yang 2023 bias-corrected",
       yang2024_FE_VCV = "Yang 2024 bias-robust (FE + VCV)",
       yang2024_UWLS = "Yang 2024 bias-robust (UWLS)"),
+    # Display names. `.default = NA` rather than passing the input through, so that an
+    # unmapped internal label fails the gate below instead of leaking into a
+    # supplementary table.
     weighting = dplyr::recode(weighting,
-      unweighted = "-", k_effect_sizes = "By effect-size count",
-      equal_per_meta_analysis = "Equal per meta-analysis"),
+      unweighted = "-",
+      unweighted_per_effect_size  = "Each effect-size estimate weighted equally",
+      k_effect_sizes              = "By effect-size count",
+      equal_per_meta_analysis     = "Each meta-analysis weighted equally",
+      meta_analysis_random_effect = "Meta-analysis as a random effect",
+      .default = NA_character_),
     metric, n_unit, geometric_mean, ci_lower, ci_upper,
     raw_median, raw_q1, raw_q3, summary_dominated_by_offset)
 
@@ -74,6 +81,12 @@ S1 <- dplyr::bind_rows(core, scen) |>
                          "summary sensitive to the 0.025 offset", "")) |>
   dplyr::select(part, level, assumed_effect, weighting, metric, n_unit,
                 summary_estimate, ci, raw_median_iqr, offset_note)
+
+# No internal label may reach the table.
+if (any(is.na(S1$weighting)))
+  stop("unmapped `weighting` value reached Table S1; add it to the recode above")
+leak <- grep("_", c(S1$weighting, S1$level, S1$assumed_effect, S1$metric), value = TRUE)
+if (length(leak)) stop("internal shorthand in Table S1: ", paste(unique(leak), collapse = ", "))
 
 readr::write_csv(S1, file.path(SUP, "TableS1_reported_metrics.csv"))
 message(sprintf("Table S1: %d rows -> supplementary/TableS1_reported_metrics.csv", nrow(S1)))
