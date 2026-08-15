@@ -164,9 +164,11 @@ g <- patchwork::wrap_plots(g1, g2, g3, ncol = 1)
 # text in with `plot_annotation(caption = ...)`. Journals typeset figure captions
 # separately from the artwork, so that text would have appeared twice in the
 # typeset article. The caption now lives only in the manuscript, and the wording
-# there is the authority; `docs/17_results_and_figure_text.md` holds the current
-# version. Anything the reader needs in order to decode the panels must therefore
-# be in the manuscript caption, not here.
+# there is the authority. Anything the reader needs in order to decode the panels
+# must therefore be in the manuscript caption, not here: which summary each
+# horizontal bar shows, that the violins are scaled to equal width rather than
+# equal area, and that the meta-analysis-level Type S bar is a raw median with an
+# interquartile range while every other bar is model-based.
 #
 # No legend anywhere either: the three groups are named directly on the x axis, so a
 # colour key would be redundant and, applied per panel, would repeat itself three times.
