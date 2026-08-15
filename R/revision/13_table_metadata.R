@@ -116,6 +116,7 @@ files <- tibble::tribble(
   "primary_level_sensitivity.csv", "Primary-study-level summaries with provenance columns.",
   "meta_analysis_level_sensitivity.csv", "Meta-analysis-level summaries with provenance columns, both weightings.",
   "loo_influence.csv", "Leave-one-model-out influence on the meta-analysis-level summaries: all 48 models by 4 specifications by 3 metrics.",
+  "leave_one_paper_out.csv", "Leave-one-source-paper-out influence on the meta-analysis-level summaries: each of the 28 source papers removed in turn together with every model it contributed, for 4 specifications, 3 metrics and both weightings. Companion to loo_influence.csv, which removes one model at a time.",
   "leave_one_cluster_out.csv", "Leave-one-cluster-out at the primary-study level: the assumed effect recomputed with each study cluster removed, aggregated under the adopted clustering definition and under both primary-study-level estimands.",
   "reversal_counts.csv", "Sign-reversal counts under each bias-correction approach.",
   "rho_sensitivity.csv", "Sensitivity of the bias-robust analysis to the assumed within-study sampling correlation.",
