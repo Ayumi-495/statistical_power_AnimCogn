@@ -40,8 +40,13 @@ cap_S1 <- paste0(
   "from models fitted on the log scale, with 95% confidence intervals; raw medians and ",
   "interquartile ranges are given alongside. Type S is fitted with an offset of 0.025 ",
   "because it can be exactly zero, and rows where the summary is sensitive to that ",
-  "offset are flagged. All metrics use a common normal-theory two-sided threshold at ",
-  "alpha = 0.05 rather than the reference distribution of each fitted model.")
+  "offset are flagged. Confidence limits are back-transformed from models fitted on the ",
+  "log scale and are therefore unbounded; limits falling outside the range a metric can ",
+  "take are constrained to the bound and marked with an asterisk, as in the original ",
+  "supplement. Power lies in [0, 1], Type S error in [0, 0.5], and Type M error is at ",
+  "least 1. No point estimate required constraining. All metrics use a common ",
+  "normal-theory two-sided threshold at alpha = 0.05 rather than the reference ",
+  "distribution of each fitted model.")
 
 cap_S2 <- paste0(
   "**Table S2. Characteristics of the 28 meta-analytical papers included in the ",
@@ -66,8 +71,9 @@ dict <- tibble::tribble(
   "Table S1", "metric", "Which design-analysis quantity the row reports", "Statistical power; Type M error; Type S error",
   "Table S1", "n_unit", "Number of units the summary is computed over", "count",
   "Table S1", "summary_estimate", "Back-transformed intercept of a model fitted on the log scale: a weighted linear model at the meta-analysis level, a linear mixed model with a study random effect at the primary-study level", "probability (power, Type S) or ratio (Type M)",
-  "Table S1", "ci", "95% confidence interval for summary_estimate, back-transformed on the same scale", "interval",
+  "Table S1", "ci", "95% confidence interval for summary_estimate, back-transformed on the same scale. Limits falling outside the range the metric can take are constrained to the bound and marked with an asterisk; power lies in [0, 1], Type S error in [0, 0.5] and Type M error is at least 1. No point estimate required constraining", "interval",
   "Table S1", "raw_median_iqr", "Median of the underlying values with the first and third quartiles, computed directly and without any model or offset", "median [Q1, Q3]",
+  "Table S1", "n_constrained_limits", "How many of the two interval limits in this row were constrained to the metric's bound", "0, 1 or 2",
   "Table S1", "offset_note", "Flag for rows where the Type S values are mostly below the 0.025 offset used to allow the log transformation, so that summary_estimate reflects the offset more than the data and raw_median_iqr should be preferred", "text or empty",
 
   "Table S2", "paper", "Identifier of the meta-analytical paper in the systematic map that supplied the corpus", "MA01-MA47",
@@ -110,6 +116,7 @@ files <- tibble::tribble(
   "primary_level_sensitivity.csv", "Primary-study-level summaries with provenance columns.",
   "meta_analysis_level_sensitivity.csv", "Meta-analysis-level summaries with provenance columns, both weightings.",
   "loo_influence.csv", "Leave-one-model-out influence on the meta-analysis-level summaries: all 48 models by 4 specifications by 3 metrics.",
+  "leave_one_cluster_out.csv", "Leave-one-cluster-out at the primary-study level: the assumed effect recomputed with each study cluster removed, aggregated under the adopted clustering definition and under both primary-study-level estimands.",
   "reversal_counts.csv", "Sign-reversal counts under each bias-correction approach.",
   "rho_sensitivity.csv", "Sensitivity of the bias-robust analysis to the assumed within-study sampling correlation.",
   "yang2024_reference_validation.csv", "Validation of the bias-robust implementation against the published worked example of the method.",

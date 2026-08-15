@@ -1,5 +1,5 @@
 file,contents,n_rows
-TableS1_reported_metrics.csv,Supplementary Table S1. Summary metrics under each assumed effect.,99
+TableS1_reported_metrics.csv,Supplementary Table S1. Summary metrics under each assumed effect.,153
 TableS2_evidence_base.csv,Supplementary Table S2. Characteristics of the 28 included papers.,28
 per_meta_analysis_estimates.csv,"One row per meta-analysis model: uncorrected and bias-corrected means, standard errors and intervals, the bias-robust estimate with its cluster-robust standard error and Satterthwaite degrees of freedom, weighting diagnostics and sign-reversal flags.",48
 model_level_metrics.csv,"Power, Type M and Type S for every model under every assumed effect, with the assumed effect and standard error that produced each.",192
@@ -7,6 +7,7 @@ assumed_effect_scenarios.csv,Optimistic and externally specified assumed-effect 
 primary_level_sensitivity.csv,Primary-study-level summaries with provenance columns.,36
 meta_analysis_level_sensitivity.csv,"Meta-analysis-level summaries with provenance columns, both weightings.",39
 loo_influence.csv,Leave-one-model-out influence on the meta-analysis-level summaries: all 48 models by 4 specifications by 3 metrics.,576
+leave_one_cluster_out.csv,"Leave-one-cluster-out at the primary-study level: the assumed effect recomputed with each study cluster removed, aggregated under the adopted clustering definition and under both primary-study-level estimands.",12
 reversal_counts.csv,Sign-reversal counts under each bias-correction approach.,5
 rho_sensitivity.csv,Sensitivity of the bias-robust analysis to the assumed within-study sampling correlation.,4
 yang2024_reference_validation.csv,Validation of the bias-robust implementation against the published worked example of the method.,9

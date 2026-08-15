@@ -24,6 +24,29 @@ source(here::here("R", "revision", "00_revision_functions.R"))
 message("== 12: supplementary tables ==")
 SUP <- file.path(REV_OUT, "supplementary"); dir.create(SUP, showWarnings = FALSE)
 
+# --- constraining out-of-range confidence limits ------------------------------
+# The intervals are back-transformed from models fitted on the log scale and are not
+# bounded, so a limit can fall outside the range the metric can actually take. Following
+# the convention used in the submitted supplement, such limits are constrained to the
+# bound and marked with an asterisk. No POINT estimate falls outside its range; only
+# interval limits do (13 upper limits for power, 24 lower limits for Type S, and 13
+# lower limits for Type M).
+#
+#   power   in [0, 1]
+#   Type S  in [0, 0.5]; 0.5 is the value taken when the assumed effect is zero
+#   Type M  at least 1; a significant estimate cannot be smaller than the assumed effect
+#           in expectation
+BOUNDS <- list("Statistical power" = c(0, 1), "Type S error" = c(0, 0.5),
+               "Type M error" = c(1, Inf))
+constrain <- function(v, metric) {
+  b <- BOUNDS[[metric]]
+  pmin(pmax(v, b[1]), b[2])
+}
+was_constrained <- function(v, metric) {
+  b <- BOUNDS[[metric]]
+  !is.na(v) & (v < b[1] | v > b[2])
+}
+
 fmt <- function(v, metric, digits = 3) {
   ifelse(metric == "type_M", sprintf("%.2f", v),
          ifelse(abs(v) < 0.001 & v != 0, sprintf("%.2g", v), sprintf("%.4f", v)))
@@ -93,13 +116,27 @@ S1 <- dplyr::bind_rows(core, scen, scen_ma) |>
     metric = dplyr::recode(metric, power = "Statistical power",
                            type_M = "Type M error", type_S = "Type S error"),
     summary_estimate = fmt(geometric_mean, metric),
-    ci = sprintf("[%s, %s]", fmt(ci_lower, metric), fmt(ci_upper, metric)),
+    ci = sprintf("[%s%s, %s%s]",
+                 fmt(mapply(constrain, ci_lower, metric), metric),
+                 ifelse(mapply(was_constrained, ci_lower, metric), "*", ""),
+                 fmt(mapply(constrain, ci_upper, metric), metric),
+                 ifelse(mapply(was_constrained, ci_upper, metric), "*", "")),
+    n_constrained_limits = mapply(was_constrained, ci_lower, metric) +
+                           mapply(was_constrained, ci_upper, metric),
     raw_median_iqr = sprintf("%s [%s, %s]", fmt(raw_median, metric),
                              fmt(raw_q1, metric), fmt(raw_q3, metric)),
     offset_note = ifelse(summary_dominated_by_offset,
                          "summary sensitive to the 0.025 offset", "")) |>
   dplyr::select(part, level, assumed_effect, weighting, metric, n_unit,
-                summary_estimate, ci, raw_median_iqr, offset_note)
+                summary_estimate, ci, n_constrained_limits, raw_median_iqr, offset_note)
+
+# No point estimate should ever need constraining; if one does, that is a modelling
+# problem rather than a display problem and must not be hidden by an asterisk.
+bad <- dplyr::bind_rows(core, scen, scen_ma) |>
+  dplyr::mutate(metric = dplyr::recode(metric, power = "Statistical power",
+                                       type_M = "Type M error", type_S = "Type S error")) |>
+  dplyr::filter(mapply(was_constrained, geometric_mean, metric))
+if (nrow(bad)) stop(sprintf("%d point estimates fall outside the metric's range", nrow(bad)))
 
 # No internal label may reach the table.
 if (any(is.na(S1$weighting)))
