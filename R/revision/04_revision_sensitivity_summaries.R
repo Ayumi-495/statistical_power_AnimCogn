@@ -106,20 +106,35 @@ primary_rows <- purrr::list_rbind(lapply(seq_len(nrow(primary_specs)), function(
   sp <- primary_specs[i, ]; mu <- sp$mu[[1]]
   d <- purrr::list_rbind(lapply(seq_along(L), function(j) {
     x <- L[[j]]
-    tibble::tibble(study_ID = as.character(x$study_ID),
+    tibble::tibble(MA_model = o$MA_model[j],
+                   # Clustering is prefixed by meta-analysis. `study_ID` is the raw
+                   # identifier from each source dataset, so the same author-year string
+                   # can occur in several meta-analyses and would otherwise be treated as
+                   # one cluster. This does not identify duplicate primary publications
+                   # across meta-analyses; see results/revision/README.md.
+                   cluster = namespaced_study_id(o$MA_model[j], as.character(x$study_ID)),
                    power  = power_two_tailed_cf(mu[j], x$sei),
                    type_M = type_M_cf(mu[j], x$sei),
                    type_S = type_S_cf(mu[j], x$sei))
   }))
   stopifnot(nrow(d) == 5740L)
+  # Three estimands. The first weights each effect-size estimate equally and is the
+  # reported result; the other two weight each meta-analysis equally and are reported as
+  # substantive sensitivity analyses, not as competing estimates of the same quantity.
   purrr::list_rbind(lapply(METRICS, function(mt) {
-    aggregate_primary(d[[mt]], d$study_ID, mt) |>
-      dplyr::mutate(metric = mt, effect_estimator = sp$effect_estimator,
-                    se_source = "own_sampling_error_per_effect_size",
-                    se_method = NA_character_, crit_value_method = "z_1.96",
-                    role = sp$role,
-                    aggregation = "primary_study_level", weighting = "unweighted",
-                    verification_status = sp$verification_status, .before = 1)
+    common <- function(x, wt, rl) dplyr::mutate(x,
+      metric = mt, effect_estimator = sp$effect_estimator,
+      se_source = "own_sampling_error_per_effect_size",
+      se_method = NA_character_, crit_value_method = "z_1.96", role = rl,
+      aggregation = "primary_study_level", weighting = wt,
+      verification_status = sp$verification_status, .before = 1)
+    dplyr::bind_rows(
+      common(aggregate_primary(d[[mt]], d$cluster, mt),
+             "unweighted_per_effect_size", sp$role),
+      common(aggregate_primary_equal(d[[mt]], d$MA_model, d$cluster, mt),
+             "equal_per_meta_analysis", "secondary_descriptive"),
+      common(aggregate_primary_random(d[[mt]], d$MA_model, d$cluster, mt),
+             "meta_analysis_random_effect", "secondary_descriptive"))
   }))
 }))
 

@@ -378,6 +378,62 @@ aggregate_primary <- function(values, study_id, metric) {
 # estimates, not of distinct primary studies.
 namespaced_study_id <- function(ma_model, study_id) paste(ma_model, study_id, sep = "::")
 
+# ADOPTED 2026-08-15 as the primary clustering definition. Prefixing prevents labels
+# that coincide between source meta-analyses from being treated as one cluster. It does
+# NOT identify duplicate primary publications across meta-analyses; that would need a
+# separate harmonisation of publication identities, which is recorded as a limitation
+# rather than attempted here.
+
+# --- primary-study-level summaries under the three estimands -------------------
+# The reported summary weights each effect-size estimate equally, so a meta-analysis
+# contributing more estimates carries more weight: it describes the experience of a
+# typical effect-size observation. The two below describe the experience of a typical
+# meta-analysis model and are reported as substantive sensitivity analyses, not as
+# competing estimates of the same quantity.
+#
+#   equal   lmer(log(metric) ~ 0 + meta_analysis + (1 | cluster)), then the unweighted
+#           mean of the 48 meta-analysis effects on the log scale. The study random
+#           effect is retained, so this is not the same as a plain mean of the 48
+#           per-model means (which gives 0.22000 rather than 0.22371 for uncorrected
+#           power). The interval comes from the variance of that linear combination.
+#   random  lmer(log(metric) ~ 1 + (1 | meta_analysis) + (1 | cluster)), which treats
+#           the 48 models as a sample from a broader population of meta-analyses.
+aggregate_primary_equal <- function(values, ma_model, cluster, metric) {
+  off <- offset_for(metric)
+  d <- data.frame(y = log(values + off), case = factor(ma_model), g = cluster)
+  fit <- lme4::lmer(y ~ 0 + case + (1 | g), data = d)
+  b <- lme4::fixef(fit); w <- rep(1 / length(b), length(b))
+  se <- sqrt(as.numeric(t(w) %*% as.matrix(stats::vcov(fit)) %*% w))
+  m <- sum(w * b)
+  tibble::tibble(geometric_mean = exp(m) - off,
+                 ci_lower = exp(m - CRIT * se) - off, ci_upper = exp(m + CRIT * se) - off,
+                 raw_median = stats::median(values),
+                 raw_q1 = unname(stats::quantile(values, 0.25)),
+                 raw_q3 = unname(stats::quantile(values, 0.75)),
+                 raw_min = min(values), raw_max = max(values),
+                 arithmetic_mean_unweighted = mean(values),
+                 arithmetic_mean_kweighted = NA_real_, n_unit = length(values),
+                 summary_dominated_by_offset = offset_flag(values, metric, exp(m) - off))
+}
+
+aggregate_primary_random <- function(values, ma_model, cluster, metric) {
+  off <- offset_for(metric)
+  d <- data.frame(y = log(values + off), case = factor(ma_model), g = cluster)
+  fit <- lme4::lmer(y ~ 1 + (1 | case) + (1 | g), data = d)
+  ci <- stats::confint(fit, method = "Wald")
+  ci <- ci[rownames(ci) == "(Intercept)", ]
+  est <- exp(lme4::fixef(fit)[[1]]) - off
+  tibble::tibble(geometric_mean = est,
+                 ci_lower = exp(ci[[1]]) - off, ci_upper = exp(ci[[2]]) - off,
+                 raw_median = stats::median(values),
+                 raw_q1 = unname(stats::quantile(values, 0.25)),
+                 raw_q3 = unname(stats::quantile(values, 0.75)),
+                 raw_min = min(values), raw_max = max(values),
+                 arithmetic_mean_unweighted = mean(values),
+                 arithmetic_mean_kweighted = NA_real_, n_unit = length(values),
+                 summary_dominated_by_offset = offset_flag(values, metric, est))
+}
+
 write_revision <- function(x, filename) {
   p <- file.path(REV_OUT, filename)
   readr::write_csv(x, p)

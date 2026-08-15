@@ -73,12 +73,9 @@ long <- purrr::list_rbind(lapply(seq_along(L), function(i) {
                  mu_uncorrected = o$beta0[i], mu_optimistic = mu_optimistic[i])
 }))
 stopifnot(nrow(long) == 5740L)
-# CLUSTERING MATCHES 04_revision_sensitivity_summaries.R, i.e. the raw `study_ID`, so
-# that every row of the canonical tables rests on the same definition. Prefixing the
-# meta-analysis is a proposed change that has NOT been adopted; adopting it for the
-# scenarios only would make Part B of Table S1 incomparable with Part A. The prefixed
-# variant is computed separately at the end of this script as a labelled comparison.
-long$cluster <- long$study_ID
+# Clustering matches 04_revision_sensitivity_summaries.R: prefixed by meta-analysis,
+# adopted as the primary definition on 2026-08-15.
+long$cluster <- namespaced_study_id(long$MA_model, long$study_ID)
 
 summarise_primary <- function(mu, se, cl, label, grouping, extra = list()) {
   purrr::list_rbind(lapply(METRICS, function(mt) {
@@ -183,12 +180,13 @@ nf <- sum(out$summary_dominated_by_offset, na.rm = TRUE)
 message(sprintf("rows where the Type S summary is dominated by the 0.025 offset and the raw quantiles must be reported instead: %d of %d",
         nf, nrow(out)))
 
-# --- clustering-unit comparison, NOT adopted ----------------------------------
+# --- clustering-unit comparison, for the record ------------------------------
 # `study_ID` is the raw identifier from each source dataset, so the same author-year
 # string can occur in several meta-analyses and those rows are merged into one cluster:
 # 130 identifiers covering 1,098 of the 5,740 rows. Prefixing the meta-analysis gives a
 # consistent within-meta-analysis unit. Reported here as a comparison only; the decision
-# is with the PI, and nothing else in results/revision/ uses it.
+# was taken on 2026-08-15: the prefixed version is now the primary definition, and the
+# raw figures below are kept only to document the size of the change.
 n_collide <- sum(duplicated(unique(long[, c("MA_model","study_ID")])$study_ID))
 message(sprintf("\nclustering comparison: %d raw identifiers occur in more than one meta-analysis",
         n_collide))
@@ -198,5 +196,5 @@ for (lab in c("uncorrected", "optimistic")) {
   v <- power_two_tailed_cf(mu, long$sei)
   a <- aggregate_primary(v, cl_raw, "power")$geometric_mean
   b <- aggregate_primary(v, cl_pre, "power")$geometric_mean
-  message(sprintf("  power, %-12s raw %.5f | prefixed %.5f  (NOT adopted)", lab, a, b))
+  message(sprintf("  power, %-12s raw %.5f | prefixed %.5f  (raw retained only as a record of the change)", lab, a, b))
 }
