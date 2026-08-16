@@ -127,7 +127,31 @@ of extrapolation; empirically the estimator still reverses sign in 6 of our 48 m
 | `06_validate_yang2024_reference.R` | validates the CR2 implementation against the authors' published worked example; writes **`yang2024_reference_validation.csv`**. **Not in `run_all.R`** — it downloads a data file from another project's repository, and `run_all.R` must work offline. Re-run it after any change to the CR2 code path. |
 | `07_influence_loo.R` | leave-one-out influence on the meta-analysis-level summaries, all 48 models × 4 specifications × 3 metrics; writes **`loo_influence.csv`** |
 | `08_model_level_figure.R` | the per-model values behind those summaries; writes **`model_level_metrics.csv`** and **`figures/model_level_metrics.{pdf,png}`** |
-| `run_all.R` | runs 01–05, 07, 08 in order (07 and 08 depend on 05) |
+| `09_assumed_effect_scenarios.R` | optimistic and externally specified assumed effects at both levels; writes **`assumed_effect_scenarios.csv`** |
+| `10_evidence_base_table.R` | the 28-paper characteristics table; writes **`evidence_base_characteristics.csv`**. **Not in `run_all.R`** — it reads the sibling systematic map. |
+| `11_main_figure.R` | the replacement for manuscript Figure 3; writes **`figures/main_metrics.{pdf,png}`** |
+| `12_supplementary_tables.R` | writes **`supplementary/TableS1_reported_metrics.csv`** and **`supplementary/TableS2_evidence_base.csv`** |
+| `13_table_metadata.R` | captions, the column dictionary and the file index; writes **`supplementary/{captions.md, metadata_columns.csv, metadata_files.csv}`**. Runs last, because its gates check every other output. |
+| `14_leave_one_cluster_out.R` | leave-one-cluster-out at the primary-study level; writes **`leave_one_cluster_out.csv`** |
+| `15_leave_one_paper_out.R` | leave-one-source-paper-out at the meta-analysis level; writes **`leave_one_paper_out.csv`** |
+| `16_export_scenario_inputs.R` | exports the fitted inputs that `17` needs |
+| `17_verify_scenarios.py` | **verification.** Independent Python re-derivation of every row of `assumed_effect_scenarios.csv`. **Not in `run_all.R`** (Python). |
+| `18_ma_level_uncertainty.R` | three ways of estimating the meta-analysis-level interval; writes **`ma_level_uncertainty.csv`** |
+| `19_paired_bootstrap_contrasts.R` | paired paper-level bootstrap contrasts; writes **`ma_level_paired_contrasts.csv`**. **Computed but not currently used** — see the note on that file below. |
+| `20_verify_reported_numbers.R` | **verification.** Second derivations for the gate, the metric definitions, the two model-level estimands and the meta-analysis-level summaries; writes **`verification_audit.csv`** |
+| `21_audit_manuscript_claims.py` | **verification.** Checks every number written into the manuscript text against these files. **Not in `run_all.R`** (Python). |
+| `run_all.R` | runs 01–05, 07, 08, 09, 11, 12, 14, 15, 16, 18, 19, then 13 last |
+
+Scripts 06, 10, 17 and 21 are run separately: 06 needs the network, 10 needs the sibling
+systematic map, and 17 and 21 are Python. Full verification is therefore:
+
+```
+Rscript R/revision/run_all.R
+Rscript R/revision/06_validate_yang2024_reference.R
+Rscript R/revision/20_verify_reported_numbers.R
+python3  R/revision/17_verify_scenarios.py
+python3  R/revision/21_audit_manuscript_claims.py
+```
 
 `clubSandwich` is a hard requirement. `00_revision_functions.R` stops if it is absent
 rather than falling back to the hand-written CR1 sandwich, which is a different
@@ -473,15 +497,21 @@ only the new `role` and `crit_value_method` columns were added.
 
 | assumed effect | `role` | power | Type M | Type S | max Type M |
 |---|---|---|---|---|---|
-| uncorrected `beta0` | `reference_uncorrected` | 0.17154 | 2.857 | 0.02691 | 311 |
-| **submitted `beta0_c3`** | **`primary`** | **0.08774** | **8.124** | **0.10431** | **26,326** |
-| **FE + VCV** | **`reported_sensitivity`** | **0.12941** | **3.832** | **0.04911** | **1,029** |
-| UWLS | `supplementary` | 0.11659 | 4.598 | 0.06667 | 609 |
+| uncorrected `beta0` | `reference_uncorrected` | 0.17354 | 2.891 | 0.02764 | 311 |
+| **submitted `beta0_c3`** | **`primary`** | **0.08988** | **7.879** | **0.10207** | **26,326** |
+| **FE + VCV** | **`reported_sensitivity`** | **0.13390** | **3.860** | **0.04836** | **1,029** |
+| UWLS | `supplementary` | 0.12095 | 4.557 | 0.06441 | 609 |
+
+> **Updated 2026-08-15.** This table previously read 0.17154 / 0.08774 / 0.12941 /
+> 0.11659 for power. Those values used the **raw** `study_ID` as the clustering unit and
+> predate the decision of 2026-08-15 to prefix it with the meta-analysis. Do not quote
+> the old set; the same stale figures also appeared in `docs/16_handoff.md` §3 and are
+> corrected there.
 
 This is the table that carries the paper's conclusion, and it supports the reading that
 **the low-power finding is stable while the exact Type M and Type S values are not**:
-power spans 8.8–17.2% across every assumed effect — low throughout — while Type M
-spans 2.9–8.1, a factor of 2.8, and the maximum spans 311 to 26,326.
+power spans 9.0–17.4% across every assumed effect — low throughout — while Type M
+spans 2.9–7.9, a factor of 2.7, and the maximum spans 311 to 26,326.
 
 ## 4b. The missing `~` in the Yang-2023 correction models
 

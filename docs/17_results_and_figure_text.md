@@ -197,7 +197,7 @@ the replies to R1C12, R2C8, R2C9 and R2C13.
 > therefore reflects corrected means lying close to zero rather than imprecise
 > meta-analyses. This summary was also sensitive to weighting and to individual
 > contributions: giving each meta-analysis equal weight changed corrected power from 39.0%
-> to 25.1%, and omitting the single meta-analysis contributing the most observations
+> to 25.0%, and omitting the single meta-analysis contributing the most observations
 > (1,297 of 5,740) changed the bias-robust summary from 47.9% to 69.3%. That leverage is a
 > property of weighting by observation count rather than of that paper being unusual —
 > with each meta-analysis weighted equally, the largest single-paper influence was a
@@ -470,7 +470,7 @@ Per `docs/13_crossreference_fixes.md`, after the numbers are settled:
 | MA Type S, raw median | 7.2e-08 / 0.0022 / 7.6e-07 | Table S1 part A |
 | MA Type S, model-based | 0.00058 / 0.0122 / 0.0056 | Table S1 part A |
 | MA models with Type M > 20 | 0 / 3 / 1 (of 48) | `model_level_metrics.csv` |
-| MA power, equal weight, corrected | 0.2505 | Table S1 part A |
+| MA power, equal weight, corrected | 0.2505 (25.0%) | Table S1 part A |
 | primary power | 0.1735 / 0.0899 / 0.1339 | Table S1 part A |
 | primary Type M | 2.8913 / 7.8787 / 3.8601 | Table S1 part A |
 | primary Type S, model-based | 0.0276 / 0.1021 / 0.0484 | Table S1 part A |
