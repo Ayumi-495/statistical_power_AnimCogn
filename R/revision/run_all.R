@@ -29,7 +29,7 @@ for (f in c("01_reproduce_original_analysis.R", "02_overshoot_diagnostics.R",
             "08_model_level_figure.R", "09_assumed_effect_scenarios.R",
             "11_main_figure.R", "12_supplementary_tables.R", "14_leave_one_cluster_out.R",
             "15_leave_one_paper_out.R", "16_export_scenario_inputs.R",
-            "18_ma_level_uncertainty.R",
+            "18_ma_level_uncertainty.R", "19_paired_bootstrap_contrasts.R",
             "13_table_metadata.R"))  {
   message("\n>>> ", f)
   source(here::here("R", "revision", f))
