@@ -191,7 +191,7 @@ for (i in seq_len(nrow(specs))) for (mt in METRICS) {
 
   cmp[[length(cmp) + 1L]] <- tibble::tibble(
     effect_estimator = specs$effect_estimator[i], metric = mt,
-    estimand = c("unweighted_per_effect_size", "equal_per_meta_analysis",
+    estimand = c("study_cluster_random_intercept", "equal_per_meta_analysis",
                  "meta_analysis_random_effect"),
     lme4 = c(a_unw, a_eq, a_rnd), nlme = c(b_unw, b_eq, b_rnd))
 }
@@ -215,6 +215,50 @@ stopifnot(nrow(j) == 36L)
 record("primary-study level", "canonical table equals the refitted values", nrow(j),
        "primary_level_sensitivity.csv", "refitted here",
        max(abs(j$lme4 - j$canonical)), relmax(j$lme4, j$canonical), 1e-10)
+
+# --- C2. WHICH estimand the reported summary actually is ----------------------
+# Added 2026-08-15 after an external review found the reported primary-study-level rows
+# labelled `unweighted_per_effect_size`, which they are not. Everything else in this
+# workflow checks that a number is right; nothing checked that the DESCRIPTION of the
+# number was right, and that is the gap the mislabel fell through. This closes it by
+# measuring the estimand instead of asserting it.
+#
+# The check is a claim about direction, not a tolerance on a value: the fitted intercept
+# must sit closer to an equal-per-study-cluster summary than to an equal-per-effect-size
+# one. If that ever ceases to hold, the label has to change again.
+message("\nC2. which estimand the reported primary-study-level summary is")
+v_unc <- power_two_tailed_cf(specs$mu[[1]][idx], sei_all)
+d_unc <- data.frame(y = log(v_unc), g = factor(cl_all))
+f_unc <- lme4::lmer(y ~ 1 + (1 | g), data = d_unc)
+vc    <- as.data.frame(lme4::VarCorr(f_unc))
+lambda <- vc$vcov[1] / vc$vcov[2]
+n_cl  <- as.numeric(table(cl_all))
+w_cl  <- n_cl / (1 + n_cl * lambda)
+fitted_int  <- exp(unname(lme4::fixef(f_unc))[1])
+per_cluster <- exp(mean(tapply(d_unc$y, cl_all, mean)))
+per_effect  <- exp(mean(d_unc$y))
+message(sprintf("       lambda = tau^2/sigma^2 = %.3f | cluster sizes %d-%d over %d clusters",
+        lambda, min(n_cl), max(n_cl), length(n_cl)))
+message(sprintf("       implied cluster weights span %.2fx while effect-size counts span %.0fx",
+        max(w_cl) / min(w_cl), max(n_cl) / min(n_cl)))
+message(sprintf("       fitted %.5f | equal per cluster %.5f (%.1f%%) | equal per effect size %.5f (%.1f%%)",
+        fitted_int, per_cluster, 100 * abs(fitted_int / per_cluster - 1),
+        per_effect, 100 * abs(fitted_int / per_effect - 1)))
+record("estimand labelling",
+       "reported summary is nearer an equal-per-cluster than an equal-per-effect-size summary",
+       1, "lmer intercept", "the two candidate estimands",
+       abs(fitted_int - per_cluster),
+       abs(fitted_int / per_cluster - 1) / abs(fitted_int / per_effect - 1), 1,
+       "so the row is labelled study_cluster_random_intercept",
+       criterion = "distance ratio, cluster vs effect size")
+
+# the label must actually be the one in the canonical table
+lbl <- unique(readr::read_csv(file.path(REV_OUT, "primary_level_sensitivity.csv"),
+                              show_col_types = FALSE)$weighting)
+if ("unweighted_per_effect_size" %in% lbl)
+  stop("primary_level_sensitivity.csv still carries the retired label ",
+       "`unweighted_per_effect_size`; the fitted model does not estimate that quantity")
+message("       the retired label `unweighted_per_effect_size` appears nowhere in the table")
 
 # --- D. the meta-analysis level, lm() against a hand-computed weighted mean ----
 message("\nD. meta-analysis-level summaries, lm() against a hand-computed weighted mean")

@@ -87,11 +87,11 @@ sm <- dplyr::bind_rows(
   readr::read_csv(file.path(REV_OUT, "primary_level_sensitivity.csv"), show_col_types = FALSE),
   readr::read_csv(file.path(REV_OUT, "meta_analysis_level_sensitivity.csv"), show_col_types = FALSE)) |>
   dplyr::filter(role %in% c("reference_uncorrected", "primary", "reported_sensitivity"),
-                # the reported estimand at each level: effect-size-weighted at the
-                # primary-study level, effect-size-count-weighted at the meta-analysis
-                # level. The model-level estimands are sensitivity analyses and are not
-                # drawn as the reference bar.
-                weighting %in% c("unweighted_per_effect_size", "k_effect_sizes")) |>
+                # the reported estimand at each level: the study-cluster random-intercept
+                # summary at the primary-study level, the effect-size-count-weighted
+                # geometric mean at the meta-analysis level. The two model-level
+                # estimands are sensitivity analyses and are not drawn as the bar.
+                weighting %in% c("study_cluster_random_intercept", "k_effect_sizes")) |>
   dplyr::transmute(
     level = factor(ifelse(aggregation == "primary_study_level",
                           "Primary-study level", "Meta-analysis level"),

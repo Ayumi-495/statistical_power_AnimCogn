@@ -385,11 +385,40 @@ namespaced_study_id <- function(ma_model, study_id) paste(ma_model, study_id, se
 # rather than attempted here.
 
 # --- primary-study-level summaries under the three estimands -------------------
-# The reported summary weights each effect-size estimate equally, so a meta-analysis
-# contributing more estimates carries more weight: it describes the experience of a
-# typical effect-size observation. The two below describe the experience of a typical
-# meta-analysis model and are reported as substantive sensitivity analyses, not as
-# competing estimates of the same quantity.
+#
+# WHAT THE REPORTED SUMMARY ACTUALLY ESTIMATES. Until 2026-08-15 this was labelled
+# `unweighted_per_effect_size` and described as weighting each effect-size estimate
+# equally. THAT WAS WRONG, and the label has been changed to
+# `study_cluster_random_intercept`.
+#
+# `aggregate_primary()` fits `lmer(log(value + offset) ~ 1 + (1 | cluster))`. The GLS
+# intercept of that model weights study cluster i by n_i / (1 + n_i * lambda), where
+# lambda = tau^2 / sigma^2. It does NOT weight each effect-size estimate equally, and
+# with lambda large it barely weights by cluster size at all. Measured on this corpus,
+# for uncorrected power:
+#
+#   lambda = 4.66, cluster sizes 1 to 115 (1,415 clusters over 5,740 estimates)
+#   implied cluster weight   n = 1 -> 0.177   n = 2 -> 0.194
+#                            n = 10 -> 0.210  n = 115 -> 0.214
+#   so the weights span 1.21x while the effect-size counts span 115x
+#
+#   back-transformed intercept (reported)   0.17354
+#   equal per study cluster (1,415 units)   0.17601   <- 1.4% away
+#   equal per effect size   (5,740 units)   0.16153   <- 7.4% away
+#
+# So this is in effect a study-cluster-level summary. The gap reaches 28% in the worst
+# cell (UWLS Type S: 0.064 against 0.090), which is why the mislabel mattered.
+#
+# THE MODEL IS NOT CHANGED BY THIS. It is Yang et al. (2023)'s method, implemented
+# correctly, and it is what the manuscript says is fitted; only the description of the
+# estimand was wrong. `21_audit_manuscript_claims.py` checks that reported NUMBERS are
+# right and cannot see a claim about what a number MEANS, which is how this survived.
+# `20_verify_reported_numbers.R` now measures the implied weight spread so that the
+# claim is checked rather than asserted.
+#
+# The two summaries below describe the experience of a typical meta-analysis model and
+# are reported as substantive sensitivity analyses, not as competing estimates of the
+# same quantity.
 #
 #   equal   lmer(log(metric) ~ 0 + meta_analysis + (1 | cluster)), then the unweighted
 #           mean of the 48 meta-analysis effects on the log scale. The study random

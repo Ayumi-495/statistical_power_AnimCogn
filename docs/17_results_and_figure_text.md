@@ -36,11 +36,12 @@ statement (¶0057), the closed-form Type M statement (¶0057), the deletion of t
 (¶0060–0066), the clustering definition and its limitation (¶0058), and the three
 estimands (¶0065). That is the great majority of `docs/15`'s Methods section.
 
-**Two Methods items remain**, both small — §1.
+**Three Methods items remain** — §1. Two are small; the third (M-c) corrects what the
+primary-study-level summary is a summary of, found by an external review on 15 August.
 
 ---
 
-# 1. METHODS — two remaining edits
+# 1. METHODS — three remaining edits
 
 ## M-a. Name the estimator, and put the log scale before the model that uses it
 
@@ -99,7 +100,42 @@ the Methods is much stronger than conceding it in the response letter. (Source:
 `results/revision/reversal_counts.csv`; under the bias-robust estimator the count falls
 to 6 of 48, which §3 reports.)
 
-## M-c. Housekeeping already flagged in the file
+## M-c. Correct what the primary-study-level summary is a summary *of* — NEW, 2026-08-15
+
+An external adversarial review found that the reported primary-study-level estimand was
+described wrongly, in the Methods and in every table. **The number does not change** —
+17.4% stands, and the model fitted is the right one, Yang et al.'s — but what we say it
+means was not true.
+
+**Current** (¶0058):
+
+> The primary-study-level summary was fitted at the effect-size-observation level, so it
+> reflects the experience of a typical effect-size observation. Meta-analytic models that
+> contribute more effect-size observations have a greater influence on this summary.
+
+**Replace with:**
+
+> Because this model includes a study-cluster random intercept, its intercept does not
+> weight each effect-size observation equally: observations in large clusters receive
+> less individual weight, and the summary is close to one in which every study cluster
+> counts equally. In our data the implied cluster weights span a factor of 1.2 while the
+> number of effect-size observations per cluster spans a factor of 115, so this summary
+> describes a typical study cluster rather than a typical effect-size observation, and a
+> meta-analysis has greater influence through the number of study clusters it contributes
+> than through the number of observations.
+
+*Why this matters and how it was found.* `lmer(log(x) ~ 1 + (1|cluster))` weights cluster
+*i* by n/(1 + n·λ) with λ = τ²/σ². Here λ = 4.66 and cluster sizes run 1 to 115, so the
+weights run only 0.177 to 0.214. Measured against the two candidate estimands for
+uncorrected power: fitted intercept **0.17354**, equal per study cluster **0.17601**
+(1.4% away), equal per effect-size observation **0.16153** (7.4% away). The gap reaches
+28% in the worst cell. The old description named the estimand the model is *furthest*
+from.
+
+`20_verify_reported_numbers.R` now measures this rather than asserting it, and refuses to
+run if the retired label reappears.
+
+## M-c2. Housekeeping already flagged in the file
 
 `clubSandwich [REF]` in ¶0066 still needs its citation, and the comment on the software
 paragraph notes package versions will be refreshed from the final session info. Neither
@@ -143,8 +179,8 @@ values were over 20" becomes exact.
 > observations (1.2%) before correction and for 796 (13.9%) after it (Figure 3b,
 > Table S1). Type S error rose from 2.76% (95% CI: 2.57–2.97%) to 10.2% (95% CI:
 > 9.6–10.8%), with medians of 1.8% (interquartile range 0.2–5.7%) and 13.6% (4.0–25.8%)
-> respectively (Figure 3c, Table S1). These summaries weight each effect-size observation
-> equally and therefore describe a typical observation. Weighting each meta-analysis
+> respectively (Figure 3c, Table S1). These summaries fit study cluster as a random
+> effect and therefore describe a typical study cluster. Weighting each meta-analysis
 > equally instead gave 22.4% (95% CI: 21.5–23.3%) before correction and 10.5% (95% CI:
 > 10.3–10.8%) after it, and treating the 48 models as a sample from a broader population
 > gave 22.3% (95% CI: 17.3–28.6%) and 10.5% (95% CI: 8.4–13.2%). Power was low under all

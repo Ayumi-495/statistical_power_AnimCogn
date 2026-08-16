@@ -73,7 +73,10 @@ core <- dplyr::bind_rows(
     # supplementary table.
     weighting = dplyr::recode(weighting,
       unweighted = "-",
-      unweighted_per_effect_size  = "Each effect-size estimate weighted equally",
+      # NOT "each effect-size estimate weighted equally". That was the label until
+      # 2026-08-15 and it was wrong: the random intercept makes this close to an
+      # equal-per-study-cluster summary. See the note above `aggregate_primary()`.
+      study_cluster_random_intercept = "Study cluster as a random effect",
       k_effect_sizes              = "By effect-size count",
       equal_per_meta_analysis     = "Each meta-analysis weighted equally",
       meta_analysis_random_effect = "Meta-analysis as a random effect",

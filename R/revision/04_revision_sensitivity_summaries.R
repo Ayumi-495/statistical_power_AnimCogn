@@ -118,9 +118,11 @@ primary_rows <- purrr::list_rbind(lapply(seq_len(nrow(primary_specs)), function(
                    type_S = type_S_cf(mu[j], x$sei))
   }))
   stopifnot(nrow(d) == 5740L)
-  # Three estimands. The first weights each effect-size estimate equally and is the
-  # reported result; the other two weight each meta-analysis equally and are reported as
-  # substantive sensitivity analyses, not as competing estimates of the same quantity.
+  # Three estimands. The first is the reported result: a random intercept for study
+  # cluster, which in practice weights study clusters almost equally and NOT each
+  # effect-size estimate equally - see the note above `aggregate_primary()` for the
+  # measured weights. The other two put the meta-analysis in the model and are reported
+  # as substantive sensitivity analyses, not as competing estimates of one quantity.
   purrr::list_rbind(lapply(METRICS, function(mt) {
     common <- function(x, wt, rl) dplyr::mutate(x,
       metric = mt, effect_estimator = sp$effect_estimator,
@@ -130,7 +132,7 @@ primary_rows <- purrr::list_rbind(lapply(seq_len(nrow(primary_specs)), function(
       verification_status = sp$verification_status, .before = 1)
     dplyr::bind_rows(
       common(aggregate_primary(d[[mt]], d$cluster, mt),
-             "unweighted_per_effect_size", sp$role),
+             "study_cluster_random_intercept", sp$role),
       common(aggregate_primary_equal(d[[mt]], d$MA_model, d$cluster, mt),
              "equal_per_meta_analysis", "secondary_descriptive"),
       common(aggregate_primary_random(d[[mt]], d$MA_model, d$cluster, mt),

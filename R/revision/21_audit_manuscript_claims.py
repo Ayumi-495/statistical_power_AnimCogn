@@ -57,7 +57,7 @@ def ma(est, metric, field, weighting="k_effect_sizes"):
     return one(MLVL, field, effect_estimator=est, metric=metric, weighting=weighting)
 
 
-def pr(est, metric, field, weighting="unweighted_per_effect_size"):
+def pr(est, metric, field, weighting="study_cluster_random_intercept"):
     return one(PLVL, field, effect_estimator=est, metric=metric, weighting=weighting)
 
 
@@ -189,16 +189,16 @@ CLAIMS = [
      lambda: pr(FEV, "type_M", "geometric_mean")),
     ("R3", "leave-one-cluster-out 17.35% self-inclusive", 17.35, 2, 100,
      lambda: one(LOCO, "geometric_mean", effect_estimator=UNC, metric="power",
-                 assumed_effect="self_inclusive", weighting="unweighted_per_effect_size")),
+                 assumed_effect="self_inclusive", weighting="study_cluster_random_intercept")),
     ("R3", "leave-one-cluster-out 17.45% held out", 17.45, 2, 100,
      lambda: one(LOCO, "geometric_mean", effect_estimator=UNC, metric="power",
-                 assumed_effect="leave_one_cluster_out", weighting="unweighted_per_effect_size")),
+                 assumed_effect="leave_one_cluster_out", weighting="study_cluster_random_intercept")),
     ("R3", "leave-one-cluster-out Type M 2.89 self-inclusive", 2.89, 2, 1,
      lambda: one(LOCO, "geometric_mean", effect_estimator=UNC, metric="type_M",
-                 assumed_effect="self_inclusive", weighting="unweighted_per_effect_size")),
+                 assumed_effect="self_inclusive", weighting="study_cluster_random_intercept")),
     ("R3", "leave-one-cluster-out Type M 2.88 held out", 2.88, 2, 1,
      lambda: one(LOCO, "geometric_mean", effect_estimator=UNC, metric="type_M",
-                 assumed_effect="leave_one_cluster_out", weighting="unweighted_per_effect_size")),
+                 assumed_effect="leave_one_cluster_out", weighting="study_cluster_random_intercept")),
     ("R3", "MA-level external medium SMD 89.2%", 89.2, 1, 100,
      lambda: sc("SMD", "medium (d = 0.5)", "power", "geometric_mean",
                 agg="meta_analysis_level", weighting="k_effect_sizes")),

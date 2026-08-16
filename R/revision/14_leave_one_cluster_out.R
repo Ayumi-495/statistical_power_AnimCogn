@@ -67,7 +67,7 @@ rows <- purrr::list_rbind(lapply(c("self_inclusive", "leave_one_cluster_out"), f
     v <- metric_fun[[mt]](mu, use$sei)
     dplyr::bind_rows(
       aggregate_primary(v, use$cluster, mt) |>
-        dplyr::mutate(weighting = "unweighted_per_effect_size"),
+        dplyr::mutate(weighting = "study_cluster_random_intercept"),
       aggregate_primary_equal(v, use$case, use$cluster, mt) |>
         dplyr::mutate(weighting = "equal_per_meta_analysis")
     ) |> dplyr::mutate(metric = mt, assumed_effect = sc, .before = 1)
@@ -87,10 +87,10 @@ write_revision(rows, "leave_one_cluster_out.csv")
 canon <- readr::read_csv(file.path(REV_OUT, "primary_level_sensitivity.csv"),
                          show_col_types = FALSE) |>
   dplyr::filter(effect_estimator == "uncorrected_beta0",
-                weighting == "unweighted_per_effect_size")
+                weighting == "study_cluster_random_intercept")
 cmp <- dplyr::inner_join(
   dplyr::filter(rows, assumed_effect == "self_inclusive",
-                weighting == "unweighted_per_effect_size") |>
+                weighting == "study_cluster_random_intercept") |>
     dplyr::select(metric, loo_file = geometric_mean),
   dplyr::select(canon, metric, canonical = geometric_mean), by = "metric")
 message("\nself-inclusive rows against primary_level_sensitivity.csv:")
@@ -103,14 +103,14 @@ for (i in seq_len(nrow(cmp)))
 pw <- function(sc, w) rows$geometric_mean[rows$metric == "power" &
                                           rows$assumed_effect == sc & rows$weighting == w]
 message(sprintf("\nPOWER, effect-size-weighted : self-inclusive %.5f -> leave-one-cluster-out %.5f (%+.2f%%)",
-        pw("self_inclusive", "unweighted_per_effect_size"),
-        pw("leave_one_cluster_out", "unweighted_per_effect_size"),
-        100 * (pw("leave_one_cluster_out", "unweighted_per_effect_size") /
-               pw("self_inclusive", "unweighted_per_effect_size") - 1)))
+        pw("self_inclusive", "study_cluster_random_intercept"),
+        pw("leave_one_cluster_out", "study_cluster_random_intercept"),
+        100 * (pw("leave_one_cluster_out", "study_cluster_random_intercept") /
+               pw("self_inclusive", "study_cluster_random_intercept") - 1)))
 message(sprintf("POWER, meta-analysis-weighted: self-inclusive %.5f -> leave-one-cluster-out %.5f",
         pw("self_inclusive", "equal_per_meta_analysis"),
         pw("leave_one_cluster_out", "equal_per_meta_analysis")))
 tm <- function(sc) rows$geometric_mean[rows$metric == "type_M" &
                                        rows$assumed_effect == sc &
-                                       rows$weighting == "unweighted_per_effect_size"]
+                                       rows$weighting == "study_cluster_random_intercept"]
 message(sprintf("TYPE M, effect-size-weighted : %.4f -> %.4f", tm("self_inclusive"), tm("leave_one_cluster_out")))
