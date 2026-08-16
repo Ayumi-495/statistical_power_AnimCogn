@@ -380,25 +380,52 @@ canonical tables.
 
 **Replace ¶0149 with:**
 
-> **Figure 3. Statistical power, Type M error and Type S error at the primary-study and
-> meta-analysis levels.** (a) Statistical power, (b) Type M error and (c) Type S error,
-> each shown at the primary-study level (5,740 effect-size observations, left) and the
-> meta-analysis level (48 meta-analytic models, right). Within each panel the three
-> groups are the uncorrected pooled mean, the Yang et al. [14] bias-corrected mean used
-> as our primary correction, and the Yang et al. [61] bias-robust estimate used as a
-> sensitivity analysis. Violins show the distribution of the plotted values and are
-> scaled to equal width rather than equal area, so their widths are comparable within a
-> group but not across groups; points show the individual values, drawn smaller and more
+> **Figure 3. Statistical power, Type M error and Type S error under uncorrected and
+> bias-corrected assumed effects, at the primary-study and meta-analysis levels.**
+> (a) Statistical power, (b) Type M error and (c) Type S error. Each panel shows the
+> primary-study level on the left, where every one of the 5,740 effect-size observations
+> is evaluated against its own sampling standard error, and the meta-analysis level on
+> the right, where each of the 48 meta-analytic models is evaluated against the standard
+> error of its pooled estimate. Within each panel the three groups are the uncorrected
+> pooled mean, the Yang et al. [14] bias-corrected mean used as our primary correction,
+> and the Yang et al. [61] bias-robust estimate used as a sensitivity analysis. Violins
+> show the distribution of the plotted values; each is scaled to the same maximum width,
+> so a violin's shape shows relative density within that group and widths cannot be
+> compared between groups. Points are the individual values, drawn smaller and more
 > transparent at the primary-study level because there are 5,740 of them against 48.
-> Horizontal bars show the summary reported in the text: the back-transformed model
-> intercept at the primary-study level and the weighted geometric mean at the
-> meta-analysis level. The one exception is meta-analysis-level Type S error, where the
-> bar is the raw median and the vertical line the interquartile range, because almost
-> every value there falls below the 0.025 offset the log-scale model requires; the
-> corresponding model-based estimates are retained in Table S1. Type M error is shown on
-> a logarithmic scale and is unbounded as the assumed effect approaches zero. Type S
-> error is bounded above at 0.5, the value it takes when the assumed effect is zero, and
-> is not shown on a logarithmic scale because values can reach or approach zero.
+> Horizontal bars are the summaries reported in the Results: at the primary-study level
+> the back-transformed intercept of a linear mixed-effects model with a study-cluster
+> random intercept, fitted over 1,415 study clusters; at the meta-analysis level the
+> geometric mean across the 48 models, weighted by the number of effect-size observations
+> each contributes. Meta-analysis-level Type S error is the one exception: there the bar
+> is the median across models and the vertical line the interquartile range, because
+> almost every value at that level falls below the offset of 0.025 that the log-scale
+> model requires, so the model-based summary would reflect the offset more than the data.
+> Those model-based estimates are retained in Table S1. In panel (c) the meta-analysis-level
+> bars and intervals for the uncorrected and bias-robust effects are indistinguishable
+> from zero at this scale (medians 7 × 10⁻⁸ and 8 × 10⁻⁷). Type M error is plotted on a
+> logarithmic scale and is unbounded as the assumed effect approaches zero, because the
+> assumed effect is its denominator. Type S error is bounded above at 0.5, the value it
+> takes when the assumed effect is zero, and is not plotted on a logarithmic scale
+> because values can reach or approach zero. Colour distinguishes the three assumed
+> effects and repeats information already carried by position on the horizontal axis.
+
+**Three things in this caption are load-bearing and should not be trimmed away.**
+
+*"cannot be compared between groups"* — the violins use equal maximum width, not equal
+area. Without this sentence a reader will read a wide violin as more data.
+
+*"a study-cluster random intercept, fitted over 1,415 study clusters"* — this is the
+estimand correction of §M-c. The bar is **not** an average over the 5,740 points drawn
+beside it, and saying which model produced it is what stops that misreading.
+
+*the panel (c) sentence* — two of the six meta-analysis-level Type S bars sit on the axis
+and one has an interval too narrow to see. A reader who cannot tell a drawn zero from a
+missing bar will assume the latter, which is exactly the failure mode of the submitted
+figure's censored tiles.
+
+If the caption must be shortened, cut the colour sentence first, then the sentence
+beginning "Points are the individual values".
 
 **A change already made to the code, for the record.** `R/revision/11_main_figure.R`
 previously drew six lines of caption text into the image itself. Journals typeset
