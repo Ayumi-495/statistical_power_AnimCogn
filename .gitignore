@@ -14,3 +14,13 @@ old/.DS_Store
 /docs
 /CLAUDE.md
 
+
+# regenerable intermediates from R/ (rebuild with R/01 then R/03)
+revision/results/reproduce/*.rds
+revision/results/reproduce/*.log
+
+# revision-analysis chaining artifacts (regenerate with revision/R/analyse/01..03)
+revision/results/intermediate/
+
+# macOS
+.DS_Store

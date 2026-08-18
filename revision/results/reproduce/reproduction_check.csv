@@ -1,0 +1,14 @@
+what,observed,reported,tol,diff,ok
+"MA power, uncorrected (median)",0.8220737046105893,0.822,0.002,7.37046105893091e-5,TRUE
+"MA power, uncorrected (legacy mean)",1.1371850969144004,1.14,0.01,-0.002814903085599507,TRUE
+"MA power, corrected (median)",0.4485916802496061,0.449,0.01,-4.08319750393904e-4,TRUE
+"MA type M, uncorrected (median)",1.1073891194722347,1.11,0.03,-0.002610880527765369,TRUE
+"MA type M, corrected (median)",2.040069760233838,2.03,0.2,0.01006976023383821,TRUE
+"MA type S, uncorrected (median)",5.830502574538377e-4,6e-4,5e-4,-1.6949742546162297e-5,TRUE
+"MA type S, corrected (median)",0.012151316603602004,0.0121,0.003,5.131660360200435e-5,TRUE
+"primary power, uncorrected (median)",0.17153779868105995,0.172,0.001,-4.6220131894003647e-4,TRUE
+"primary power, corrected (median)",0.09056615234201149,0.0906,0.003,-3.384765798851441e-5,TRUE
+"primary type M, uncorrected (median)",2.8573243420232837,2.86,0.05,-0.002675657976716206,TRUE
+"primary type M, corrected (median)",7.790536756992956,7.79,0.4,5.367569929557447e-4,TRUE
+"primary type S, uncorrected (median)",0.026914000083800918,0.0269,0.001,1.4000083800917718e-5,TRUE
+"primary type S, corrected (median)",0.09853905845174973,0.0985,0.004,3.905845174972944e-5,TRUE

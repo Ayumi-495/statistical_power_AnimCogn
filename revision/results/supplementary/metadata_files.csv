@@ -1,0 +1,18 @@
+file,contents,n_rows
+TableS1_reported_metrics.csv,Supplementary Table S1. Summary metrics under each assumed effect.,153
+TableS2_evidence_base.csv,Supplementary Table S2. Characteristics of the 28 included papers.,28
+per_meta_analysis_estimates.csv,"One row per meta-analysis model: uncorrected and bias-corrected means, standard errors and intervals, the bias-robust estimate with its cluster-robust standard error and Satterthwaite degrees of freedom, weighting diagnostics and sign-reversal flags.",48
+model_level_metrics.csv,"Power, Type M and Type S for every model under every assumed effect, with the assumed effect and standard error that produced each.",192
+assumed_effect_scenarios.csv,Optimistic and externally specified assumed-effect scenarios at both levels.,123
+primary_level_sensitivity.csv,Primary-study-level summaries with provenance columns.,36
+meta_analysis_level_sensitivity.csv,"Meta-analysis-level summaries with provenance columns, both weightings.",39
+loo_influence.csv,Leave-one-model-out influence on the meta-analysis-level summaries: all 48 models by 4 specifications by 3 metrics.,576
+leave_one_paper_out.csv,"Leave-one-source-paper-out influence on the meta-analysis-level summaries: each of the 28 source papers removed in turn together with every model it contributed, for 4 specifications, 3 metrics and both weightings. Companion to loo_influence.csv, which removes one model at a time.",672
+leave_one_cluster_out.csv,"Leave-one-cluster-out at the primary-study level: the assumed effect recomputed with each study cluster removed, aggregated under the adopted clustering definition and under both primary-study-level estimands.",12
+ma_level_uncertainty.csv,"Comparison of three ways of estimating the uncertainty of the meta-analysis-level summary, holding the point estimate fixed: the model-based interval currently reported, a cluster-robust CR2 interval clustered by source paper with Satterthwaite degrees of freedom, and a nonparametric cluster bootstrap over the 28 source papers (percentile and BCa). A 48-model bootstrap is included as a labelled comparison and is not a candidate.",60
+ma_level_paired_contrasts.csv,"Paired paper-level bootstrap contrasts between every pair of the four assumed-effect specifications, for all three metrics. Both terms of each contrast are recomputed inside the same resampled set of source papers, so the pairing between them is preserved; comparing the marginal intervals instead would discard it. Same 20,000 resamples and seed as ma_level_uncertainty.csv.",18
+verification_audit.csv,"One row per verification check: what was compared, by which two routes, the criterion it was held to and whether it passed. Includes the check that the reported primary-study-level summary is the estimand it is labelled as.",12
+reversal_counts.csv,Sign-reversal counts under each bias-correction approach.,5
+rho_sensitivity.csv,Sensitivity of the bias-robust analysis to the assumed within-study sampling correlation.,4
+yang2024_reference_validation.csv,Validation of the bias-robust implementation against the published worked example of the method.,9
+evidence_base_characteristics.csv,"Full-width source table behind Table S2, before columns were trimmed for display.",28

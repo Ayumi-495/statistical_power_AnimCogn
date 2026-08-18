@@ -1,0 +1,29 @@
+paper,study,year,species,cognitive_domain,task,manipulation,life_stage,sex,effect_size_metric,n_models,n_effect_sizes,n_study_clusters,n_sign_reversals
+MA01,Diao_etal_2023,2023,Rattus norvegicus; Mus musculus,Memory,Morris water maze;radial arm water maze;passive avoidance task;nhibitory avoida<e2><80><a6>,Others,"reported, modelled","reported, modelled",SMD,3,52,44,2
+MA05,Kavaliotis_etal_2023,2023,Macaca mulatta; Mus musculus and 2 other species,Learning,Pavlovian conditioning paradigms;instrumental conditioning paradigms;locomotor <e2><80><a6>,Drug,reported,"reported, modelled",SMD,3,37,23,0
+MA06,Kredlow_etal_2016,2016,Rattus norvegicus; Mus musculus,Memory,"reinstatement, renewal, spontaneous recovery, reacquisition",Unclear,reported,reported,SMD,2,46,15,2
+MA08,Lambert_Guillette_2021,2021,Sepia officinalis; Sepia pharaonic and 25 other species,Learning,"avoidance learning, discrimination learning, inhibitory learning, the Morris wa<e2><80><a6>",Nutrient;Evironmental,"reported, modelled","reported, modelled",SMD,1,531,176,1
+MA09,Moran_etal_2021,2021,Acanthina monodon; Acheta domesticus and 116 other species,Decision-making,unclear,Nutrient,"reported, modelled","reported, modelled",lnRR,1,1297,126,0
+MA10,Ou-Yang_etal_2022,2022,Mus musculus; Rattus norvegicus,Learning,T-maze; Y-maze;Morris Water Maze;Attentional Set Shifting Task; Five-Choice Ser<e2><80><a6>,Environmental,"reported, modelled","reported, modelled",SMD,1,32,32,1
+MA12,Roquet_etal_2018,2018,Mus musculus; Rattus norvegicus,Memory,Reinstatement;Spontaneous Recovery;Long-term Memory;Relapse,"Drug, Environmental","reported, modelled",reported,SMD,1,70,16,0
+MA13,Schettino_etal_2024,2024,Mus musculus; Rattus norvegicus,Learning,Reward task,Nutrient; Drug,reported,reported,SMD,3,94,53,2
+MA14,Siviter_etal_2018,2018,NA,Learning; Memory,absolute conditioning paradigm,Drug,reported,not reported,SMD,2,271,37,0
+MA15,Song_etal_2022,2022,Rattus norvegicus; Mus musculus,Learning; Memory,Morris water maze,Drug,reported,reported,SMD,4,36,17,2
+MA17,Dougherty_Guillette_2018,2018,Camponotus aethiops; Gnathonemus petersii and 17 other species,Learning,2 choice location; 2 choice task; 3 choice task; 4 choice task;alternative forc<e2><80><a6>,Unclear,not reported,"reported, modelled",Zr,1,66,22,1
+MA18,Musillo_etal_2021,2021,Rattus norvegicus; Mus musculus,Learning; Memory,Morris water maze; Passive avoidance; Y-maze; Y-maze with electric shock; T-maz<e2><80><a6>,Drug,"reported, modelled","reported, modelled",SMD,1,23,23,0
+MA20,Szabo_etal_2019,2019,Anolis evermanni; Bassiana duperreyi and 8 other species,Learning,Discrimination; Reversal,Unclear,"reported, modelled","reported, modelled",lnRR,1,29,8,0
+MA21,Menting_etal_2019,2019,Rattus norvegicus; Mus musculus,Memory,Morris Water Maze; Barnes Maze; Y-maze; Novel Object Recognition,Unclear,"reported, modelled","reported, modelled",SMD,1,11,6,0
+MA22,Macartney_etal_2022,2022,Rattus norvegicus; Mus musculus,Learning; Memory,5-choice task; 8 arm radial maze; Aversive conditioning; Barnes maze; context-d<e2><80><a6>,"Environmental, Others","reported, modelled",reported,lnRR,3,276,90,0
+MA23,Moreira_etal_2016,2016,Mus musculus; Rattus norvegicus,Learning; Memory,Hebbs Maze; Labyrinth food finding test; MWM; NOR; Object location; RAM,"Environmental, Others","reported, modelled",reported,SMD,1,24,22,1
+MA24,Camacho_Alpízar_Guillette_2023,2023,Drosophila melanogaster; Pan troglodytes and 31 other species,Decision-making; Learning,unclear,Unclear,"reported, modelled","reported, modelled",SMD,1,139,54,0
+MA25,Jonasson_2005,2005,Rattus norvegicus; Mus musculus,Learning; Memory,water maze;radial maze,Unclear,"reported, modelled","reported, modelled",SMD,1,43,22,1
+MA26,Lagisz_etal_2020,2020,Apis mellifera carnica; Bombus terrestris audax and 20 other species,Decision-making,go/no-go; go/go active task,"Environmental, Nutrient","reported, modelled","reported, modelled",SMD,1,459,71,1
+MA28,Abbott_etal_2019,2019,Rattus norvegicus; Mus musculus,Learning; Memory,Morris water maze;radial arm maze;radial arm water maze;place and object-in-pla<e2><80><a6>,Not applicable,reported,reported,SMD,2,168,83,2
+MA31,Bonapersona_etal_2019,2019,Mus musculus; Rattus norvegicus,Memory,Fear Conditioning; Forced swim test; Morrise water maze; Shuttle box; Object in<e2><80><a6>,Environmental,"reported, modelled","reported, modelled",SMD,1,734,212,0
+MA32,Bustamante_etal_2024,2024,Mus musculus; Rattus norvegicus,Learning,Conditioned; Conditioned taste aversion; Fear conditioning; Instrumental condit<e2><80><a6>,Unclear,not reported,reported,SMD,1,13,7,0
+MA34,Poirier_etal_2020,2020,Mus musculus; Rattus norvegicus and 9 other species,Other,unclear,Unclear,not reported,reported,Zr,1,555,23,0
+MA39,Rocha_etal_2021,2021,Rattus norvegicus; Mus musculus,Learning; Memory,Morris water maze; Nobel object recognition; Contextual fear conditioning,Environmental,reported,"reported, modelled",SMD,2,52,32,1
+MA41,Speechley_etal_2024,2024,Bos taurus; Callithrix jacchus and 17 other species,Other,unclear,Unclear,not reported,not reported,Zr,4,527,107,3
+MA43,Keeble_etal_2022,2022,Corvus frugilegus; Nestor notabilis and 10 other species,Other,string-pull task,Unclear,not reported,not reported,Zr,1,13,8,0
+MA45,Woodley_of_Menie_etal_2022,2022,Rattus norvegicus; Mus musculus,Other,unclear,Not applicable,"reported, modelled","reported, modelled",Zr,2,39,35,0
+MA47,Amici_etal_2019,2019,Poecilia reticulata; Acridotheres tristis and 41 other species,Other,unclear,Unclear,not reported,not reported,Zr,2,103,51,0
