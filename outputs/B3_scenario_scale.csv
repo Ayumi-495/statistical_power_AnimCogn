@@ -1,2 +1,0 @@
-n_models,median_ratio_mu_opt_to_beta0,min_ratio,max_ratio,n_ci_includes_zero,sign_preserved_all,ddf_min,ddf_max,max_abs_diff_t_vs_normal_ci
-48,1.6099154444371293,1.1112562982952303,13.041092955461462,17,TRUE,3,1296,0.8248926915286732
