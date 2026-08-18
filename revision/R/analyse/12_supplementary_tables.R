@@ -188,24 +188,6 @@ readr::write_csv(S2, file.path(SUP, "TableS2_evidence_base.csv"))
 message(sprintf("Table S2: %d rows, %d models, %d effect sizes -> supplementary/TableS2_evidence_base.csv",
         nrow(S2), sum(S2$n_models), sum(S2$n_effect_sizes)))
 
-# --- markdown echo, so both can be read without a spreadsheet -----------------
-md <- function(d) {
-  hdr <- paste0("| ", paste(names(d), collapse = " | "), " |")
-  sep <- paste0("|", paste(rep(" --- ", ncol(d)), collapse = "|"), "|")
-  rows <- apply(d, 1, function(r) paste0("| ", paste(ifelse(is.na(r), "", r), collapse = " | "), " |"))
-  c(hdr, sep, rows)
-}
-writeLines(c("# Table S1. Reported metrics", "",
-             md(dplyr::filter(S1, part == "A. Reported results") |> dplyr::select(-part)), "",
-             "# Table S1, part B. Sensitivity to the assumed effect (primary-study level)", "",
-             md(dplyr::filter(S1, startsWith(part, "B.")) |> dplyr::select(-part)), "",
-             "# Table S1, part C. External assumed effects (meta-analysis level)", "",
-             md(dplyr::filter(S1, startsWith(part, "C.")) |> dplyr::select(-part)), "",
-             "# Table S2. Characteristics of the 28 included meta-analytical papers", "",
-             md(S2)),
-           file.path(SUP, "supplementary_tables.md"))
-message("markdown echo -> supplementary/supplementary_tables.md")
-
 # --- what stays as CSV rather than becoming a supplementary table -------------
 keep <- setdiff(basename(list.files(REV_OUT, pattern = "[.]csv$")), character(0))
 message("\nremaining as archived CSV (not supplementary tables): ",
