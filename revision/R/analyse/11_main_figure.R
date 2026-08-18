@@ -102,12 +102,22 @@ sm <- dplyr::bind_rows(
                     levels = EFFECTS$label),
     metric = factor(metric, levels = levels(d$metric)),
     value = geometric_mean, raw_median, raw_q1, raw_q3) |>
-  # Type S at the meta-analysis level is summarised by the median and quartiles, because
-  # the log-scale model needs an offset of 0.025 that exceeds most of the observed
-  # values there. Every other cell keeps the model-based summary. This mirrors what the
-  # text reports, so the bar on the figure is always the number in the sentence.
+  # TYPE S IS SUMMARISED BY THE MEDIAN AND QUARTILES AT BOTH LEVELS. The log-scale model
+  # requires an offset of 0.025 because Type S can be exactly zero, and the fitted
+  # summary is sensitive to that offset wherever the observed values are small relative
+  # to it - which is every meta-analysis-level cell and the uncorrected primary-study
+  # cell. The manuscript therefore reads Type S off the raw median and interquartile
+  # range at both levels, and the bar on the figure has to be the number in the sentence.
+  #
+  # Until 2026-08-17 this line read `& level == "Meta-analysis level"`, so the
+  # primary-study bars were the back-transformed model estimates (2.76 / 10.21 / 4.84%)
+  # while the text reported the medians (1.83 / 13.58 / 5.24%). Power and Type M are
+  # unaffected: they need no offset and keep the model-based summary.
+  #
+  # Nothing is recomputed here. `raw_median`, `raw_q1` and `raw_q3` are read from the
+  # canonical summary tables, the same columns Table S1 is built from.
   dplyr::mutate(
-    use_raw = metric == "type_S" & level == "Meta-analysis level",
+    use_raw = metric == "type_S",
     value = ifelse(use_raw, raw_median, value),
     lo    = ifelse(use_raw, raw_q1, NA_real_),
     hi    = ifelse(use_raw, raw_q3, NA_real_))
