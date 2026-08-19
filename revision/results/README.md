@@ -309,11 +309,33 @@ Two things follow. Single-model leverage is not unique to the FE + VCV summary â
 Yang-2023 summary has its own influential model in MA26 â€” and **MA09 is the only model
 anywhere in the table that moves a summary by more than 20%**.
 
-But that leverage is **a property of the weighting, not of any model**. Under equal
-weighting no model moves any summary by more than 10%, the largest single influence
-falls from 44.7% to 5.1%, and the most influential model is a different one in every
-case. This is the same conclusion `leave_one_paper_out.csv` reaches at the level of
-source papers, reached independently at the level of models, and it is the reason the
+But that leverage is **largely a property of the weighting, not of any model**. For
+power, under equal weighting no model moves any summary by more than **5.1%**, against
+44.7% under weighting by effect-size count, and the most influential model is a different
+one in every specification.
+
+The same contrast holds for the other two metrics but is less complete, and the table
+below is the honest version rather than the headline one:
+
+| metric | weighting | largest \|change\| | most influential | n > 10% | n > 20% | median \|change\| |
+|---|---|---|---|---|---|---|
+| power | by effect-size count | 72.7% | MA09 | 6 | 2 | 0.5% |
+| power | equal per model | **5.1%** | MA15_04 | 0 | 0 | 1.3% |
+| Type M | by effect-size count | 34.3% | MA09 | 6 | 2 | 0.3% |
+| Type M | equal per model | 14.3% | MA39_1 | 1 | 0 | 0.8% |
+| Type S | by effect-size count | 78.0% | MA09 | 22 | 9 | 0.9% |
+| Type S | equal per model | 34.9% | MA15_04 | 8 | 4 | 2.3% |
+
+Counts are over 4 specifications x 48 models = 192 values per cell. Equal weighting
+roughly halves the largest influence for every metric, but only for power does it remove
+single-model leverage entirely. Type M and Type S remain sensitive under either weighting
+because both diverge as the assumed effect approaches zero, so a model whose corrected
+mean sits near zero moves them a long way whatever weight it carries. Note also that the
+72.7% and 78.0% figures are the UWLS rows, which are supplementary; the reported
+bias-robust specification is FE + VCV, where the corresponding figure is 44.7%.
+
+This is the same conclusion `leave_one_paper_out.csv` reaches at the level of source
+papers, reached independently at the level of models, and it is part of the reason the
 meta-analysis-level aggregate is reported as a descriptive summary rather than as a
 principal result.
 

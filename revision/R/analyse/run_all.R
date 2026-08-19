@@ -38,8 +38,11 @@ for (f in c("01_reproduce_original_analysis.R", "02_overshoot_diagnostics.R",
             "03_yang2024_bias_robust.R", "04_revision_sensitivity_summaries.R",
             "05_make_revision_tables.R", "07_influence_loo.R",
             "08_model_level_figure.R", "09_assumed_effect_scenarios.R",
-            "11_main_figure.R", "12_supplementary_tables.R", "14_leave_one_cluster_out.R",
-            "15_leave_one_paper_out.R", "16_export_scenario_inputs.R",
+            "11_main_figure.R", "14_leave_one_cluster_out.R",
+            # 12 builds Tables S3 and S4 out of 07's and 15's output, so it has to
+            # follow both. It used to run before 14 and 15, when it made only S1 and S2.
+            "15_leave_one_paper_out.R", "12_supplementary_tables.R",
+            "16_export_scenario_inputs.R",
             "18_ma_level_uncertainty.R", "19_paired_bootstrap_contrasts.R",
             "20_verify_reported_numbers.R",
             "13_table_metadata.R"))  {

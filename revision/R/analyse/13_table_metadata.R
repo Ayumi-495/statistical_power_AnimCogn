@@ -65,6 +65,34 @@ cap_S2 <- paste0(
   "Task is recorded as 'unclear' where the systematic map could not identify a ",
   "specific paradigm, and species were not recorded for one paper.")
 
+cap_S3 <- paste0(
+  "**Table S3. Leave-one-meta-analysis-model-out influence on the meta-analysis-level ",
+  "summaries.** Each of the 48 meta-analytic models is removed in turn and the summary ",
+  "recomputed from the remaining 47, for each of the four assumed effects, each of the ",
+  "three metrics, and both weightings. `change_pct` is the percentage change in the ",
+  "summary caused by removing that model, and `influence_rank` orders the 48 models by ",
+  "the absolute size of that change within each specification, metric and weighting; ",
+  "rows are sorted so that the most influential model appears first in each block. ",
+  "Single-model leverage is largely a property of the weighting rather than of any ",
+  "model: weighting by effect-size count gives one model 22.6% of the weight and it ",
+  "moves the bias-robust power summary by 44.7%, whereas under equal weighting no model ",
+  "moves any power summary by more than 5.1%. The contrast is smaller but in the same ",
+  "direction for Type M error (34.3% against 14.3%) and for Type S error (78.0% against ",
+  "34.9%), which are more sensitive to individual models because both diverge as the ",
+  "assumed effect approaches zero. Nothing is excluded from any reported analysis; ",
+  "this is an influence diagnostic. Companion to Table S4, which removes a source paper ",
+  "at a time.")
+
+cap_S4 <- paste0(
+  "**Table S4. Leave-one-source-paper-out influence on the meta-analysis-level ",
+  "summaries.** Each of the 28 source meta-analytical papers is removed in turn, ",
+  "together with every meta-analytic model it contributed, and the summary recomputed ",
+  "from the models that remain. Twelve papers contribute more than one model, so this ",
+  "asks a different question from Table S3: how much does the summary depend on any ",
+  "single published paper, rather than on any single fitted model. A paper is the unit ",
+  "of publication and of any shared authorship, laboratory or analytical convention. ",
+  "Columns and sorting follow Table S3. Nothing is excluded from any reported analysis.")
+
 # --- column dictionary --------------------------------------------------------
 dict <- tibble::tribble(
   ~table, ~column, ~description, ~units_or_values,
@@ -93,12 +121,39 @@ dict <- tibble::tribble(
   "Table S2", "n_models", "Number of meta-analysis models this paper contributes to the present analysis", "count",
   "Table S2", "n_effect_sizes", "Number of effect-size estimates contributed, summed over that paper's models", "count",
   "Table S2", "n_study_clusters", "Number of study clusters contributed, summed over that paper's models. Study identifiers are defined within each meta-analysis and are not harmonised across papers, so this is not a count of distinct primary publications", "count",
-  "Table S2", "n_sign_reversals", "Number of this paper's models whose bias-corrected mean has the opposite sign to the uncorrected pooled mean", "count"
+  "Table S2", "n_sign_reversals", "Number of this paper's models whose bias-corrected mean has the opposite sign to the uncorrected pooled mean", "count",
+
+  "Table S3", "specification", "Which assumed underlying effect the summary was computed against", "Uncorrected pooled mean; Yang 2023 bias-corrected; Yang 2024 bias-robust (FE + VCV); Yang 2024 bias-robust (UWLS)",
+  "Table S3", "weighting", "How the remaining models are combined into the summary", "By effect-size count; Each meta-analysis weighted equally",
+  "Table S3", "metric", "Which design-analysis quantity the row reports", "Statistical power; Type M error; Type S error",
+  "Table S3", "dropped_model", "The meta-analytic model removed in this row", "MA01_01-MA47",
+  "Table S3", "n_effect_sizes_contributed", "Number of effect-size estimates that model contributes", "count",
+  "Table S3", "pct_of_effect_sizes", "That model's share of all 5,740 effect-size estimates, which is its share of the weight under weighting by effect-size count", "per cent",
+  "Table S3", "summary_all_48_models", "The summary computed from all 48 models, repeated on every row of the block for comparison", "probability (power, Type S) or ratio (Type M)",
+  "Table S3", "summary_without", "The summary recomputed from the 47 models that remain", "probability (power, Type S) or ratio (Type M)",
+  "Table S3", "change_pct", "Percentage change from summary_all_48_models to summary_without", "per cent, signed",
+  "Table S3", "influence_rank", "Rank of this model by the absolute size of change_pct, within this specification, metric and weighting; 1 is the most influential", "1-48",
+
+  "Table S4", "specification", "Which assumed underlying effect the summary was computed against", "Uncorrected pooled mean; Yang 2023 bias-corrected; Yang 2024 bias-robust (FE + VCV); Yang 2024 bias-robust (UWLS)",
+  "Table S4", "weighting", "How the remaining models are combined into the summary", "By effect-size count; Each meta-analysis weighted equally",
+  "Table S4", "metric", "Which design-analysis quantity the row reports", "Statistical power; Type M error; Type S error",
+  "Table S4", "dropped_paper", "The source meta-analytical paper removed in this row, together with every model it contributed", "MA01-MA47",
+  "Table S4", "n_models_dropped", "How many of the 48 meta-analytic models that paper contributed, and therefore how many were removed", "count",
+  "Table S4", "n_effect_sizes_dropped", "How many effect-size estimates were removed with it", "count",
+  "Table S4", "pct_of_effect_sizes", "Those estimates as a share of all 5,740", "per cent",
+  "Table S4", "summary_all_28_papers", "The summary computed from all 48 models, repeated on every row of the block for comparison", "probability (power, Type S) or ratio (Type M)",
+  "Table S4", "summary_without", "The summary recomputed from the models that remain after the paper is removed", "probability (power, Type S) or ratio (Type M)",
+  "Table S4", "change_pct", "Percentage change from summary_all_28_papers to summary_without", "per cent, signed",
+  "Table S4", "influence_rank", "Rank of this paper by the absolute size of change_pct, within this specification, metric and weighting; 1 is the most influential", "1-28"
 )
 
 # --- gate: the dictionary must match the tables exactly ------------------------
-for (nm in c("Table S1", "Table S2")) {
-  f <- if (nm == "Table S1") "TableS1_reported_metrics.csv" else "TableS2_evidence_base.csv"
+TABLE_FILE <- c("Table S1" = "TableS1_reported_metrics.csv",
+                "Table S2" = "TableS2_evidence_base.csv",
+                "Table S3" = "TableS3_leave_one_model_out.csv",
+                "Table S4" = "TableS4_leave_one_paper_out.csv")
+for (nm in names(TABLE_FILE)) {
+  f <- TABLE_FILE[[nm]]
   actual <- names(readr::read_csv(file.path(SUP, f), n_max = 0, show_col_types = FALSE))
   described <- dict$column[dict$table == nm]
   missing <- setdiff(actual, described); extra <- setdiff(described, actual)
@@ -114,6 +169,8 @@ files <- tibble::tribble(
   ~file, ~contents,
   "TableS1_reported_metrics.csv", "Supplementary Table S1. Summary metrics under each assumed effect.",
   "TableS2_evidence_base.csv", "Supplementary Table S2. Characteristics of the 28 included papers.",
+  "TableS3_leave_one_model_out.csv", "Supplementary Table S3. Leave-one-model-out influence, display version of loo_influence.csv.",
+  "TableS4_leave_one_paper_out.csv", "Supplementary Table S4. Leave-one-source-paper-out influence, display version of leave_one_paper_out.csv.",
   "per_meta_analysis_estimates.csv", "One row per meta-analysis model: uncorrected and bias-corrected means, standard errors and intervals, the bias-robust estimate with its cluster-robust standard error and Satterthwaite degrees of freedom, weighting diagnostics and sign-reversal flags.",
   "model_level_metrics.csv", "Power, Type M and Type S for every model under every assumed effect, with the assumed effect and standard error that produced each.",
   "assumed_effect_scenarios.csv", "Optimistic and externally specified assumed-effect scenarios at both levels.",
@@ -141,6 +198,7 @@ readr::write_csv(files, file.path(SUP, "metadata_files.csv"))
 message(sprintf("  file index: %d files, all documented", nrow(files)))
 
 writeLines(c("# Supplementary table captions", "", cap_S1, "", cap_S2, "",
+             cap_S3, "", cap_S4, "",
              "Column definitions are in metadata_columns.csv; the file index for the archived",
              "deposit is in metadata_files.csv."),
            file.path(SUP, "captions.md"))
