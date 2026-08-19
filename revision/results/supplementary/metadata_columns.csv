@@ -24,3 +24,24 @@ Table S2,n_models,Number of meta-analysis models this paper contributes to the p
 Table S2,n_effect_sizes,"Number of effect-size estimates contributed, summed over that paper's models",count
 Table S2,n_study_clusters,"Number of study clusters contributed, summed over that paper's models. Study identifiers are defined within each meta-analysis and are not harmonised across papers, so this is not a count of distinct primary publications",count
 Table S2,n_sign_reversals,Number of this paper's models whose bias-corrected mean has the opposite sign to the uncorrected pooled mean,count
+Table S3,specification,Which assumed underlying effect the summary was computed against,Uncorrected pooled mean; Yang 2023 bias-corrected; Yang 2024 bias-robust (FE + VCV); Yang 2024 bias-robust (UWLS)
+Table S3,weighting,How the remaining models are combined into the summary,By effect-size count; Each meta-analysis weighted equally
+Table S3,metric,Which design-analysis quantity the row reports,Statistical power; Type M error; Type S error
+Table S3,dropped_model,The meta-analytic model removed in this row,MA01_01-MA47
+Table S3,n_effect_sizes_contributed,Number of effect-size estimates that model contributes,count
+Table S3,pct_of_effect_sizes,"That model's share of all 5,740 effect-size estimates, which is its share of the weight under weighting by effect-size count",per cent
+Table S3,summary_all_48_models,"The summary computed from all 48 models, repeated on every row of the block for comparison","probability (power, Type S) or ratio (Type M)"
+Table S3,summary_without,The summary recomputed from the 47 models that remain,"probability (power, Type S) or ratio (Type M)"
+Table S3,change_pct,Percentage change from summary_all_48_models to summary_without,"per cent, signed"
+Table S3,influence_rank,"Rank of this model by the absolute size of change_pct, within this specification, metric and weighting; 1 is the most influential",1-48
+Table S4,specification,Which assumed underlying effect the summary was computed against,Uncorrected pooled mean; Yang 2023 bias-corrected; Yang 2024 bias-robust (FE + VCV); Yang 2024 bias-robust (UWLS)
+Table S4,weighting,How the remaining models are combined into the summary,By effect-size count; Each meta-analysis weighted equally
+Table S4,metric,Which design-analysis quantity the row reports,Statistical power; Type M error; Type S error
+Table S4,dropped_paper,"The source meta-analytical paper removed in this row, together with every model it contributed",MA01-MA47
+Table S4,n_models_dropped,"How many of the 48 meta-analytic models that paper contributed, and therefore how many were removed",count
+Table S4,n_effect_sizes_dropped,How many effect-size estimates were removed with it,count
+Table S4,pct_of_effect_sizes,"Those estimates as a share of all 5,740",per cent
+Table S4,summary_all_28_papers,"The summary computed from all 48 models, repeated on every row of the block for comparison","probability (power, Type S) or ratio (Type M)"
+Table S4,summary_without,The summary recomputed from the models that remain after the paper is removed,"probability (power, Type S) or ratio (Type M)"
+Table S4,change_pct,Percentage change from summary_all_28_papers to summary_without,"per cent, signed"
+Table S4,influence_rank,"Rank of this paper by the absolute size of change_pct, within this specification, metric and weighting; 1 is the most influential",1-28

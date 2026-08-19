@@ -10,9 +10,21 @@
 #             needs in order to check the claims in the text.
 #   Table S2  the characteristics of the 28 included meta-analytical papers. Four
 #             reviewer comments depend on it (R1C17, R2C11, R2C15, R2C17).
+#   Table S3  leave-one-MODEL-out influence, all 48 models.
+#   Table S4  leave-one-PAPER-out influence, all 28 source papers.
 #
-# Both are written as CSV, for pasting into the manuscript, and echoed as markdown
-# so they can be read without opening a spreadsheet.
+# S3 AND S4 EXIST BECAUSE THE MAIN TEXT QUOTES NUMBERS OUT OF THEM. The text gives the
+# largest single-model influence (MA09, +44.7% on the bias-robust summary) and the
+# largest single-paper influence under equal weighting. A reader who wants to check
+# either, or to see where it sits among the other 47 or 27 values, should not have to
+# clone the repository to do it. The underlying CSVs stay in the archived deposit; these
+# are the display versions, rounded and labelled like S1 and S2.
+#
+# They are sorted by influence within each block, so the value the text quotes is the
+# FIRST ROW of its specification x metric x weighting group and the reader can see at a
+# glance how far it stands above the rest.
+#
+# All four are written as CSV, for pasting into the manuscript.
 #
 # TYPE S IS REPORTED BOTH WAYS AND THE TABLE SAYS SO. The summary is fitted on
 # log(Type S + 0.025) and the offset dominates when the values are far below it, so
@@ -187,6 +199,77 @@ stopifnot(nrow(S2) == 28L, sum(S2$n_effect_sizes) == 5740L, sum(S2$n_models) == 
 readr::write_csv(S2, file.path(SUP, "TableS2_evidence_base.csv"))
 message(sprintf("Table S2: %d rows, %d models, %d effect sizes -> supplementary/TableS2_evidence_base.csv",
         nrow(S2), sum(S2$n_models), sum(S2$n_effect_sizes)))
+
+# --- Tables S3 and S4: the two influence analyses -----------------------------
+# Shared display vocabulary, so a reader moving between S1, S3 and S4 meets the same
+# words for the same things. `.default = NA_character_` for the same reason as above: an
+# unmapped internal label must fail the gate rather than leak into a supplementary table.
+spec_label <- function(x) dplyr::recode(x,
+  uncorrected_beta0       = "Uncorrected pooled mean",
+  yang2023_gated_beta0_c3 = "Yang 2023 bias-corrected",
+  yang2024_FE_VCV         = "Yang 2024 bias-robust (FE + VCV)",
+  yang2024_UWLS           = "Yang 2024 bias-robust (UWLS)",
+  .default = NA_character_)
+weight_label <- function(x) dplyr::recode(x,
+  k_effect_sizes          = "By effect-size count",
+  equal_per_meta_analysis = "Each meta-analysis weighted equally",
+  .default = NA_character_)
+metric_label <- function(x) dplyr::recode(x,
+  power = "Statistical power", type_M = "Type M error", type_S = "Type S error",
+  .default = NA_character_)
+
+S3 <- readr::read_csv(file.path(REV_OUT, "loo_influence.csv"), show_col_types = FALSE) |>
+  dplyr::transmute(
+    specification = spec_label(effect_estimator),
+    weighting     = weight_label(weighting),
+    metric        = metric_label(metric),
+    dropped_model = sub("[.]csv$", "", dropped_MA_model),
+    n_effect_sizes_contributed  = dropped_k,
+    pct_of_effect_sizes         = sprintf("%.1f", dropped_pct_of_k),
+    summary_all_48_models = fmt(summary_all_48, metric),
+    summary_without       = fmt(summary_without, metric),
+    change_pct            = sprintf("%+.1f", pct_change),
+    influence_rank) |>
+  dplyr::arrange(weighting, specification, metric, influence_rank)
+
+S4 <- readr::read_csv(file.path(REV_OUT, "leave_one_paper_out.csv"), show_col_types = FALSE) |>
+  dplyr::transmute(
+    specification = spec_label(effect_estimator),
+    weighting     = weight_label(weighting),
+    metric        = metric_label(metric),
+    dropped_paper = dropped_source_paper,
+    n_models_dropped, n_effect_sizes_dropped,
+    pct_of_effect_sizes = sprintf("%.1f", pct_of_effect_sizes_dropped),
+    summary_all_28_papers = fmt(summary_all_28_papers, metric),
+    summary_without       = fmt(geometric_mean, metric),
+    change_pct            = sprintf("%+.1f", pct_change),
+    influence_rank) |>
+  dplyr::arrange(weighting, specification, metric, influence_rank)
+
+# gates: no unmapped label may reach a supplementary table, and the row counts must be
+# the full grids rather than a silently filtered subset
+for (nm in c("S3", "S4")) {
+  tb <- get(nm)
+  leaked <- vapply(tb, function(col) any(is.na(col)), logical(1))
+  if (any(leaked)) stop(nm, ": unmapped or missing values in ",
+                        paste(names(tb)[leaked], collapse = ", "))
+}
+stopifnot(nrow(S3) == 48L * 4L * 3L * 2L, nrow(S4) == 28L * 4L * 3L * 2L)
+
+readr::write_csv(S3, file.path(SUP, "TableS3_leave_one_model_out.csv"))
+readr::write_csv(S4, file.path(SUP, "TableS4_leave_one_paper_out.csv"))
+message(sprintf("Table S3: %d rows -> supplementary/TableS3_leave_one_model_out.csv", nrow(S3)))
+message(sprintf("Table S4: %d rows -> supplementary/TableS4_leave_one_paper_out.csv", nrow(S4)))
+
+# the number the main text quotes must be the top row of its block, so that a reader
+# following the sentence lands on it
+top <- S3 |>
+  dplyr::filter(specification == "Yang 2024 bias-robust (FE + VCV)",
+                metric == "Statistical power",
+                weighting == "By effect-size count", influence_rank == 1L)
+stopifnot(nrow(top) == 1L, top$dropped_model == "MA09", top$change_pct == "+44.7")
+message(sprintf("  main-text check: largest single-model influence is %s at %s%% (rank 1 of 48)",
+        top$dropped_model, top$change_pct))
 
 # --- what stays as CSV rather than becoming a supplementary table -------------
 keep <- setdiff(basename(list.files(REV_OUT, pattern = "[.]csv$")), character(0))
