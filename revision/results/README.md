@@ -125,7 +125,7 @@ of extrapolation; empirically the estimator still reverses sign in 6 of our 48 m
 | `04_revision_sensitivity_summaries.R` | aggregates power / Type M / Type S under each retained assumed effect, with provenance |
 | `05_make_revision_tables.R` | writes **`per_meta_analysis_estimates.csv`**, **`reversal_counts.csv`**, **`primary_level_sensitivity.csv`**, **`meta_analysis_level_sensitivity.csv`** |
 | `06_validate_yang2024_reference.R` | validates the CR2 implementation against the authors' published worked example; writes **`yang2024_reference_validation.csv`**. **Not in `run_all.R`** — it downloads a data file from another project's repository, and `run_all.R` must work offline. Re-run it after any change to the CR2 code path. |
-| `07_influence_loo.R` | leave-one-out influence on the meta-analysis-level summaries, all 48 models × 4 specifications × 3 metrics; writes **`loo_influence.csv`** |
+| `07_influence_loo.R` | leave-one-model-out influence on the meta-analysis-level summaries, all 48 models × 4 specifications × 3 metrics × 2 weightings; writes **`loo_influence.csv`** |
 | `08_model_level_figure.R` | the per-model values behind those summaries; writes **`model_level_metrics.csv`** and **`figures/model_level_metrics.{pdf,png}`** |
 | `09_assumed_effect_scenarios.R` | optimistic and externally specified assumed effects at both levels; writes **`assumed_effect_scenarios.csv`** |
 | `10_evidence_base_table.R` | the 28-paper characteristics table; writes **`evidence_base_characteristics.csv`**. **Not in `run_all.R`** — it reads the sibling systematic map. |
@@ -290,22 +290,32 @@ Two derivations (R and the independent Python re-implementation described above)
 
 Reporting the MA09 figure alone would invite the question of why that model was
 singled out, and the honest answer is that it is the largest. `loo_influence.csv` gives
-the **full leave-one-out** — all 48 models × 4 specifications × 3 metrics, 576 rows —
-so MA09 appears as the largest of 48 influence values rather than as a special case.
-Baselines are checked against `meta_analysis_level_sensitivity.csv` to 8.9e-16 (a
-weighted mean of logs against the canonical `lm()` route, so a second derivation).
+the **full leave-one-out** — all 48 models × 4 specifications × 3 metrics × 2 weightings,
+1,152 rows — so MA09 appears as the largest of 48 influence values rather than as a
+special case. Baselines are checked against `meta_analysis_level_sensitivity.csv` over
+all 24 cells to 8.9e-16 (a weighted mean of logs against the canonical `lm()` route, so a
+second derivation).
 
 For power, the three largest influences on each summary:
 
-| | most influential | second | third | median \|change\| | n > 10% | n > 20% |
-|---|---|---|---|---|---|---|
-| Yang-2023 (primary) | MA26 **+19.5%** | MA31 −12.9% | MA08 −6.9% | 0.6% | 2 | 0 |
-| FE + VCV, own CR2 SE | MA09 **+44.7%** | MA31 −10.2% | MA08 −7.2% | 0.4% | 2 | 1 |
+| | weighting | most influential | second | third | median \|change\| | n > 10% | n > 20% |
+|---|---|---|---|---|---|---|---|
+| Yang-2023 (primary) | by effect-size count | MA26 **+19.5%** | MA31 −12.9% | MA08 −6.9% | 0.6% | 2 | 0 |
+| Yang-2023 (primary) | equal per model | MA39_1 +3.5% | MA26 +3.5% | MA13_03 +3.4% | 2.1% | 0 | 0 |
+| FE + VCV, own CR2 SE | by effect-size count | MA09 **+44.7%** | MA31 −10.2% | MA08 −7.2% | 0.4% | 2 | 1 |
+| FE + VCV, own CR2 SE | equal per model | MA22_02 +5.1% | MA39_2 +4.5% | MA39_1 +3.6% | 1.3% | 0 | 0 |
 
-So single-model leverage is not unique to the FE + VCV summary — the Yang-2023 summary
-has its own influential model in MA26 — but **MA09 is the only model anywhere in the
-table that moves a summary by more than 20%**, and the typical model moves either
-summary by well under 1%.
+Two things follow. Single-model leverage is not unique to the FE + VCV summary — the
+Yang-2023 summary has its own influential model in MA26 — and **MA09 is the only model
+anywhere in the table that moves a summary by more than 20%**.
+
+But that leverage is **a property of the weighting, not of any model**. Under equal
+weighting no model moves any summary by more than 10%, the largest single influence
+falls from 44.7% to 5.1%, and the most influential model is a different one in every
+case. This is the same conclusion `leave_one_paper_out.csv` reaches at the level of
+source papers, reached independently at the level of models, and it is the reason the
+meta-analysis-level aggregate is reported as a descriptive summary rather than as a
+principal result.
 
 `meta_analysis_level_sensitivity.csv` also carries an **equally weighted** summary
 (`weighting = "equal_per_meta_analysis"`, `role = "secondary_descriptive"`), giving each

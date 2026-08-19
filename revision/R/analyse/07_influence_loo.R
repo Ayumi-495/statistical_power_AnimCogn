@@ -14,7 +14,19 @@
 #
 # Scope: meta-analysis level only. The primary-study-level summaries aggregate 5,740
 # units with a study random effect and have no comparable single-unit leverage; the
-# k-weighted 48-unit aggregate is the quantity with the problem.
+# 48-unit aggregate is the quantity with the problem.
+#
+# BOTH WEIGHTINGS, since 2026-08-17. This script previously computed the k-weighted
+# summary alone, which made it the odd one out: `15_leave_one_paper_out.R` has always
+# covered both, and the equally weighted summary became a reported sensitivity analysis
+# on 2026-08-15. Leaving one of the two influence analyses k-weighted-only meant the
+# same question - how much does one unit move the summary? - was answered with different
+# coverage depending on whether the unit was a model or a paper.
+#
+# The distinction matters here more than anywhere else in the workflow, because the
+# leverage this script measures is largely a property of the weighting rather than of
+# any model: k-weighting concentrates 22.6% of the weight on MA09, and equal weighting
+# by construction gives every model 1/48.
 
 source(here::here("revision", "R", "analyse", "00_revision_functions.R"))
 
@@ -36,60 +48,98 @@ specs <- tibble::tribble(
   "yang2024_UWLS",            BR$UWLS_estimate,   BR$UWLS_CRVE_SE_CR2_naive_t,  "own_CRVE",  "CR2_naive_t",       "supplementary"
 )
 
-# k-weighted geometric mean, matching aggregate_ma()'s point estimate. Computed here
-# as a weighted mean of logs rather than via lm(), which is a second route to the same
-# quantity; agreement with the canonical tables is asserted below.
+# Weighted geometric mean, matching aggregate_ma()'s point estimate. Computed here as a
+# weighted mean of logs rather than via lm(), which is a second route to the same
+# quantity; agreement with the canonical tables is asserted below for both weightings.
 wgeo <- function(v, w, off) exp(sum(w * log(v + off)) / sum(w)) - off
+
+# The two summaries, as weight vectors over the retained models. `k_effect_sizes`
+# describes the typical effect-size estimate; `equal_per_meta_analysis` describes the
+# typical meta-analytic model. They answer different questions and are not alternative
+# estimates of one quantity, so both are carried through rather than reconciled.
+WEIGHTINGS <- list(
+  k_effect_sizes          = function(keep) o$k[keep],
+  equal_per_meta_analysis = function(keep) rep(1, sum(keep))
+)
 
 loo <- purrr::list_rbind(lapply(seq_len(nrow(specs)), function(i) {
   sp <- specs[i, ]
   purrr::list_rbind(lapply(METRICS, function(mt) {
-    off  <- offset_for(mt)
-    v    <- metric_fun[[mt]](sp$mu[[1]], sp$se[[1]])
-    base <- wgeo(v, o$k, off)
-    vals <- vapply(seq_len(48), function(j) wgeo(v[-j], o$k[-j], off), numeric(1))
-    tibble::tibble(
-      effect_estimator = sp$effect_estimator, se_source = sp$se_source,
-      se_method = sp$se_method, crit_value_method = "z_1.96",
-      spec_role = sp$role_of_spec, metric = mt,
-      dropped_MA_model = o$MA_model, dropped_k = o$k,
-      dropped_pct_of_k = 100 * o$k / sum(o$k),
-      summary_all_48 = base, summary_without = vals,
-      abs_change = vals - base, pct_change = 100 * (vals / base - 1)
-    ) |>
-      dplyr::mutate(influence_rank = rank(-abs(pct_change), ties.method = "min"))
+    off <- offset_for(mt)
+    v   <- metric_fun[[mt]](sp$mu[[1]], sp$se[[1]])
+    purrr::list_rbind(lapply(names(WEIGHTINGS), function(wn) {
+      wf   <- WEIGHTINGS[[wn]]
+      base <- wgeo(v, wf(rep(TRUE, 48L)), off)
+      vals <- vapply(seq_len(48), function(j) {
+        keep <- seq_len(48) != j
+        wgeo(v[keep], wf(keep), off)
+      }, numeric(1))
+      tibble::tibble(
+        weighting = wn,
+        effect_estimator = sp$effect_estimator, se_source = sp$se_source,
+        se_method = sp$se_method, crit_value_method = "z_1.96",
+        spec_role = sp$role_of_spec, metric = mt,
+        dropped_MA_model = o$MA_model, dropped_k = o$k,
+        dropped_pct_of_k = 100 * o$k / sum(o$k),
+        summary_all_48 = base, summary_without = vals,
+        abs_change = vals - base, pct_change = 100 * (vals / base - 1)
+      ) |>
+        # ranked within a weighting: the most influential model under k-weighting is not
+        # the most influential model under equal weighting, and that is the finding.
+        dplyr::mutate(influence_rank = rank(-abs(pct_change), ties.method = "min"))
+    }))
   }))
 })) |>
-  dplyr::mutate(aggregation = "meta_analysis_level", weighting = "k_effect_sizes",
+  dplyr::mutate(aggregation = "meta_analysis_level",
                 role = "influence_check", verification_status = "two_derivations",
                 .before = 1)
 
 # --- verification gate: the baselines must match the canonical table ----------
+# The equally weighted rows are filed as `secondary_descriptive` in the canonical table
+# whatever specification produced them, so the join cannot key on `role`. Dropping the
+# `diagnostic_*` rows leaves exactly the 24 reportable ones, on which
+# (effect_estimator, se_method, metric, weighting) is unique.
 S  <- readRDS(file.path(REV_TMP, "summaries.rds"))
 canon <- dplyr::filter(S$ma, aggregation == "meta_analysis_level",
-                       weighting == "k_effect_sizes",
-                       role %in% c("reference_uncorrected", "primary",
-                                   "reported_sensitivity", "supplementary"))
+                       !startsWith(role, "diagnostic"),
+                       weighting %in% names(WEIGHTINGS))
+stopifnot(nrow(canon) == 24L,
+          !any(duplicated(canon[, c("effect_estimator", "se_method", "metric", "weighting")])))
 chk <- loo |>
-  dplyr::distinct(effect_estimator, se_method, metric, summary_all_48) |>
-  dplyr::inner_join(dplyr::select(canon, effect_estimator, se_method, metric, geometric_mean),
-                    by = c("effect_estimator", "se_method", "metric"))
-stopifnot(nrow(chk) == 12L)
+  dplyr::distinct(effect_estimator, se_method, metric, weighting, summary_all_48) |>
+  dplyr::inner_join(dplyr::select(canon, effect_estimator, se_method, metric, weighting,
+                                  geometric_mean),
+                    by = c("effect_estimator", "se_method", "metric", "weighting"))
+stopifnot(nrow(chk) == 24L)
 d <- max(abs(chk$summary_all_48 - chk$geometric_mean))
-message(sprintf("baseline agreement with meta_analysis_level_sensitivity.csv (lm vs weighted mean of logs): max|diff| = %.3g", d))
+message(sprintf("baseline agreement with meta_analysis_level_sensitivity.csv over %d cells (lm vs weighted mean of logs): max|diff| = %.3g",
+        nrow(chk), d))
 if (d > 1e-10) stop("Leave-one-out baselines disagree with the canonical summaries.")
+
+# every (model x specification x metric x weighting) exactly once
+expected <- 48L * nrow(specs) * length(METRICS) * length(WEIGHTINGS)
+stopifnot(nrow(loo) == expected)
+combo <- table(loo$dropped_MA_model, loo$effect_estimator, loo$metric, loo$weighting)
+if (!all(combo == 1L)) stop("incomplete or duplicated combinations in the leave-one-model-out grid")
+message(sprintf("rows: %d = 48 models x %d specifications x %d metrics x %d weightings",
+        nrow(loo), nrow(specs), length(METRICS), length(WEIGHTINGS)))
 
 write_revision(loo, "loo_influence.csv")
 
 # --- what it shows -----------------------------------------------------------
 pw <- dplyr::filter(loo, metric == "power")
 for (r in c("primary", "reported_sensitivity")) {
-  x <- dplyr::filter(pw, spec_role == r) |> dplyr::arrange(dplyr::desc(abs(pct_change)))
-  message(sprintf("\n%s (%s): summary %.5f", r, x$effect_estimator[1], x$summary_all_48[1]))
-  for (j in 1:3)
-    message(sprintf("   drop %-11s (k=%4d, %4.1f%% of k) -> %.5f  (%+.1f%%)",
-            sub("[.]csv", "", x$dropped_MA_model[j]), x$dropped_k[j],
-            x$dropped_pct_of_k[j], x$summary_without[j], x$pct_change[j]))
-  message(sprintf("   median |change| across all 48: %.1f%% | n above 10%%: %d | above 20%%: %d",
-          stats::median(abs(x$pct_change)), sum(abs(x$pct_change) > 10), sum(abs(x$pct_change) > 20)))
+  for (wn in names(WEIGHTINGS)) {
+    x <- dplyr::filter(pw, spec_role == r, weighting == wn) |>
+      dplyr::arrange(dplyr::desc(abs(pct_change)))
+    message(sprintf("\n%s (%s), %s: summary %.5f",
+            r, x$effect_estimator[1], wn, x$summary_all_48[1]))
+    for (j in 1:3)
+      message(sprintf("   drop %-11s (k=%4d, %4.1f%% of k) -> %.5f  (%+.1f%%)",
+              sub("[.]csv", "", x$dropped_MA_model[j]), x$dropped_k[j],
+              x$dropped_pct_of_k[j], x$summary_without[j], x$pct_change[j]))
+    message(sprintf("   median |change| across all 48: %.1f%% | n above 10%%: %d | above 20%%: %d",
+            stats::median(abs(x$pct_change)), sum(abs(x$pct_change) > 10),
+            sum(abs(x$pct_change) > 20)))
+  }
 }
