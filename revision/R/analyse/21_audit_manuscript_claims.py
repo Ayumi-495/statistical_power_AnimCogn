@@ -209,6 +209,12 @@ CLAIMS = [
     ("R3", "leave-one-cluster-out Type M 2.89 self-inclusive", 2.89, 2, 1,
      lambda: one(LOCO, "geometric_mean", effect_estimator=UNC, metric="type_M",
                  assumed_effect="self_inclusive", weighting="study_cluster_random_intercept")),
+    ("R3", "leave-one-cluster-out Type S median 1.83% self-inclusive", 1.83, 2, 100,
+     lambda: one(LOCO, "raw_median", effect_estimator=UNC, metric="type_S",
+                 assumed_effect="self_inclusive", weighting="study_cluster_random_intercept")),
+    ("R3", "leave-one-cluster-out Type S median 1.85% held out", 1.85, 2, 100,
+     lambda: one(LOCO, "raw_median", effect_estimator=UNC, metric="type_S",
+                 assumed_effect="leave_one_cluster_out", weighting="study_cluster_random_intercept")),
     ("R3", "leave-one-cluster-out Type M 2.88 held out", 2.88, 2, 1,
      lambda: one(LOCO, "geometric_mean", effect_estimator=UNC, metric="type_M",
                  assumed_effect="leave_one_cluster_out", weighting="study_cluster_random_intercept")),
@@ -246,6 +252,14 @@ COUNTED = [
      lambda: sum(1 for r in MODL if r["effect_estimator"] == Y23 and float(r["type_M"]) > 20)),
     ("D1", "Type M exceeded 20 in no model before correction", 0,
      lambda: sum(1 for r in MODL if r["effect_estimator"] == UNC and float(r["type_M"]) > 20)),
+    ("R3", "largest leave-one-cluster-out change under any metric or estimand is 6%", 6,
+     lambda: round(max(
+         abs(one(LOCO, "geometric_mean", effect_estimator=UNC, metric=m,
+                 assumed_effect="leave_one_cluster_out", weighting=w)
+             / one(LOCO, "geometric_mean", effect_estimator=UNC, metric=m,
+                   assumed_effect="self_inclusive", weighting=w) - 1) * 100
+         for m in ("power", "type_M", "type_S")
+         for w in ("study_cluster_random_intercept", "equal_per_meta_analysis")))),
     ("R3", "MA09 contributes 1,297 effect-size observations", 1297,
      lambda: int(one(LOO, "dropped_k", effect_estimator=FEV, metric="power",
                      dropped_MA_model="MA09.csv", weighting="k_effect_sizes"))),

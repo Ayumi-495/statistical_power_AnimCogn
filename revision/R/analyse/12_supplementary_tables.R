@@ -126,7 +126,34 @@ scen_ma <- sc_all |>
     metric, n_unit, geometric_mean, ci_lower, ci_upper,
     raw_median, raw_q1, raw_q3, summary_dominated_by_offset)
 
-S1 <- dplyr::bind_rows(core, scen, scen_ma) |>
+# --- part D: leave-one-cluster-out --------------------------------------------
+# The Methods say the leave-one-cluster-out analysis recomputed power, Type M error AND
+# Type S error, and it did - `14_leave_one_cluster_out.R` writes all three. But until
+# 2026-08-17 none of it reached this table, so a reader following the Methods to the
+# supplement found the optimistic and external scenarios and nothing for the dependence
+# check. All twelve rows are included here: two conditions (the assumed effect estimated
+# with the cluster in, and with it held out) x three metrics x the two primary-study-level
+# estimands. Only the uncorrected pooled mean is used, because the question is whether an
+# effect size helps estimate the mean it is judged against, and that dependence is the
+# same whichever correction is applied afterwards.
+loco <- readr::read_csv(file.path(REV_OUT, "leave_one_cluster_out.csv"),
+                        show_col_types = FALSE) |>
+  dplyr::transmute(
+    part = "D. Leave-one-cluster-out (primary-study level)",
+    level = "Primary-study level",
+    assumed_effect = dplyr::recode(assumed_effect,
+      self_inclusive        = "Uncorrected pooled mean, cluster included",
+      leave_one_cluster_out = "Uncorrected pooled mean, cluster held out",
+      .default = NA_character_),
+    weighting = dplyr::recode(weighting,
+      study_cluster_random_intercept = "Study cluster as a random effect",
+      equal_per_meta_analysis        = "Each meta-analysis weighted equally",
+      .default = NA_character_),
+    metric, n_unit, geometric_mean, ci_lower, ci_upper,
+    raw_median, raw_q1, raw_q3, summary_dominated_by_offset)
+stopifnot(nrow(loco) == 12L, !any(is.na(loco$assumed_effect)), !any(is.na(loco$weighting)))
+
+S1 <- dplyr::bind_rows(core, scen, scen_ma, loco) |>
   dplyr::mutate(
     metric = dplyr::recode(metric, power = "Statistical power",
                            type_M = "Type M error", type_S = "Type S error"),
@@ -147,7 +174,7 @@ S1 <- dplyr::bind_rows(core, scen, scen_ma) |>
 
 # No point estimate should ever need constraining; if one does, that is a modelling
 # problem rather than a display problem and must not be hidden by an asterisk.
-bad <- dplyr::bind_rows(core, scen, scen_ma) |>
+bad <- dplyr::bind_rows(core, scen, scen_ma, loco) |>
   dplyr::mutate(metric = dplyr::recode(metric, power = "Statistical power",
                                        type_M = "Type M error", type_S = "Type S error")) |>
   dplyr::filter(mapply(was_constrained, geometric_mean, metric))

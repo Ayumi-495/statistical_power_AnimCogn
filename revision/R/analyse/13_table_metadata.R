@@ -96,9 +96,9 @@ cap_S4 <- paste0(
 # --- column dictionary --------------------------------------------------------
 dict <- tibble::tribble(
   ~table, ~column, ~description, ~units_or_values,
-  "Table S1", "part", "Whether the row belongs to the results reported in the main text or to a sensitivity analysis", "A. Reported results; B. Sensitivity to the assumed effect",
+  "Table S1", "part", "Whether the row belongs to the results reported in the main text or to a sensitivity analysis", "A. Reported results; B. Sensitivity to the assumed effect (primary-study level); C. Externally specified assumed effects (meta-analysis level); D. Leave-one-cluster-out (primary-study level)",
   "Table S1", "level", "The unit the metric is computed for. At the primary-study level each effect-size estimate is evaluated against its own sampling standard error; at the meta-analysis level each model is evaluated against the standard error of its pooled estimate. In Part B, the effect-size metric the external value applies to", "Primary-study level; Meta-analysis level; All metrics; SMD; Zr; lnRR",
-  "Table S1", "assumed_effect", "The value assumed to be the underlying true effect when computing the metric", "text",
+  "Table S1", "assumed_effect", "The value assumed to be the underlying true effect when computing the metric. In Part D, whether that value was estimated with the effect size's own study cluster included or with it held out", "text",
   "Table S1", "weighting", "How the individual values are combined into the summary. At the meta-analysis level, whether models are weighted by the number of effect-size estimates they contribute or equally. At the primary-study level, which of three estimands the row reports: a random intercept for study cluster, which is the reported result and which weights study clusters almost equally rather than weighting each effect-size estimate equally; each meta-analysis weighted equally; or meta-analysis identity fitted as a second random effect", "By effect-size count; Equal per meta-analysis; Study cluster as a random effect; Meta-analysis as a random effect; -",
   "Table S1", "metric", "Which design-analysis quantity the row reports", "Statistical power; Type M error; Type S error",
   "Table S1", "n_unit", "Number of units the summary is computed over", "count",
