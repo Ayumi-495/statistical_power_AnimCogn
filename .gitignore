@@ -14,6 +14,9 @@ old/.DS_Store
 /docs
 /CLAUDE.md
 
+# Google Drive pointer files (portable CSV exports are tracked instead)
+/*.gsheet
+
 
 # regenerable intermediates from R/ (rebuild with R/01 then R/03)
 revision/results/reproduce/*.rds
