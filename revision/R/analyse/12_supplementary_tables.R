@@ -5,11 +5,11 @@
 # DOI-bearing deposit, which is also the answer to the FAIR / DOI / licence request:
 # large tables belong in a citable archive rather than compressed into a PDF.
 #
-#   Table S1  the reported metrics, both levels, every assumed effect, with the
+#   Table S1  the characteristics of the 28 included meta-analytical papers. Four
+#             reviewer comments depend on it (R1C17, R2C11, R2C15, R2C17).
+#   Table S2  the reported metrics, both levels, every assumed effect, with the
 #             summary, its interval, and the raw quantiles. This is what a reader
 #             needs in order to check the claims in the text.
-#   Table S2  the characteristics of the 28 included meta-analytical papers. Four
-#             reviewer comments depend on it (R1C17, R2C11, R2C15, R2C17).
 #   Table S3  leave-one-MODEL-out influence, all 48 models.
 #   Table S4  leave-one-PAPER-out influence, all 28 source papers.
 #
@@ -65,7 +65,7 @@ fmt <- function(v, metric, digits = 3) {
 }
 pct <- function(v) sprintf("%.2f", 100 * v)
 
-# --- Table S1 -----------------------------------------------------------------
+# --- Table S2: reported metrics -----------------------------------------------
 core <- dplyr::bind_rows(
   readr::read_csv(file.path(REV_OUT, "primary_level_sensitivity.csv"), show_col_types = FALSE),
   readr::read_csv(file.path(REV_OUT, "meta_analysis_level_sensitivity.csv"), show_col_types = FALSE)) |>
@@ -153,7 +153,7 @@ loco <- readr::read_csv(file.path(REV_OUT, "leave_one_cluster_out.csv"),
     raw_median, raw_q1, raw_q3, summary_dominated_by_offset)
 stopifnot(nrow(loco) == 12L, !any(is.na(loco$assumed_effect)), !any(is.na(loco$weighting)))
 
-S1 <- dplyr::bind_rows(core, scen, scen_ma, loco) |>
+S2 <- dplyr::bind_rows(core, scen, scen_ma, loco) |>
   dplyr::mutate(
     metric = dplyr::recode(metric, power = "Statistical power",
                            type_M = "Type M error", type_S = "Type S error"),
@@ -181,15 +181,16 @@ bad <- dplyr::bind_rows(core, scen, scen_ma, loco) |>
 if (nrow(bad)) stop(sprintf("%d point estimates fall outside the metric's range", nrow(bad)))
 
 # No internal label may reach the table.
-if (any(is.na(S1$weighting)))
-  stop("unmapped `weighting` value reached Table S1; add it to the recode above")
-leak <- grep("_", c(S1$weighting, S1$level, S1$assumed_effect, S1$metric), value = TRUE)
-if (length(leak)) stop("internal shorthand in Table S1: ", paste(unique(leak), collapse = ", "))
+if (any(is.na(S2$weighting)))
+  stop("unmapped `weighting` value reached Table S2; add it to the recode above")
+leak <- grep("_", c(S2$weighting, S2$level, S2$assumed_effect, S2$metric), value = TRUE)
+if (length(leak)) stop("internal shorthand in Table S2: ", paste(unique(leak), collapse = ", "))
 
-readr::write_csv(S1, file.path(SUP, "TableS1_reported_metrics.csv"))
-message(sprintf("Table S1: %d rows -> supplementary/TableS1_reported_metrics.csv", nrow(S1)))
+unlink(file.path(SUP, "TableS1_reported_metrics.csv"))
+readr::write_csv(S2, file.path(SUP, "TableS2_reported_metrics.csv"))
+message(sprintf("Table S2: %d rows -> supplementary/TableS2_reported_metrics.csv", nrow(S2)))
 
-# --- Table S2 -----------------------------------------------------------------
+# --- Table S1: evidence-base characteristics ----------------------------------
 short_species <- function(x) {
   vapply(x, function(s) {
     if (is.na(s)) return(NA_character_)
@@ -202,7 +203,7 @@ short_species <- function(x) {
 clip <- function(x, n = 80) ifelse(is.na(x) | nchar(x) <= n, x,
                                    paste0(substr(x, 1, n - 1), "…"))
 
-S2 <- readr::read_csv(file.path(REV_OUT, "evidence_base_characteristics.csv"),
+S1 <- readr::read_csv(file.path(REV_OUT, "evidence_base_characteristics.csv"),
                       show_col_types = FALSE) |>
   dplyr::transmute(
     paper = meta_id, study = authors_id, year,
@@ -222,10 +223,11 @@ S2 <- readr::read_csv(file.path(REV_OUT, "evidence_base_characteristics.csv"),
     n_study_clusters = n_study_clusters,
     n_sign_reversals = n_sign_reversals_reported)
 
-stopifnot(nrow(S2) == 28L, sum(S2$n_effect_sizes) == 5740L, sum(S2$n_models) == 48L)
-readr::write_csv(S2, file.path(SUP, "TableS2_evidence_base.csv"))
-message(sprintf("Table S2: %d rows, %d models, %d effect sizes -> supplementary/TableS2_evidence_base.csv",
-        nrow(S2), sum(S2$n_models), sum(S2$n_effect_sizes)))
+stopifnot(nrow(S1) == 28L, sum(S1$n_effect_sizes) == 5740L, sum(S1$n_models) == 48L)
+unlink(file.path(SUP, "TableS2_evidence_base.csv"))
+readr::write_csv(S1, file.path(SUP, "TableS1_evidence_base.csv"))
+message(sprintf("Table S1: %d rows, %d models, %d effect sizes -> supplementary/TableS1_evidence_base.csv",
+        nrow(S1), sum(S1$n_models), sum(S1$n_effect_sizes)))
 
 # --- Tables S3 and S4: the two influence analyses -----------------------------
 # Shared display vocabulary, so a reader moving between S1, S3 and S4 meets the same

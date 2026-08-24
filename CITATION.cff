@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use these data or code, please cite the versioned Zenodo record."
+title: "The statistical fragility of animal cognition findings: a meta-meta-analytic reappraisal"
+type: software
+version: 1.0.0
+date-released: 2026-08-24
+repository-code: "https://github.com/Ayumi-495/statistical_power_AnimCogn"
+license: MIT
+authors:
+  - family-names: Mizuno
+    given-names: Ayumi
+    orcid: "https://orcid.org/0000-0003-0822-5637"
+    affiliation: "Department of Biological Sciences, Faculty of Science, University of Alberta"
+  - family-names: Pollo
+    given-names: Pietro
+    orcid: "https://orcid.org/0000-0001-6555-5400"
+    affiliation: "Evolution & Ecology Research Centre, School of Biological, Earth and Environmental Sciences, University of New South Wales"
+  - family-names: Lagisz
+    given-names: Malgorzata
+    orcid: "https://orcid.org/0000-0002-3993-6127"
+    affiliation: "Evolution & Ecology Research Centre, School of Biological, Earth and Environmental Sciences, University of New South Wales"
+  - family-names: Guillette
+    given-names: Lauren
+    orcid: "https://orcid.org/0000-0002-8777-6543"
+    affiliation: "Department of Psychology, Faculty of Science, University of Alberta"
+  - family-names: Soma
+    given-names: Masayo
+    orcid: "https://orcid.org/0000-0002-8596-1956"
+    affiliation: "Department of Biology, Faculty of Science, Hokkaido University"
+  - family-names: Nakagawa
+    given-names: Shinichi
+    orcid: "https://orcid.org/0000-0002-7765-5182"
+    affiliation: "Evolution & Ecology Research Centre, School of Biological, Earth and Environmental Sciences, University of New South Wales"
+keywords:
+  - animal cognition
+  - meta-analysis
+  - statistical power
+  - Type M error
+  - Type S error
+  - meta-research

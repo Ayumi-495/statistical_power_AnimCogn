@@ -1,0 +1,48 @@
+table,column,description,units_or_values
+Table S1,paper,Systematic-map identifier of the meta-analytical paper contributing to the present analysis,"e.g., MA01, MA05"
+Table S1,study,Short citation label for the source meta-analytical paper,text
+Table S1,doi,Digital Object Identifier (DOI) URL of the source meta-analytical paper,DOI URL
+Table S1,year,Year of publication of the source meta-analytical paper,year
+Table S1,species,"Species represented in the source meta-analysis, based on the systematic-map extraction. Where more than three species are represented, the first two are shown followed by the number of additional species",text
+Table S1,cognitive domain,Cognitive domain assigned in the systematic map. Multiple domains within a paper are separated by semicolons,Learning; Memory; Decision-making; Other
+Table S1,task,Behavioural tasks or paradigms recorded in the systematic map. Multiple tasks are separated by semicolons; 'unclear' indicates that no specific task or paradigm could be identified from the available information,text
+Table S1,manipulation,Category or categories of experimental manipulation recorded in the systematic map. Multiple categories are separated by semicolons,Drug; Environmental; Nutrient; Others; Not applicable; Unclear
+Table S1,life stage,"Whether life stage or age was reported in the source meta-analysis and whether it was incorporated analytically (for example, as a moderator). Reporting and analytical inclusion were coded separately in the systematic map.",reported; analysed / reported; not analysed / not reported; analysed / not reported; not analysed
+Table S1,sex,"Whether sex was reported in the source meta-analysis and whether it was incorporated analytically (for example, as a moderator). Reporting and analytical inclusion were coded separately in the systematic map.",reported; analysed / reported; not analysed / not reported; analysed / not reported; not analysed
+Table S1,effect size metric,Effect-size metric or metrics used by the model(s) from this paper in the present reanalysis,SMD; lnRR; Zr
+Table S1,N of models,Number of meta-analysis models this paper contributes to the present analysis,count
+Table S1,N of effect sizes,"Number of effect-size estimates contributed to the present reanalysis, summed across that paper's models",count
+Table S1,N of study clusters,"Number of source-defined study clusters contributed, summed across that paper's models. Study identifiers are defined within each source meta-analysis and are not harmonised across papers, so this is not a count of distinct primary publications",count
+Table S1,N of sign reversals,Number of models contributed by the paper in which the primary Yang-2023 bias-corrected estimate (beta0_c3) had the opposite sign to the uncorrected pooled mean (beta0),count
+Table S2,part,Whether the row belongs to the results reported in the main text or to a sensitivity analysis,A. Reported results; B. Sensitivity to the assumed effect
+Table S2,level,"The unit the metric is computed for. At the primary-study level each effect-size estimate is evaluated against its own sampling standard error; at the meta-analysis level each model is evaluated against the standard error of its pooled estimate. In Part B, the effect-size metric the external value applies to",Primary-study level; Meta-analysis level; All metrics; SMD; Zr; lnRR
+Table S2,assumed_effect,The value assumed to be the underlying true effect when computing the metric,text
+Table S2,weighting,"How the individual values are combined into the summary. At the meta-analysis level, whether models are weighted by the number of effect-size estimates they contribute or equally. At the primary-study level, which of the three estimands the row reports: a random intercept for study cluster, which is the reported result and which weights study clusters almost equally rather than weighting each effect-size estimate equally; each meta-analysis weighted equally; or meta-analysis identity fitted as a second random effect",By effect-size count; Equal per meta-analysis; Study cluster as a random effect; Meta-analysis as a random effect; -
+Table S2,metric,Which design-analysis quantity the row reports,Statistical power; Type M error; Type S error
+Table S2,n_unit,Number of units the summary is computed over,count
+Table S2,summary_estimate,"Back-transformed intercept of a model fitted on the log scale: a weighted linear model at the meta-analysis level, a linear mixed model with a study random effect at the primary-study level","probability (power, Type S) or ratio (Type M)"
+Table S2,ci,"95% confidence interval for summary_estimate, back-transformed on the same scale. Limits falling outside the range the metric can take are constrained to the bound and marked with an asterisk; power lies in [0, 1], Type S error in [0, 0.5] and Type M error is at least 1. No point estimate required constraining",interval
+Table S2,raw_median_iqr,"Median of the underlying values with the first and third quartiles, computed directly and without any model or offset","median [Q1, Q3]"
+Table S2,n_constrained_limits,How many of the two interval limits in this row were constrained to the metric's bound,text or empty
+Table S2,offset_note,"Flag for rows where the Type S values are mostly below the 0.025 offset used to allow the log transformation, so that summary_estimate reflects the offset more than the data and raw_median_iqr should be preferred",
+Table S3,specification,Which assumed underlying effect the summary was computed against,Uncorrected pooled mean; Yang 2023 bias-corrected; Yang 2024 bias-robust (FE + VCV); Yang 2024 bias-robust (UWLS)
+Table S3,weighting,How the remaining models are combined into the summary,By effect-size count; Each meta-analysis weighted equally
+Table S3,metric,Which design-analysis quantity the row reports,Statistical power; Type M error; Type S error
+Table S3,dropped_model,The meta-analytic model removed in this row,MA01_01-MA47
+Table S3,n_effect_sizes_contributed,Number of effect-size estimates that model contributes,count
+Table S3,pct_of_effect_sizes,"That model's share of all 5,740 effect-size estimates, which is its share of the weight under weighting by effect-size count",per cent
+Table S3,summary_all_48_models,"The summary computed from all 48 models, repeated on every row of the block for comparison","probability (power, Type S) or ratio (Type M)"
+Table S3,summary_without,The summary recomputed from the 47 models that remain,"probability (power, Type S) or ratio (Type M)"
+Table S3,change_pct,Percentage change from summary_all_48_models to summary_without,"per cent, signed"
+Table S3,influence_rank,"Rank of this model by the absolute size of change_pct, within this specification, metric and weighting; 1 is the most influential",Jan-48
+Table S4,specification,Which assumed underlying effect the summary was computed against,Uncorrected pooled mean; Yang 2023 bias-corrected; Yang 2024 bias-robust (FE + VCV); Yang 2024 bias-robust (UWLS)
+Table S4,weighting,How the remaining models are combined into the summary,By effect-size count; Each meta-analysis weighted equally
+Table S4,metric,Which design-analysis quantity the row reports,Statistical power; Type M error; Type S error
+Table S4,dropped_paper,"The source meta-analytical paper removed in this row, together with every model it contributed",MA01-MA47
+Table S4,n_models_dropped,"How many of the 48 meta-analytic models that paper contributed, and therefore how many were removed",count
+Table S4,n_effect_sizes_dropped,How many effect-size estimates were removed with it,count
+Table S4,pct_of_effect_sizes,"Those estimates as a share of all 5,740",per cent
+Table S4,summary_all_28_papers,"The summary computed from all 48 models, repeated on every row of the block for comparison","probability (power, Type S) or ratio (Type M)"
+Table S4,summary_without,The summary recomputed from the models that remain after the paper is removed,"probability (power, Type S) or ratio (Type M)"
+Table S4,change_pct,Percentage change from summary_all_28_papers to summary_without,"per cent, signed"
+Table S4,influence_rank,"Rank of this paper by the absolute size of change_pct, within this specification, metric and weighting; 1 is the most influential",Jan-28

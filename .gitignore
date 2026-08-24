@@ -24,3 +24,10 @@ revision/results/intermediate/
 
 # macOS
 .DS_Store
+
+# local release build and planning state
+/dist/
+/GATES.md
+/PRE_DEPOSIT_CHECKLIST.md
+/scripts/build_zenodo_archive.sh
+/scripts/verify_release_prep.mjs

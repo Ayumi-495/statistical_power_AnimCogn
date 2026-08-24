@@ -46,7 +46,7 @@ def load(path):
         return list(csv.DictReader(fh))
 
 
-S1 = load(os.path.join(SUP, "TableS1_reported_metrics.csv"))
+S2 = load(os.path.join(SUP, "TableS2_reported_metrics.csv"))
 MLVL = [r for r in load(os.path.join(REV, "meta_analysis_level_sensitivity.csv"))
         if not r["role"].startswith("diagnostic")]
 PLVL = load(os.path.join(REV, "primary_level_sensitivity.csv"))

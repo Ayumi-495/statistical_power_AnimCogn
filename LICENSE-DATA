@@ -1,0 +1,16 @@
+Data and metadata licence
+
+The metadata, supplementary-table exports, and derived result tables created
+for this project are licensed under the Creative Commons Attribution 4.0
+International licence (CC BY 4.0):
+
+https://creativecommons.org/licenses/by/4.0/
+
+This licence does not apply to the input effect-size datasets under `SMD/`,
+`lnRR/`, `zr/`, or `old/`. Those files contain data extracted or reconstructed
+from third-party publications and repositories, or data shared by study
+authors. Their reuse may be subject to the terms of the original sources.
+Users are responsible for checking and complying with those terms.
+
+When reusing CC BY 4.0 material from this repository, cite the versioned Zenodo
+record and indicate whether changes were made.

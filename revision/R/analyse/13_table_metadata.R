@@ -22,8 +22,8 @@ message("== 13: captions and metadata ==")
 SUP <- file.path(REV_OUT, "supplementary")
 
 # --- captions -----------------------------------------------------------------
-cap_S1 <- paste0(
-  "**Table S1. Statistical power, Type M error and Type S error under each assumed ",
+cap_S2 <- paste0(
+  "**Table S2. Statistical power, Type M error and Type S error under each assumed ",
   "underlying effect.** Part A gives the results reported in the main text, at the ",
   "primary-study level (5,740 effect-size estimates) and at the meta-analysis level ",
   "(48 models). At the primary-study level the reported result is the row that fits ",
@@ -52,8 +52,8 @@ cap_S1 <- paste0(
   "normal-theory two-sided threshold at alpha = 0.05 rather than the reference ",
   "distribution of each fitted model.")
 
-cap_S2 <- paste0(
-  "**Table S2. Characteristics of the 28 meta-analytical papers included in the ",
+cap_S1 <- paste0(
+  "**Table S1. Characteristics of the 28 meta-analytical papers included in the ",
   "quantitative reanalysis.** Species, cognitive domain, task and manipulation are ",
   "taken from the systematic map that supplied the corpus. Cognitive domain follows the ",
   "categories assigned in that map; a paper spanning more than one category is listed ",
@@ -96,32 +96,32 @@ cap_S4 <- paste0(
 # --- column dictionary --------------------------------------------------------
 dict <- tibble::tribble(
   ~table, ~column, ~description, ~units_or_values,
-  "Table S1", "part", "Whether the row belongs to the results reported in the main text or to a sensitivity analysis", "A. Reported results; B. Sensitivity to the assumed effect (primary-study level); C. Externally specified assumed effects (meta-analysis level); D. Leave-one-cluster-out (primary-study level)",
-  "Table S1", "level", "The unit the metric is computed for. At the primary-study level each effect-size estimate is evaluated against its own sampling standard error; at the meta-analysis level each model is evaluated against the standard error of its pooled estimate. In Part B, the effect-size metric the external value applies to", "Primary-study level; Meta-analysis level; All metrics; SMD; Zr; lnRR",
-  "Table S1", "assumed_effect", "The value assumed to be the underlying true effect when computing the metric. In Part D, whether that value was estimated with the effect size's own study cluster included or with it held out", "text",
-  "Table S1", "weighting", "How the individual values are combined into the summary. At the meta-analysis level, whether models are weighted by the number of effect-size estimates they contribute or equally. At the primary-study level, which of three estimands the row reports: a random intercept for study cluster, which is the reported result and which weights study clusters almost equally rather than weighting each effect-size estimate equally; each meta-analysis weighted equally; or meta-analysis identity fitted as a second random effect", "By effect-size count; Equal per meta-analysis; Study cluster as a random effect; Meta-analysis as a random effect; -",
-  "Table S1", "metric", "Which design-analysis quantity the row reports", "Statistical power; Type M error; Type S error",
-  "Table S1", "n_unit", "Number of units the summary is computed over", "count",
-  "Table S1", "summary_estimate", "Back-transformed intercept of a model fitted on the log scale: a weighted linear model at the meta-analysis level, a linear mixed model with a study random effect at the primary-study level", "probability (power, Type S) or ratio (Type M)",
-  "Table S1", "ci", "95% confidence interval for summary_estimate, back-transformed on the same scale. Limits falling outside the range the metric can take are constrained to the bound and marked with an asterisk; power lies in [0, 1], Type S error in [0, 0.5] and Type M error is at least 1. No point estimate required constraining", "interval",
-  "Table S1", "raw_median_iqr", "Median of the underlying values with the first and third quartiles, computed directly and without any model or offset", "median [Q1, Q3]",
-  "Table S1", "n_constrained_limits", "How many of the two interval limits in this row were constrained to the metric's bound", "0, 1 or 2",
-  "Table S1", "offset_note", "Flag for rows where the Type S values are mostly below the 0.025 offset used to allow the log transformation, so that summary_estimate reflects the offset more than the data and raw_median_iqr should be preferred", "text or empty",
+  "Table S2", "part", "Whether the row belongs to the results reported in the main text or to a sensitivity analysis", "A. Reported results; B. Sensitivity to the assumed effect (primary-study level); C. Externally specified assumed effects (meta-analysis level); D. Leave-one-cluster-out (primary-study level)",
+  "Table S2", "level", "The unit the metric is computed for. At the primary-study level each effect-size estimate is evaluated against its own sampling standard error; at the meta-analysis level each model is evaluated against the standard error of its pooled estimate. In Part B, the effect-size metric the external value applies to", "Primary-study level; Meta-analysis level; All metrics; SMD; Zr; lnRR",
+  "Table S2", "assumed_effect", "The value assumed to be the underlying true effect when computing the metric. In Part D, whether that value was estimated with the effect size's own study cluster included or with it held out", "text",
+  "Table S2", "weighting", "How the individual values are combined into the summary. At the meta-analysis level, whether models are weighted by the number of effect-size estimates they contribute or equally. At the primary-study level, which of three estimands the row reports: a random intercept for study cluster, which is the reported result and which weights study clusters almost equally rather than weighting each effect-size estimate equally; each meta-analysis weighted equally; or meta-analysis identity fitted as a second random effect", "By effect-size count; Equal per meta-analysis; Study cluster as a random effect; Meta-analysis as a random effect; -",
+  "Table S2", "metric", "Which design-analysis quantity the row reports", "Statistical power; Type M error; Type S error",
+  "Table S2", "n_unit", "Number of units the summary is computed over", "count",
+  "Table S2", "summary_estimate", "Back-transformed intercept of a model fitted on the log scale: a weighted linear model at the meta-analysis level, a linear mixed model with a study random effect at the primary-study level", "probability (power, Type S) or ratio (Type M)",
+  "Table S2", "ci", "95% confidence interval for summary_estimate, back-transformed on the same scale. Limits falling outside the range the metric can take are constrained to the bound and marked with an asterisk; power lies in [0, 1], Type S error in [0, 0.5] and Type M error is at least 1. No point estimate required constraining", "interval",
+  "Table S2", "raw_median_iqr", "Median of the underlying values with the first and third quartiles, computed directly and without any model or offset", "median [Q1, Q3]",
+  "Table S2", "n_constrained_limits", "How many of the two interval limits in this row were constrained to the metric's bound", "0, 1 or 2",
+  "Table S2", "offset_note", "Flag for rows where the Type S values are mostly below the 0.025 offset used to allow the log transformation, so that summary_estimate reflects the offset more than the data and raw_median_iqr should be preferred", "text or empty",
 
-  "Table S2", "paper", "Identifier of the meta-analytical paper in the systematic map that supplied the corpus", "MA01-MA47",
-  "Table S2", "study", "First author and year of the meta-analytical paper", "text",
-  "Table S2", "year", "Year of publication of the meta-analytical paper", "year",
-  "Table S2", "species", "Species studied, from the systematic map. Papers covering more than three species are summarised as the first two followed by a count", "text",
-  "Table S2", "cognitive_domain", "Cognitive domain assigned in the systematic map. A paper spanning more than one domain is listed under each", "Learning; Memory; Decision-making; Other",
-  "Table S2", "task", "Behavioural task or paradigm, from the systematic map, truncated for display. 'unclear' where no specific paradigm could be identified", "text",
-  "Table S2", "manipulation", "Category of experimental manipulation, from the systematic map", "Drug; Environmental; Nutrient; Others; Not applicable; Unclear",
-  "Table S2", "life_stage", "Whether the meta-analysis reported life stage, and whether it also included life stage as a moderator", "not reported; reported; reported, modelled",
-  "Table S2", "sex", "Whether the meta-analysis reported sex, and whether it also included sex as a moderator", "not reported; reported; reported, modelled",
-  "Table S2", "effect_size_metric", "Effect-size metric or metrics used by the models taken from this paper", "SMD; lnRR; Zr",
-  "Table S2", "n_models", "Number of meta-analysis models this paper contributes to the present analysis", "count",
-  "Table S2", "n_effect_sizes", "Number of effect-size estimates contributed, summed over that paper's models", "count",
-  "Table S2", "n_study_clusters", "Number of study clusters contributed, summed over that paper's models. Study identifiers are defined within each meta-analysis and are not harmonised across papers, so this is not a count of distinct primary publications", "count",
-  "Table S2", "n_sign_reversals", "Number of this paper's models whose bias-corrected mean has the opposite sign to the uncorrected pooled mean", "count",
+  "Table S1", "paper", "Identifier of the meta-analytical paper in the systematic map that supplied the corpus", "MA01-MA47",
+  "Table S1", "study", "First author and year of the meta-analytical paper", "text",
+  "Table S1", "year", "Year of publication of the meta-analytical paper", "year",
+  "Table S1", "species", "Species studied, from the systematic map. Papers covering more than three species are summarised as the first two followed by a count", "text",
+  "Table S1", "cognitive_domain", "Cognitive domain assigned in the systematic map. A paper spanning more than one domain is listed under each", "Learning; Memory; Decision-making; Other",
+  "Table S1", "task", "Behavioural task or paradigm, from the systematic map, truncated for display. 'unclear' where no specific paradigm could be identified", "text",
+  "Table S1", "manipulation", "Category of experimental manipulation, from the systematic map", "Drug; Environmental; Nutrient; Others; Not applicable; Unclear",
+  "Table S1", "life_stage", "Whether the meta-analysis reported life stage, and whether it also included life stage as a moderator", "not reported; reported; reported, modelled",
+  "Table S1", "sex", "Whether the meta-analysis reported sex, and whether it also included sex as a moderator", "not reported; reported; reported, modelled",
+  "Table S1", "effect_size_metric", "Effect-size metric or metrics used by the models taken from this paper", "SMD; lnRR; Zr",
+  "Table S1", "n_models", "Number of meta-analysis models this paper contributes to the present analysis", "count",
+  "Table S1", "n_effect_sizes", "Number of effect-size estimates contributed, summed over that paper's models", "count",
+  "Table S1", "n_study_clusters", "Number of study clusters contributed, summed over that paper's models. Study identifiers are defined within each meta-analysis and are not harmonised across papers, so this is not a count of distinct primary publications", "count",
+  "Table S1", "n_sign_reversals", "Number of this paper's models whose bias-corrected mean has the opposite sign to the uncorrected pooled mean", "count",
 
   "Table S3", "specification", "Which assumed underlying effect the summary was computed against", "Uncorrected pooled mean; Yang 2023 bias-corrected; Yang 2024 bias-robust (FE + VCV); Yang 2024 bias-robust (UWLS)",
   "Table S3", "weighting", "How the remaining models are combined into the summary", "By effect-size count; Each meta-analysis weighted equally",
@@ -148,8 +148,8 @@ dict <- tibble::tribble(
 )
 
 # --- gate: the dictionary must match the tables exactly ------------------------
-TABLE_FILE <- c("Table S1" = "TableS1_reported_metrics.csv",
-                "Table S2" = "TableS2_evidence_base.csv",
+TABLE_FILE <- c("Table S2" = "TableS2_reported_metrics.csv",
+                "Table S1" = "TableS1_evidence_base.csv",
                 "Table S3" = "TableS3_leave_one_model_out.csv",
                 "Table S4" = "TableS4_leave_one_paper_out.csv")
 for (nm in names(TABLE_FILE)) {
@@ -167,8 +167,8 @@ readr::write_csv(dict, file.path(SUP, "metadata_columns.csv"))
 # --- file-level index for the archived deposit --------------------------------
 files <- tibble::tribble(
   ~file, ~contents,
-  "TableS1_reported_metrics.csv", "Supplementary Table S1. Summary metrics under each assumed effect.",
-  "TableS2_evidence_base.csv", "Supplementary Table S2. Characteristics of the 28 included papers.",
+  "TableS2_reported_metrics.csv", "Supplementary Table S2. Summary metrics under each assumed effect.",
+  "TableS1_evidence_base.csv", "Supplementary Table S1. Characteristics of the 28 included papers.",
   "TableS3_leave_one_model_out.csv", "Supplementary Table S3. Leave-one-model-out influence, display version of loo_influence.csv.",
   "TableS4_leave_one_paper_out.csv", "Supplementary Table S4. Leave-one-source-paper-out influence, display version of leave_one_paper_out.csv.",
   "per_meta_analysis_estimates.csv", "One row per meta-analysis model: uncorrected and bias-corrected means, standard errors and intervals, the bias-robust estimate with its cluster-robust standard error and Satterthwaite degrees of freedom, weighting diagnostics and sign-reversal flags.",
@@ -185,7 +185,7 @@ files <- tibble::tribble(
   "reversal_counts.csv", "Sign-reversal counts under each bias-correction approach.",
   "rho_sensitivity.csv", "Sensitivity of the bias-robust analysis to the assumed within-study sampling correlation.",
   "yang2024_reference_validation.csv", "Validation of the bias-robust implementation against the published worked example of the method.",
-  "evidence_base_characteristics.csv", "Full-width source table behind Table S2, before columns were trimmed for display."
+  "evidence_base_characteristics.csv", "Full-width source table behind Table S1, before columns were trimmed for display."
 )
 have <- c(list.files(REV_OUT, pattern = "[.]csv$"), list.files(SUP, pattern = "[.]csv$"))
 undocumented <- setdiff(setdiff(have, c("metadata_columns.csv", "metadata_files.csv")), files$file)

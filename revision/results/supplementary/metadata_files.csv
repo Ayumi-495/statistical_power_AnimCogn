@@ -1,6 +1,6 @@
 file,contents,n_rows
-TableS1_reported_metrics.csv,Supplementary Table S1. Summary metrics under each assumed effect.,165
-TableS2_evidence_base.csv,Supplementary Table S2. Characteristics of the 28 included papers.,28
+TableS2_reported_metrics.csv,Supplementary Table S2. Summary metrics under each assumed effect.,165
+TableS1_evidence_base.csv,Supplementary Table S1. Characteristics of the 28 included papers.,28
 TableS3_leave_one_model_out.csv,"Supplementary Table S3. Leave-one-model-out influence, display version of loo_influence.csv.",1152
 TableS4_leave_one_paper_out.csv,"Supplementary Table S4. Leave-one-source-paper-out influence, display version of leave_one_paper_out.csv.",672
 per_meta_analysis_estimates.csv,"One row per meta-analysis model: uncorrected and bias-corrected means, standard errors and intervals, the bias-robust estimate with its cluster-robust standard error and Satterthwaite degrees of freedom, weighting diagnostics and sign-reversal flags.",48
@@ -17,4 +17,4 @@ verification_audit.csv,"One row per verification check: what was compared, by wh
 reversal_counts.csv,Sign-reversal counts under each bias-correction approach.,5
 rho_sensitivity.csv,Sensitivity of the bias-robust analysis to the assumed within-study sampling correlation.,4
 yang2024_reference_validation.csv,Validation of the bias-robust implementation against the published worked example of the method.,9
-evidence_base_characteristics.csv,"Full-width source table behind Table S2, before columns were trimmed for display.",28
+evidence_base_characteristics.csv,"Full-width source table behind Table S1, before columns were trimmed for display.",28

@@ -3,7 +3,7 @@
 # manuscript and was not already covered.
 #
 # WHAT WAS ALREADY COVERED, and is therefore not repeated here:
-#   scenarios (Table S1 parts B and C)  17_verify_scenarios.py, 123/123 rows in Python
+#   scenarios (Table S2 parts B and C)  17_verify_scenarios.py, 123/123 rows in Python
 #   Yang-2024 CR2                        06_validate_yang2024_reference.R, 9/9 published values
 #   leave-one-out, -paper, -cluster      gated against the canonical tables inside 07/14/15
 #   reversal counts, rho sensitivity     two derivations recorded in the files themselves

@@ -130,7 +130,7 @@ of extrapolation; empirically the estimator still reverses sign in 6 of our 48 m
 | `09_assumed_effect_scenarios.R` | optimistic and externally specified assumed effects at both levels; writes **`assumed_effect_scenarios.csv`** |
 | `10_evidence_base_table.R` | the 28-paper characteristics table; writes **`evidence_base_characteristics.csv`**. **Not in `run_all.R`** — it reads the sibling systematic map. |
 | `11_main_figure.R` | the replacement for manuscript Figure 3; writes **`figures/main_metrics.{pdf,png}`** |
-| `12_supplementary_tables.R` | writes **`supplementary/TableS1_reported_metrics.csv`** and **`supplementary/TableS2_evidence_base.csv`** |
+| `12_supplementary_tables.R` | writes **`supplementary/TableS1_evidence_base.csv`** and **`supplementary/TableS2_reported_metrics.csv`** |
 | `13_table_metadata.R` | captions, the column dictionary and the file index; writes **`supplementary/{captions.md, metadata_columns.csv, metadata_files.csv}`**. Runs last, because its gates check every other output. |
 | `14_leave_one_cluster_out.R` | leave-one-cluster-out at the primary-study level; writes **`leave_one_cluster_out.csv`** |
 | `15_leave_one_paper_out.R` | leave-one-source-paper-out at the meta-analysis level; writes **`leave_one_paper_out.csv`** |
