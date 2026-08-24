@@ -1,4 +1,6 @@
-# Statistical fragility in the meta-analytic evidence base of animal cognition
+<a href="https://doi.org/10.5281/zenodo.22086375"><img src="https://zenodo.org/badge/1022133896.svg" alt="DOI"></a>
+
+## Statistical fragility in the meta-analytic evidence base of animal cognition
 
 Data, code and metadata for Mizuno et al., *Biology Open*. The study estimates statistical power, Type M (magnitude) error and Type S (sign) error in a defined evidence base of 48 meta-analytic models from 28 published meta-analytical papers, comprising 5,740 effect-size estimates. These results describe the included evidence base and are not field-wide estimates for all animal cognition research.
 
