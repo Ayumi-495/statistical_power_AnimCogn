@@ -1,0 +1,6 @@
+/docs export-ignore
+/revision/results/figures export-ignore
+/*.gsheet export-ignore
+/AGENTS.md export-ignore
+/CLAUDE.md export-ignore
+/.claude export-ignore
