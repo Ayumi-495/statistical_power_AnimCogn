@@ -22,7 +22,7 @@ The current analysis is under `revision/R/`. Run the scripts in `revision/R/repr
 | `supplementary_tables/` | Portable CSV exports of the five tabs in the final Google Sheet: metadata and Tables S1-S4. |
 | `renv.lock`, `session-info.txt` | R package lockfile and the environment used to prepare this repository snapshot. |
 
-The detailed record of methodological decisions and output provenance is in `revision/results/README.md`.
+An output index and additional reproduction notes are in `revision/results/README.md`.
 
 ## Reproducing the current analysis
 
